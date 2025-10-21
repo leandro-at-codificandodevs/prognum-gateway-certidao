@@ -1,0 +1,14 @@
+{
+  "name": "prognum-gateway-certidao-tests",
+  "version": "1.0.0",
+
+  "type": "commonjs",
+
+  "scripts": {
+    "test": "jest"
+  },
+
+  "devDependencies": {
+    "jest": "^30.2.0"
+  }
+}
