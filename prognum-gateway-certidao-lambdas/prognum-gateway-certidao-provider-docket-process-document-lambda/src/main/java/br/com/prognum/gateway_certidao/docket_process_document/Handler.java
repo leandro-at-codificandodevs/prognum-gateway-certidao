@@ -113,7 +113,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 					}
 				}
 			} catch (Exception e) {
-				logger.error("Erro ao tentar processar mensagem", e);
+				logger.error("Erro ao tentar processar mensagem", e.getMessage());
 				failedMessages.add(message);
 			}
 		}

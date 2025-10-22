@@ -67,10 +67,10 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 			}
 			return apiGatewayService.build2XXResponse(HttpStatusCode.OK, documentGroup);
 		} catch (PathParameterNotFoundException e) {
-			logger.error("Parâmetro de caminho não encontrado", e);
+			logger.error("Parâmetro de caminho não encontrado", e.getMessage());
 			return apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
 		} catch (DocumentGroupNotFoundException e) {
-			logger.error("Grupo de documento não encontrado", e);
+			logger.error("Grupo de documento não encontrado", e.getMessage());
 			return apiGatewayService.build4XXResponse(HttpStatusCode.NOT_FOUND, e);
 		}
 	}

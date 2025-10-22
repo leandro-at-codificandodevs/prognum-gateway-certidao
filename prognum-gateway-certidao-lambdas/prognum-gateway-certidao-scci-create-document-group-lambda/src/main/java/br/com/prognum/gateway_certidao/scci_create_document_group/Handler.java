@@ -130,7 +130,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		} catch (InvalidDocumentGroupRequestException | DocumentTypeNotFoundException | UnknownFieldException
 				| MissingFieldException | FromJsonException | StateNotFoundException | CityNotFoundException
 				| InvalidFormatterDateException e) {
-			logger.error("Erro ao tentar criar grupo de documentos", e);
+			logger.error("Erro ao tentar criar grupo de documentos", e.getMessage());
 			return apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
 		}
 	}
@@ -202,7 +202,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		try {
 			LocalDate.parse(data, formatter);
 		} catch (DateTimeParseException e) {
-			logger.error("Erro ao converter data", e);
+			logger.error("Erro ao converter data", e.getMessage());
 			throw new InvalidFormatterDateException(data);
 		}
 	}
