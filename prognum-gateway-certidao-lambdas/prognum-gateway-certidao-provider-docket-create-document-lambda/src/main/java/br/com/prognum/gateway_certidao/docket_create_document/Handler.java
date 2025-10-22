@@ -118,7 +118,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				String bucketObjectKey = createProviderDocumentGroupInput.getBucketObjetKey();
 				docketMetadataService.write(bucketName, bucketObjectKey, docketMetadata);
 			} catch (Exception e) {
-				logger.error("Erro ao tentar processar mensagem", e.getMessage());
+				logger.error("Erro ao tentar processar mensagem", e);
 				failedMessages.add(message);
 			}
 		}

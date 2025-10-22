@@ -35,7 +35,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private QueueService queueService;
 
 	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
-	private static final String DOCKET_API_GET_DOCUMENT_URL = System.getenv("DOCKET_API_GET_DOCUMENT_URL");
+	private static final String DOCKET_GET_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_GET_DOCUMENT_QUEUE_URL");
 	
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
@@ -62,15 +62,15 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 				UpdateProviderDocumentGroupInput updateProviderDocumentGroupInput = new UpdateProviderDocumentGroupInput();
 				updateProviderDocumentGroupInput.setBucketName(TENANT_BUCKET_NAME);
 				updateProviderDocumentGroupInput.setDocumentGroupObjectKey(
-					documentGroupService.getDocumentObjectKey(TENANT_BUCKET_NAME, documentGroupId));
-				queueService.sendMessage(DOCKET_API_GET_DOCUMENT_URL, updateProviderDocumentGroupInput, documentGroupId);
+					documentGroupService.getDocumentGroupObjectKey(documentGroupId));
+				queueService.sendMessage(DOCKET_GET_DOCUMENT_QUEUE_URL, updateProviderDocumentGroupInput, documentGroupId);
 			}
 			return apiGatewayService.build2XXResponse(HttpStatusCode.OK, documentGroup);
 		} catch (PathParameterNotFoundException e) {
-			logger.error("Parâmetro de caminho não encontrado", e.getMessage());
+			logger.error("Parâmetro de caminho não encontrado", e);
 			return apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
 		} catch (DocumentGroupNotFoundException e) {
-			logger.error("Grupo de documento não encontrado", e.getMessage());
+			logger.error("Grupo de documento não encontrado", e);
 			return apiGatewayService.build4XXResponse(HttpStatusCode.NOT_FOUND, e);
 		}
 	}

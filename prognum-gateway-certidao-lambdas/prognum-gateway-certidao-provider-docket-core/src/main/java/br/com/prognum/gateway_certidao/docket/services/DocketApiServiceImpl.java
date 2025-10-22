@@ -91,8 +91,8 @@ public class DocketApiServiceImpl implements DocketApiService {
 		});
 	}
 
-	public byte[] downloadDocumento(String documentoId) {
-		URI uri = URI.create(String.format("%s/%s", docketApiDownloadDocumentoUrl, documentoId));
+	public byte[] downloadFile(String fileId) {
+		URI uri = URI.create(String.format("%s/%s", docketApiDownloadDocumentoUrl, fileId));
 		HttpRequest request = HttpRequest.newBuilder().uri(uri)
 				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
 
@@ -101,7 +101,7 @@ public class DocketApiServiceImpl implements DocketApiService {
 				HttpResponse<byte[]> response = httpClient.send(request, BodyHandlers.ofByteArray());
 
 				if (response.statusCode() != 200) {
-					String message = String.format("Erro ao fazer download de documento: HTTP %s - %s",
+					String message = String.format("Erro ao fazer download de arquivo: HTTP %s - %s",
 							response.statusCode(), response.body());
 					throw new InternalServerException(message);
 				}

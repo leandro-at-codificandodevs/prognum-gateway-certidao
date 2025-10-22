@@ -106,14 +106,14 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				List<Documento> documentos = getPedidoStatusResponse.getPedido().getDocumentos();
 				for (GetPedidoStatusResponse.Documento documento : documentos) {
 					if (documento.getStatus().equals(DOCUMENTO_STATUS_ENTREGUE)) {
-						byte[] content = docketApiService.downloadDocumento(documento.getId());
+						byte[] content = docketApiService.downloadFile(documento.getArquivos().get(0).getId());
 						String documentObjectKey = docketMetadata.getDocumentoObjectKeysByDocumentoId().get(documento.getId());
 						String documentContentObjectKey = String.format("%s/%s", documentObjectKey, DocumentGroupService.DOCUMENT_CONTENT_FILE_NAME);
 						bucketService.writeBytes(bucketName, documentContentObjectKey, "application/octet-stream", content);
 					}
 				}
 			} catch (Exception e) {
-				logger.error("Erro ao tentar processar mensagem", e.getMessage());
+				logger.error("Erro ao tentar processar mensagem", e);
 				failedMessages.add(message);
 			}
 		}

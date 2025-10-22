@@ -8,5 +8,5 @@ public interface DocketApiService {
 
 	CreatePedidoResponse createPedido(CreatePedidoRequest createPedidoRequest);
 	GetPedidoStatusResponse getPedidoStatus(String pedidoId);
-	byte[] downloadDocumento(String documentoId);
+	byte[] downloadFile(String fileId);
 }

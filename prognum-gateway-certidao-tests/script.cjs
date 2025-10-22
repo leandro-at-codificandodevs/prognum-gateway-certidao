@@ -1,3 +1,4 @@
+const { colorize } = require("json-colorizer");
 const createDocumentGroup = require("./createDocumentGroup.cjs");
 const getDocumentGroupById = require("./getDocumentGroupById.cjs");
 const {
@@ -30,15 +31,17 @@ const main = async () => {
     },
   };
 
-  const createDocumentGroupRequest = {
-    url: createDocumentGroupUrl,
-    xApiKey,
-    payload,
-  };
-  const createDocumentGroupResponse = await createDocumentGroup(createDocumentGroupRequest);
-  console.log(createDocumentGroupResponse);
+//   const createDocumentGroupRequest = {
+//     url: createDocumentGroupUrl,
+//     xApiKey,
+//     payload,
+//   };
+//   const createDocumentGroupResponse = await createDocumentGroup(createDocumentGroupRequest);
+//   console.log(colorize(JSON.stringify(createDocumentGroupResponse, null, 2)));
 
-  const id = createDocumentGroupResponse.payload.id;
+//   const id = createDocumentGroupResponse.payload.id;
+
+  const id = "b04822ce-ab72-45f9-891b-c871d9129de8";
 
   const getDocumentGroupByIdUrl = getGetDocumentGroupByIdUrl(environment, id);
   const getDocumentGroupByIdRequest = {
@@ -47,7 +50,7 @@ const main = async () => {
     payload,
   };
   const getDocumentGroupByIdResponse = await getDocumentGroupById(getDocumentGroupByIdRequest);
-  console.log(getDocumentGroupByIdResponse);
+  console.log(colorize(JSON.stringify(getDocumentGroupByIdResponse, null, 2)));
 };
 
 main().then(() => console.log("OK")).catch((e) => console.error(e));

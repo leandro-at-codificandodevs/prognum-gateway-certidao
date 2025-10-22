@@ -15,12 +15,15 @@ public class DocketMetadataServiceImpl implements DocketMetadataService {
 	
 	@Override
 	public DocketMetadata read(String bucketName, String bucketObjectKey) {
-		return bucketService.readObject(DocketMetadata.class, bucketName, String.format("%s/%s", DOCKET_METADATA_FILE_NAME, bucketObjectKey));
+		return bucketService.readObject(DocketMetadata.class, bucketName, getDocketMetadataBucketObjectKey(bucketObjectKey));
 	}
 
 	@Override
 	public void write(String bucketName, String bucketObjectKey, DocketMetadata metadata) {
-		this.bucketService.writeObject(bucketName, String.format("%s/%s", DOCKET_METADATA_FILE_NAME, bucketObjectKey), metadata);
+		this.bucketService.writeObject(bucketName, getDocketMetadataBucketObjectKey(bucketObjectKey), metadata);
 	}
 
+	private String getDocketMetadataBucketObjectKey(String bucketObjectKey) {
+		return String.format("%s/%s", bucketObjectKey, DOCKET_METADATA_FILE_NAME);
+	}
 }
