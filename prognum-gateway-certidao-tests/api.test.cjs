@@ -2,7 +2,7 @@ const createDocumentGroup = require("./createDocumentGroup.cjs");
 const { getCreateDocumentGroupUrl, getXApiKey } = require("./urls.cjs");
 
 
-describe("createDocumentGroup", () => {
+describe("Solicitando grupo de documentos", () => {
   const createDocumentGroupUrl = getCreateDocumentGroupUrl("local");
   const validXApiKey = getXApiKey("local");
   const invalidXApiKey = "chave-invalida-123";
