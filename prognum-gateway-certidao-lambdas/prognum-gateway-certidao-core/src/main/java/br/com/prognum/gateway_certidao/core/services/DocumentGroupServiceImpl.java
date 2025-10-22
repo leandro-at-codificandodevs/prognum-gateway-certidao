@@ -3,6 +3,7 @@ package br.com.prognum.gateway_certidao.core.services;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -40,9 +41,8 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 		DocumentGroupMetadata documentGroupMetadata = new DocumentGroupMetadata();
 		documentGroupMetadata.setDocumentGroupId(documentGroupId);
 		documentGroupMetadata.setTimestamp(now);
-		documentGroupMetadata.setDocumentIdsByTypeId(new HashMap<>());
+		documentGroupMetadata.setDocumentIds(new HashSet<>());
 		String documentGroupMetadataObjectKey = getDocumentGroupMetadataObjectKey(documentGroupId);
-		bucketService.writeObject(bucketName, documentGroupMetadataObjectKey, documentGroupMetadata);
 
 		for (String documentTypeId : documentTypeIds) {
 			Document document = new Document();
@@ -57,11 +57,14 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 			documentMetadata.setDocumentId(documentId);
 			documentMetadata.setDocumentTypeId(documentTypeId);
 			documentMetadata.setTimestamp(Instant.now());
-			documentGroupMetadata.getDocumentIdsByTypeId().put(documentTypeId, documentId);
+			documentGroupMetadata.getDocumentIds().add(documentId);
 
 			String documentMetadataObjectKey = getDocumentMetadataObjectKey(documentGroupId, documentId);
+
 			bucketService.writeObject(bucketName, documentMetadataObjectKey, documentMetadata);
 		}
+
+		bucketService.writeObject(bucketName, documentGroupMetadataObjectKey, documentGroupMetadata);
 
 		return documentGroup;
 	}
@@ -78,7 +81,7 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 
 		DocumentGroupStatus status = DocumentGroupStatus.READY;
 
-		for (String documentId : metadata.getDocumentIdsByTypeId().keySet()) {
+		for (String documentId : metadata.getDocumentIds()) {
 			DocumentMetadata documentMetadata;
 			try {
 				documentMetadata = getDocumentMetadata(bucketName, documentGroupId, documentId);
