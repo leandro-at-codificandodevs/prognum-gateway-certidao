@@ -30,7 +30,7 @@ public class State {
 		try {
 			return getCityByName(cityIdOrName);
 		} catch (CityNotFoundException e) {
-			log.debug("Cidade não encontrada pelo nome: {}", cityIdOrName);
+			log.debug("Cidade não encontrada pelo Nome: {}", cityIdOrName);
 		}
 
 		throw new CityNotFoundException(cityIdOrName);

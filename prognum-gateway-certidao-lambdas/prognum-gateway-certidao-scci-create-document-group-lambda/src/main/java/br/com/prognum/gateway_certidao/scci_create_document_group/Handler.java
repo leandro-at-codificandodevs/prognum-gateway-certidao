@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
@@ -66,6 +69,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
 	private static final String DOCKET_CREATE_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_CREATE_DOCUMENT_QUEUE_URL");
+	
+	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
 	public Handler() {
 		this.documentTypes = new DocumentTypes();
@@ -125,7 +130,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		} catch (InvalidDocumentGroupRequestException | DocumentTypeNotFoundException | UnknownFieldException
 				| MissingFieldException | FromJsonException | StateNotFoundException | CityNotFoundException
 				| InvalidFormatterDateException e) {
-			e.printStackTrace();
+			logger.error("Erro ao tentar criar grupo de documentos", e);
 			return apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
 		}
 	}
@@ -192,12 +197,13 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		}
 	}
 
-	private void checkDate(String dateStr) throws InvalidFormatterDateException {
+	private void checkDate(String data) throws InvalidFormatterDateException {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd").withResolverStyle(ResolverStyle.STRICT);
 		try {
-			LocalDate.parse(dateStr, formatter);
+			LocalDate.parse(data, formatter);
 		} catch (DateTimeParseException e) {
-			throw new InvalidFormatterDateException(dateStr);
+			logger.error("Erro ao converter data", e);
+			throw new InvalidFormatterDateException(data);
 		}
 	}
 }

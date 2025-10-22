@@ -31,7 +31,6 @@ public class ApiGatewayServiceImpl implements ApiGatewayService {
 			return APIGatewayV2HTTPResponse.builder().withStatusCode(statusCode)
 					.withHeaders(Map.of("Content-Type", "application/json")).withBody(body).build();
 		} catch (ToJsonException e) {
-			e.printStackTrace();
 			throw new InternalServerException(e);
 		}
 	}

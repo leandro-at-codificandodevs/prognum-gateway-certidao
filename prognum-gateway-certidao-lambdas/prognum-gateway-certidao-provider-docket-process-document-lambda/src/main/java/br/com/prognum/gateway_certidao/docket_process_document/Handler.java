@@ -4,6 +4,9 @@ import java.net.http.HttpClient;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSBatchResponse;
@@ -52,6 +55,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 	private static final String DOCKET_API_GET_PEDIDO_URL = System.getenv("DOCKET_API_GET_PEDIDO_URL");
 	private static final String DOCKET_API_DOWNLOAD_DOCUMENTO_URL = System.getenv("DOCKET_API_DOWNLOAD_DOCUMENTO_URL");
 	private static final String DOCKET_API_SECRET_NAME = System.getenv("DOCKET_API_SECRET_NAME");
+	
+	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
 	public Handler() {
 		JsonService jsonService = new JsonServiceImpl();
@@ -108,7 +113,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("Erro ao tentar processar mensagem", e);
 				failedMessages.add(message);
 			}
 		}

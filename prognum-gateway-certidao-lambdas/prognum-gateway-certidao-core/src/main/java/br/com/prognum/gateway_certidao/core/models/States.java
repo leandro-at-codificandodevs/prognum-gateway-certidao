@@ -50,7 +50,7 @@ public class States {
 			try {
 				return state.getCityByIdOrName(cityIdOrName);
 			} catch (CityNotFoundException e) {
-				log.debug("Cidade {} não encontrada pelo id ou nome no Estado {}", cityIdOrName, state, e);
+				log.debug("Cidade não encontrada pelo ID ou Nome: {}", cityIdOrName);
 			}
 		}
 
@@ -73,19 +73,19 @@ public class States {
 		try {
 			return getStateById(stateIdOrAcronymnOrName);
 		} catch (StateNotFoundException e) {
-			log.debug("Estado não encontrado pelo id: {}", stateIdOrAcronymnOrName);
+			log.debug("Estado não encontrada pelo ID: {}", stateIdOrAcronymnOrName);
 		}
 
 		try {
 			return getStateByAcronymn(stateIdOrAcronymnOrName);
 		} catch (StateNotFoundException e) {
-			log.debug("Estado não encontrado pela sigla: {}", stateIdOrAcronymnOrName);
+			log.debug("Estado não encontrada pelo Sigla: {}", stateIdOrAcronymnOrName);
 		}
 
 		try {
 			return getStateByName(stateIdOrAcronymnOrName);
 		} catch (StateNotFoundException e) {
-			log.debug("Estado não encontrado pelo nome", stateIdOrAcronymnOrName);
+			log.debug("Estado não encontrada pelo Nome: {}", stateIdOrAcronymnOrName);
 		}
 
 		throw new StateNotFoundException(stateIdOrAcronymnOrName);

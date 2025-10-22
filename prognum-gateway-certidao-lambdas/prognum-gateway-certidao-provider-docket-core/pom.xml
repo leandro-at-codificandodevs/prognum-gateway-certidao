@@ -1,17 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>br.com.prognum.certidao</groupId>
-    <artifactId>prognum-gateway-certidao-lambdas</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>prognum-gateway-certidao-provider-docket-core</artifactId>
-  
-  <dependencies>
-          <dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>br.com.prognum.certidao</groupId>
+        <artifactId>prognum-gateway-certidao-lambdas</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>prognum-gateway-certidao-provider-docket-core</artifactId>
+
+    <dependencies>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>prognum-gateway-certidao-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-  </dependencies>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>
