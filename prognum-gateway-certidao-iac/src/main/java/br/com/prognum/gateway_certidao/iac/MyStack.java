@@ -39,27 +39,25 @@ public class MyStack extends Stack {
 		String system = config.getSystem();
 		String environment = config.getEnvironment();
 		String tenantId = config.getTenantId();
+		
+		String logLevel = "DEBUG";
 
 		Tags.of(this).add("Environment", environment);
 		Tags.of(this).add("System", system);
 
 		String docketCreateDocumentQueueId = String.format("%s-certidao-%s-provider-docket-create-document-queue.fifo",
 				system, environment);
-		Queue docketCreateDocumentQueue = Queue.Builder.create(this, docketCreateDocumentQueueId).queueName(docketCreateDocumentQueueId)
-				.encryption(QueueEncryption.KMS_MANAGED)
-				.visibilityTimeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS))
-				.fifo(true)
-				.contentBasedDeduplication(true)
-				.build();
+		Queue docketCreateDocumentQueue = Queue.Builder.create(this, docketCreateDocumentQueueId)
+				.queueName(docketCreateDocumentQueueId).encryption(QueueEncryption.KMS_MANAGED)
+				.visibilityTimeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
+				.contentBasedDeduplication(true).build();
 
 		String docketGetDocumentQueueId = String.format("%s-certidao-%s-provider-docket-process-document-queue.fifo",
 				system, environment);
-		Queue docketGetDocumentQueue = Queue.Builder.create(this, docketGetDocumentQueueId).queueName(docketGetDocumentQueueId)
-				.encryption(QueueEncryption.KMS_MANAGED)
-				.visibilityTimeout(Duration.seconds(DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS))
-				.fifo(true)
-				.contentBasedDeduplication(true)
-				.build();
+		Queue docketGetDocumentQueue = Queue.Builder.create(this, docketGetDocumentQueueId)
+				.queueName(docketGetDocumentQueueId).encryption(QueueEncryption.KMS_MANAGED)
+				.visibilityTimeout(Duration.seconds(DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
+				.contentBasedDeduplication(true).build();
 
 		String docketApiSecretId = String.format("%s-certidao-%s-provider-docket-api-secret", system, environment);
 		Secret docketApiSecret = Secret.Builder.create(this, docketApiSecretId).secretName(docketApiSecretId).build();
@@ -76,12 +74,10 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-scci-create-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.scci_create_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(
-					Map.of(
-						"DOCKET_CREATE_DOCUMENT_QUEUE_URL", docketCreateDocumentQueue.getQueueUrl(),
-						"TENANT_BUCKET_NAME", tenantBucketId,
-						"TENANT_ID", tenantId)
-				).build();
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
+						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
+						tenantId))
+				.build();
 		docketCreateDocumentQueue.grantSendMessages(scciCreateDocumentGroupFunction);
 		tenantBucket.grantWrite(scciCreateDocumentGroupFunction);
 
@@ -92,13 +88,10 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-scci-get-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.scci_get_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(
-					Map.of(
-						"DOCKET_GET_DOCUMENT_QUEUE_URL", docketGetDocumentQueue.getQueueUrl(),
-						"TENANT_BUCKET_NAME", tenantBucketId,
-						"TENANT_ID", tenantId
-					)
-				).build();
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
+						docketGetDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
+						tenantId))
+				.build();
 		docketGetDocumentQueue.grantSendMessages(scciGetDocumentGroupFunction);
 		tenantBucket.grantRead(scciGetDocumentGroupFunction);
 
@@ -109,21 +102,17 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-create-document-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_create_document.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(
-					Map.of(
-						"DOCKET_API_SECRET_NAME", docketApiSecretId,
-						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(),
-						"DOCKET_API_CREATE_PEDIDO_URL", config.getDocketApiCreatePedidoUrl(),
-						"DOCKET_API_GET_PEDIDO_URL", config.getDocketApiGetPedidoUrl(),
-						"DOCKET_API_DOWNLOAD_DOCUMENTO_URL", config.getDocketApiDownloadDocumentoUrl()
-					)
-				)
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
+						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
+						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
+						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_DOCUMENTO_URL",
+						config.getDocketApiDownloadDocumentoUrl()))
 				.build();
 		tenantBucket.grantWrite(docketCreateDocumentFunction);
 		docketApiSecret.grantRead(docketCreateDocumentFunction);
 
-		docketCreateDocumentFunction.addEventSource(
-				SqsEventSource.Builder.create(docketCreateDocumentQueue).batchSize(10).reportBatchItemFailures(true).build());
+		docketCreateDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentQueue)
+				.batchSize(10).reportBatchItemFailures(true).build());
 
 		String docketProcessDocumentFunctionId = String.format("%s-certidao-%s-provider-docket-process-document-lambda",
 				system, environment);
@@ -132,22 +121,17 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-process-document-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_process_document.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(
-					Map.of(
-						"DOCKET_API_SECRET_NAME", docketApiSecretId,
-						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(),
-						"DOCKET_API_CREATE_PEDIDO_URL", config.getDocketApiCreatePedidoUrl(),
-						"DOCKET_API_GET_PEDIDO_URL", config.getDocketApiGetPedidoUrl(),
-						"DOCKET_API_DOWNLOAD_DOCUMENTO_URL", config.getDocketApiDownloadDocumentoUrl()
-					)
-				)
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
+						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
+						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
+						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_DOCUMENTO_URL",
+						config.getDocketApiDownloadDocumentoUrl()))
 				.build();
 		tenantBucket.grantRead(docketProcessDocumentFunction);
 		docketApiSecret.grantRead(docketProcessDocumentFunction);
 
-		docketProcessDocumentFunction.addEventSource(
-				SqsEventSource.Builder.create(docketGetDocumentQueue).batchSize(10).reportBatchItemFailures(true).build());
-
+		docketProcessDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentQueue).batchSize(10)
+				.reportBatchItemFailures(true).build());
 
 		String apiId = String.format("%s-certidao-%s-api-gateway", system, environment);
 		RestApi api = RestApi.Builder.create(this, apiId).restApiName(apiId).build();

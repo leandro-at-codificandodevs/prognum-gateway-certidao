@@ -41,6 +41,8 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 		documentGroupMetadata.setDocumentGroupId(documentGroupId);
 		documentGroupMetadata.setTimestamp(now);
 		documentGroupMetadata.setDocumentIdsByTypeId(new HashMap<>());
+		String documentGroupMetadataObjectKey = getDocumentGroupMetadataObjectKey(documentGroupId);
+		bucketService.writeObject(bucketName, documentGroupMetadataObjectKey, documentGroupMetadata);
 
 		for (String documentTypeId : documentTypeIds) {
 			Document document = new Document();
@@ -135,11 +137,11 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 	}
 
 	public String getDocumentGroupObjectKey(String documentGroupId) {
-		return String.format("groups/%s/", documentGroupId);
+		return String.format("groups/%s", documentGroupId);
 	}
 
 	public String getDocumentObjectKey(String documentGroupId, String documentId) {
-		return String.format("groups/%s/documents/%s/", documentGroupId, documentId);
+		return String.format("groups/%s/documents/%s", documentGroupId, documentId);
 	}
 
 	private String getDocumentGroupMetadataObjectKey(String documentGroupId) {

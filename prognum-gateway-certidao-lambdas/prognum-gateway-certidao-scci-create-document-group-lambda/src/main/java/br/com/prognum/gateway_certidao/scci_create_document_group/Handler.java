@@ -56,15 +56,9 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
 	private QueueService queueService;
-
-	private BucketService bucketService;
-
 	private ApiGatewayService apiGatewayService;
-
 	private DocumentGroupService documentGroupService;
-
 	private DocumentTypes documentTypes;
-
 	private States states;
 
 	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
@@ -80,7 +74,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
-		this.bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
+		BucketService bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
 		this.documentGroupService = new DocumentGroupServiceImpl(bucketService);
 
 		SqsClient sqsClient = SqsClient.builder().build();
