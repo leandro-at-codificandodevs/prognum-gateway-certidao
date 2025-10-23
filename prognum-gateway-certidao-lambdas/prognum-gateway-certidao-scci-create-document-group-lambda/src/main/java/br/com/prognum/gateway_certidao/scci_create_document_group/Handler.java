@@ -33,7 +33,6 @@ import br.com.prognum.gateway_certidao.core.models.DocumentStatus;
 import br.com.prognum.gateway_certidao.core.models.DocumentType;
 import br.com.prognum.gateway_certidao.core.models.DocumentTypes;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
-import br.com.prognum.gateway_certidao.core.models.States;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayService;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.BucketService;
@@ -56,7 +55,6 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private ApiGatewayService apiGatewayService;
 	private DocumentGroupService documentGroupService;
 	private DocumentTypes documentTypes;
-	private States states;
 
 	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
 	private static final String DOCKET_CREATE_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_CREATE_DOCUMENT_QUEUE_URL");
@@ -65,7 +63,6 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 	public Handler() {
 		this.documentTypes = new DocumentTypes();
-		this.states = new States();
 
 		JsonService jsonService = new JsonServiceImpl();
 
@@ -153,9 +150,6 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
 			Set<String> documentFieldIds = documentType.getFieldTypes().stream().map(FieldType::getId)
 					.collect(Collectors.toSet());
-
-			states.getStateByAcronymn(inputFields.get("estado"));
-			states.getCityByIdOrName(inputFields.get("cidade"));
 
 			for (String key : documentFieldIds) {
 				if (key.startsWith("data-")) {

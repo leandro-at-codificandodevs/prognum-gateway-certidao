@@ -51,7 +51,10 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 	private static final String DOCKET_API_AUTH_URL = System.getenv("DOCKET_API_AUTH_URL");
 	private static final String DOCKET_API_CREATE_PEDIDO_URL = System.getenv("DOCKET_API_CREATE_PEDIDO_URL");
 	private static final String DOCKET_API_GET_PEDIDO_URL = System.getenv("DOCKET_API_GET_PEDIDO_URL");
-	private static final String DOCKET_API_DOWNLOAD_DOCUMENTO_URL = System.getenv("DOCKET_API_DOWNLOAD_DOCUMENTO_URL");
+	private static final String DOCKET_API_DOWNLOAD_ARQUIVO_URL = System.getenv("DOCKET_API_DOWNLOAD_ARQUIVO_URL");
+	private static final String DOCKET_API_GET_ESTADOS_URL = System.getenv("DOCKET_API_GET_ESTADOS_URL");
+	private static final String DOCKET_API_GET_CIDADES_BY_ESTADO_URL = System
+			.getenv("DOCKET_API_GET_CIDADES_BY_ESTADO_URL");
 	private static final String DOCKET_API_SECRET_NAME = System.getenv("DOCKET_API_SECRET_NAME");
 
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
@@ -63,21 +66,17 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 		SecretService secretService = new SecretServiceImpl(secretsManagerClient, jsonService);
 
 		DocketUserService docketUserService = new DockerUserServiceImpl(DOCKET_API_SECRET_NAME, secretService);
-		
+
 		HttpClient httpClient = HttpClient.newBuilder().build();
 
 		DocketAuthService docketAuthService = new DocketAuthServiceImpl(DOCKET_API_AUTH_URL, httpClient, jsonService,
 				docketUserService);
-		
-		this.docketApiService = new DocketApiServiceImpl(
-			httpClient, 
-			docketAuthService,
-			DOCKET_API_CREATE_PEDIDO_URL, 
-			DOCKET_API_GET_PEDIDO_URL, 
-			DOCKET_API_DOWNLOAD_DOCUMENTO_URL,
-			jsonService);
-		
-		this.docketMapperService = new DocketMapperServiceImpl();
+
+		this.docketApiService = new DocketApiServiceImpl(httpClient, docketAuthService, DOCKET_API_CREATE_PEDIDO_URL,
+				DOCKET_API_GET_PEDIDO_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL, DOCKET_API_GET_ESTADOS_URL,
+				DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
+
+		this.docketMapperService = new DocketMapperServiceImpl(docketApiService);
 
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
@@ -99,7 +98,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
 				CreatePedidoRequest createPedidoRequest = docketMapperService
 						.getCreatePedidoRequest(createProviderDocumentGroupInput);
-				
+
 				CreatePedidoResponse createPedidoResponse = docketApiService.createPedido(createPedidoRequest);
 				String pedidoId = createPedidoResponse.getPedido().getId();
 
@@ -107,14 +106,16 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				docketMetadata.setPedidoId(pedidoId);
 				docketMetadata.setDocumentoObjectKeysByDocumentoId(new HashMap<>());
 
-				for (int i = 0; i < createProviderDocumentGroupInput.getDocumentTypeIds().size(); i ++) {
-					CreatePedidoResponse.Documento responseDocumento = createPedidoResponse.getPedido().getDocumentos().get(i);
+				for (int i = 0; i < createProviderDocumentGroupInput.getDocumentTypeIds().size(); i++) {
+					CreatePedidoResponse.Documento responseDocumento = createPedidoResponse.getPedido().getDocumentos()
+							.get(i);
 					String documentTypeId = createProviderDocumentGroupInput.getDocumentTypeIds().get(i);
-					String documentObjectKey = createProviderDocumentGroupInput.getBucketObjectKeyByTypeId().get(documentTypeId);
-					docketMetadata.getDocumentoObjectKeysByDocumentoId().put(
-						responseDocumento.getId(), documentObjectKey);
+					String documentObjectKey = createProviderDocumentGroupInput.getBucketObjectKeyByTypeId()
+							.get(documentTypeId);
+					docketMetadata.getDocumentoObjectKeysByDocumentoId().put(responseDocumento.getId(),
+							documentObjectKey);
 				}
-				
+
 				String bucketName = createProviderDocumentGroupInput.getBucketName();
 				String bucketObjectKey = createProviderDocumentGroupInput.getBucketObjetKey();
 				docketMetadataService.write(bucketName, bucketObjectKey, docketMetadata);
@@ -125,6 +126,6 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 		}
 		SQSBatchResponse response = queueService.buildBatchResponse(failedMessages);
 		logger.info("Evento tratado {}", response);
-		return response;	}
+		return response;
+	}
 }
-

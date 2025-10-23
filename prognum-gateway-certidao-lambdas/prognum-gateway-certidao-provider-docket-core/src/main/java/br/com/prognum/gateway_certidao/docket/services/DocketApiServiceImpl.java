@@ -7,14 +7,13 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoResponse;
+import br.com.prognum.gateway_certidao.docket.models.GetCidadesByEstadoResponse;
+import br.com.prognum.gateway_certidao.docket.models.GetEstadosResponse;
 import br.com.prognum.gateway_certidao.docket.models.GetPedidoStatusResponse;
 
 public class DocketApiServiceImpl implements DocketApiService {
@@ -22,7 +21,9 @@ public class DocketApiServiceImpl implements DocketApiService {
 	private DocketAuthService docketAuthService;
 	private String docketApiCreatePedidoUrl;
 	private String docketApiGetPedidoUrl;
-	private String docketApiDownloadDocumentoUrl;
+	private String docketApiDownloadArquivoUrl;
+	private String docketApiGetEstadosUrl;
+	private String docketApiGetCidadesByEstadoUrl;
 	private JsonService jsonService;
 	private HttpClient httpClient;
 
@@ -31,11 +32,15 @@ public class DocketApiServiceImpl implements DocketApiService {
 		DocketAuthService docketAuthService,
 		String docketApiCreatePedidoUrl,
 		String docketApiGetPedidoUrl,
-		String docketApiDownloadDocumentoUrl,
+		String docketApiDownloadArquivoUrl,
+		String docketApiGetEstadosUrl,
+		String docketApiGetCidadesByEstadoUrl,
 		JsonService jsonService) {
 		this.docketApiCreatePedidoUrl = docketApiCreatePedidoUrl;
 		this.docketApiGetPedidoUrl = docketApiGetPedidoUrl;
-		this.docketApiDownloadDocumentoUrl = docketApiDownloadDocumentoUrl;
+		this.docketApiDownloadArquivoUrl = docketApiDownloadArquivoUrl;
+		this.docketApiGetEstadosUrl = docketApiGetEstadosUrl;
+		this.docketApiGetCidadesByEstadoUrl = docketApiGetCidadesByEstadoUrl;
 		this.httpClient = httpClient;
 		this.jsonService = jsonService;
 		this.docketAuthService = docketAuthService;
@@ -94,8 +99,8 @@ public class DocketApiServiceImpl implements DocketApiService {
 		});
 	}
 
-	public byte[] downloadFile(String fileId) {
-		URI uri = URI.create(String.format("%s/%s", docketApiDownloadDocumentoUrl, fileId));
+	public byte[] downloadArquivo(String arquivoId) {
+		URI uri = URI.create(String.format("%s/%s", docketApiDownloadArquivoUrl, arquivoId));
 		HttpRequest request = HttpRequest.newBuilder().uri(uri)
 				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
 
@@ -142,5 +147,51 @@ public class DocketApiServiceImpl implements DocketApiService {
 	@FunctionalInterface
 	private static interface ThrowingSupplier<T> {
 		T get() throws Exception;
+	}
+
+	@Override
+	public GetEstadosResponse getEstados() {
+		URI uri = URI.create(String.format("%s/%s", docketApiGetEstadosUrl));
+		HttpRequest request = HttpRequest.newBuilder().uri(uri)
+				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
+
+		return callAndInvalidateTokenIfNeeded(() -> {
+			try {
+				HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+
+				if (response.statusCode() != 200) {
+					String message = String.format("Erro ao obter status de pedido: HTTP %s - %s",
+							response.statusCode(), response.body());
+					throw new InternalServerException(message);
+				}
+
+				return jsonService.fromJson(response.body(), GetEstadosResponse.class);
+			} catch (Exception e) {
+				throw new RuntimeException("Falha ao chamar API Docket", e);
+			}
+		});
+	}
+
+	@Override
+	public GetCidadesByEstadoResponse getCidadesByEstado(String estadoId) {
+		URI uri = URI.create(String.format("%s/%s", docketApiGetCidadesByEstadoUrl.replace("{estadoId}", estadoId)));
+		HttpRequest request = HttpRequest.newBuilder().uri(uri)
+				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
+
+		return callAndInvalidateTokenIfNeeded(() -> {
+			try {
+				HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+
+				if (response.statusCode() != 200) {
+					String message = String.format("Erro ao obter status de pedido: HTTP %s - %s",
+							response.statusCode(), response.body());
+					throw new InternalServerException(message);
+				}
+
+				return jsonService.fromJson(response.body(), GetCidadesByEstadoResponse.class);
+			} catch (Exception e) {
+				throw new RuntimeException("Falha ao chamar API Docket", e);
+			}
+		});
 	}
 }

@@ -6,49 +6,43 @@ import static br.com.prognum.gateway_certidao.core.models.DocumentTypes.DOCUMENT
 import static br.com.prognum.gateway_certidao.core.models.DocumentTypes.DOCUMENT_TYPE_4;
 import static br.com.prognum.gateway_certidao.core.models.DocumentTypes.DOCUMENT_TYPE_5;
 import static br.com.prognum.gateway_certidao.core.models.DocumentTypes.DOCUMENT_TYPE_6;
-import static br.com.prognum.gateway_certidao.core.models.States.BRASILIA_CITY_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.CURITIBA_CITY_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.DF_STATE_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.NITEROI_CITY_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.PR_STATE_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.RIO_DE_JANEIRO_CITY_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.RJ_STATE_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.SAO_PAULO_CITY_ID;
-import static br.com.prognum.gateway_certidao.core.models.States.SP_STATE_ID;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import br.com.prognum.gateway_certidao.core.exceptions.CityNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
-import br.com.prognum.gateway_certidao.core.models.City;
+import br.com.prognum.gateway_certidao.core.exceptions.StateNotFoundException;
 import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
 import br.com.prognum.gateway_certidao.core.models.FieldTypes;
-import br.com.prognum.gateway_certidao.core.models.State;
-import br.com.prognum.gateway_certidao.core.models.States;
 import br.com.prognum.gateway_certidao.core.utils.DateUtils;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest.Documento;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest.Pedido;
+import br.com.prognum.gateway_certidao.docket.models.GetCidadesByEstadoResponse;
+import br.com.prognum.gateway_certidao.docket.models.GetEstadosResponse;
 
 public class DocketMapperServiceImpl implements DocketMapperService {
 
-	private String centroCustoId = "feec1170-1f20-49b8-bd39-91315961e4bb";
-	private String tipoOperacaoId = "95e04d49-1926-498b-a68d-18273fe1287c";
-	private String lead = "Operacao de credito - API - Docket - Prognum";
-	private String grupoId = "ed892d79-7f0e-4248-98ef-a32382b0ab13";
+	private static final String CENTRO_CUSTO_ID = "feec1170-1f20-49b8-bd39-91315961e4bb";
+	private static final String TIPO_OPERACAO_ID = "95e04d49-1926-498b-a68d-18273fe1287c";
+	private static final String LEAD = "Operacao de credito - API - Docket - Prognum";
+	private static final String GRUPO_ID = "ed892d79-7f0e-4248-98ef-a32382b0ab13";
 
-	private static final States states = new States();
+	private DocketApiService docketApiService;
 
-	private static final FieldTypes fieldTypes = new FieldTypes();
+	private FieldTypes fieldTypes;
 
-	private final Map<String, Documento> documentosByDocumentTypeId;
-	private final Map<String, String> estadosByStateId;
-	private final Map<String, String> cidadesByCityId;
+	private Map<String, Documento> documentosByDocumentTypeId;
 
-	public DocketMapperServiceImpl() {
+
+	public DocketMapperServiceImpl(DocketApiService docketApiService) {
+		this.docketApiService = docketApiService;
+
+		fieldTypes = new FieldTypes();
 
 		Documento doc1 = doc1();
 		Documento doc2 = doc2();
@@ -56,31 +50,13 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		Documento doc4 = doc4();
 		Documento doc5 = doc5();
 		Documento doc6 = doc6();
-
 		documentosByDocumentTypeId = new HashMap<>();
-
 		documentosByDocumentTypeId.put(DOCUMENT_TYPE_1, doc1);
 		documentosByDocumentTypeId.put(DOCUMENT_TYPE_2, doc2);
 		documentosByDocumentTypeId.put(DOCUMENT_TYPE_3, doc3);
 		documentosByDocumentTypeId.put(DOCUMENT_TYPE_4, doc4);
 		documentosByDocumentTypeId.put(DOCUMENT_TYPE_5, doc5);
 		documentosByDocumentTypeId.put(DOCUMENT_TYPE_6, doc6);
-
-		estadosByStateId = new HashMap<>();
-		cidadesByCityId = new HashMap<>();
-
-		estadosByStateId.put(RJ_STATE_ID, "074c0821-bf46-c6b6-5f7c-e39f5df39f98");
-		cidadesByCityId.put(NITEROI_CITY_ID, "c6f93c94-fdfa-ba2b-7ab1-d78c6d773804");
-		cidadesByCityId.put(RIO_DE_JANEIRO_CITY_ID, "34e92f60-8e63-31c8-2b9b-e459471cbb6a");
-
-		estadosByStateId.put(SP_STATE_ID, "52f0da38-2fb5-4a87-22ef-32670b94d916");
-		cidadesByCityId.put(SAO_PAULO_CITY_ID, "41500f13-56d8-8690-35f2-7af0fa911611");
-
-		estadosByStateId.put(DF_STATE_ID, "607abcf9-d7a6-8b26-96c6-13cf0301f3de");
-		cidadesByCityId.put(BRASILIA_CITY_ID, "6dab9712-b4c4-79f4-854f-edacd47d99fd");
-
-		estadosByStateId.put(PR_STATE_ID, "e0992d76-53fb-4933-cec1-eb51b79d63bb");
-		cidadesByCityId.put(CURITIBA_CITY_ID, "44aded0e-cb9d-a3d4-8687-6d9126965da9");
 	}
 
 	private Documento doc1() {
@@ -196,6 +172,29 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		document.setDocumentoNome(documentoNome);
 		return document;
 	}
+	
+	private String getEstadoId(CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
+		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.ESTADO_FIELD_TYPE_ID);
+		GetEstadosResponse response = docketApiService.getEstados();
+		for (GetEstadosResponse.Estado estado : response.getEstados()) {
+			if  (estado.getSigla().equals(value)) {
+				return estado.getId();
+			}
+		}
+		throw new StateNotFoundException(value);
+	}
+	
+	private String getCidadeId(CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
+		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.CIDADE_FIELD_TYPE_ID);
+		String estadoId = getEstadoId(createProviderDocumentGroupInput);
+		GetCidadesByEstadoResponse response = docketApiService.getCidadesByEstado(estadoId);
+		for (GetCidadesByEstadoResponse.Cidade cidade : response.getCidades()) {
+			if  (cidade.getNome().equals(value)) {
+				return cidade.getId();
+			}
+		}
+		throw new CityNotFoundException(value);
+	}
 
 	@Override
 	public CreatePedidoRequest getCreatePedidoRequest(
@@ -214,14 +213,12 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 				fieldsToRequest.put("cpf", value);
 				break;
 			case FieldTypes.ESTADO_FIELD_TYPE_ID: {
-				State state = states.getStateByIdOrAcronymnOrName(value);
-				value = estadosByStateId.get(state.getId());
+				value = getEstadoId(createProviderDocumentGroupInput);
 				fieldsToRequest.put("estado", value);
 				break;
 			}
 			case FieldTypes.CIDADE_FIELD_TYPE_ID: {
-				City city = states.getCityByIdOrName(value);
-				value = cidadesByCityId.get(city.getId());
+				value = getCidadeId(createProviderDocumentGroupInput);
 				fieldsToRequest.put("cidade", value);
 				break;
 			}
@@ -235,13 +232,12 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			default:
 				throw new IllegalStateException(String.format("O tipo %s não foi tratado", fieldType.getId()));
 			}
-
 		}
 		CreatePedidoRequest.Pedido pedido = new Pedido();
-		pedido.setCentroCustoId(centroCustoId);
-		pedido.setGrupoId(grupoId);
-		pedido.setLead(lead);
-		pedido.setTipoOperacaoId(tipoOperacaoId);
+		pedido.setCentroCustoId(CENTRO_CUSTO_ID);
+		pedido.setGrupoId(GRUPO_ID);
+		pedido.setLead(LEAD);
+		pedido.setTipoOperacaoId(TIPO_OPERACAO_ID);
 
 		for (String documentTypeId : createProviderDocumentGroupInput.getDocumentTypeIds()) {
 			Documento prototype = documentosByDocumentTypeId.get(documentTypeId);

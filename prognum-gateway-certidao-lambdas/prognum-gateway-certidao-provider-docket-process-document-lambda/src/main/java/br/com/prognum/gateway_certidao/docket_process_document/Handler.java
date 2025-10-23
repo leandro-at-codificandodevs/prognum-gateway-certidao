@@ -43,19 +43,22 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 	private static final String DOCUMENTO_STATUS_ENTREGUE = "ENTREGUE";
 
 	private QueueService queueService;
-		
+
 	private DocketApiService docketApiService;
-	
+
 	private DocketMetadataService docketMetadataService;
-	
+
 	private BucketService bucketService;
-	
+
 	private static final String DOCKET_API_AUTH_URL = System.getenv("DOCKET_API_AUTH_URL");
 	private static final String DOCKET_API_CREATE_PEDIDO_URL = System.getenv("DOCKET_API_CREATE_PEDIDO_URL");
 	private static final String DOCKET_API_GET_PEDIDO_URL = System.getenv("DOCKET_API_GET_PEDIDO_URL");
-	private static final String DOCKET_API_DOWNLOAD_DOCUMENTO_URL = System.getenv("DOCKET_API_DOWNLOAD_DOCUMENTO_URL");
+	private static final String DOCKET_API_DOWNLOAD_ARQUIVO_URL = System.getenv("DOCKET_API_DOWNLOAD_ARQUIVO_URL");
+	private static final String DOCKET_API_GET_ESTADOS_URL = System.getenv("DOCKET_API_GET_ESTADOS_URL");
+	private static final String DOCKET_API_GET_CIDADES_BY_ESTADO_URL = System
+			.getenv("DOCKET_API_GET_CIDADES_BY_ESTADO_URL");
 	private static final String DOCKET_API_SECRET_NAME = System.getenv("DOCKET_API_SECRET_NAME");
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
 	public Handler() {
@@ -65,20 +68,16 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 		SecretService secretService = new SecretServiceImpl(secretsManagerClient, jsonService);
 
 		DocketUserService docketUserService = new DockerUserServiceImpl(DOCKET_API_SECRET_NAME, secretService);
-		
+
 		HttpClient httpClient = HttpClient.newBuilder().build();
 
 		DocketAuthService docketAuthService = new DocketAuthServiceImpl(DOCKET_API_AUTH_URL, httpClient, jsonService,
 				docketUserService);
-		
-		this.docketApiService = new DocketApiServiceImpl(
-			httpClient, 
-			docketAuthService,
-			DOCKET_API_CREATE_PEDIDO_URL, 
-			DOCKET_API_GET_PEDIDO_URL, 
-			DOCKET_API_DOWNLOAD_DOCUMENTO_URL,
-			jsonService);
-		
+
+		this.docketApiService = new DocketApiServiceImpl(httpClient, docketAuthService, DOCKET_API_CREATE_PEDIDO_URL,
+				DOCKET_API_GET_PEDIDO_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL, DOCKET_API_GET_ESTADOS_URL,
+				DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
+
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
 		this.bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
@@ -98,19 +97,20 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 						.parseMessage(UpdateProviderDocumentGroupInput.class, message);
 				String bucketName = updateProviderDocumentGroupInput.getBucketName();
 				String documentGroupObjectKey = updateProviderDocumentGroupInput.getDocumentGroupObjectKey();
-				DocketMetadata docketMetadata = docketMetadataService.read(
-						bucketName,
-						documentGroupObjectKey);
+				DocketMetadata docketMetadata = docketMetadataService.read(bucketName, documentGroupObjectKey);
 				String pedidoId = docketMetadata.getPedidoId();
 
 				GetPedidoStatusResponse getPedidoStatusResponse = docketApiService.getPedidoStatus(pedidoId);
 				List<Documento> documentos = getPedidoStatusResponse.getPedido().getDocumentos();
 				for (GetPedidoStatusResponse.Documento documento : documentos) {
 					if (documento.getStatus().equals(DOCUMENTO_STATUS_ENTREGUE)) {
-						byte[] content = docketApiService.downloadFile(documento.getArquivos().get(0).getId());
-						String documentObjectKey = docketMetadata.getDocumentoObjectKeysByDocumentoId().get(documento.getId());
-						String documentContentObjectKey = String.format("%s/%s", documentObjectKey, DocumentGroupService.DOCUMENT_CONTENT_FILE_NAME);
-						bucketService.writeBytes(bucketName, documentContentObjectKey, "application/octet-stream", content);
+						byte[] content = docketApiService.downloadArquivo(documento.getArquivos().get(0).getId());
+						String documentObjectKey = docketMetadata.getDocumentoObjectKeysByDocumentoId()
+								.get(documento.getId());
+						String documentContentObjectKey = String.format("%s/%s", documentObjectKey,
+								DocumentGroupService.DOCUMENT_CONTENT_FILE_NAME);
+						bucketService.writeBytes(bucketName, documentContentObjectKey, "application/octet-stream",
+								content);
 					}
 				}
 			} catch (Exception e) {

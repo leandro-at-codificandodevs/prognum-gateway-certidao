@@ -104,8 +104,11 @@ public class MyStack extends Stack {
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
 						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
 						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
-						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_DOCUMENTO_URL",
-						config.getDocketApiDownloadDocumentoUrl()))
+						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_ARQUIVO_URL",
+						config.getDocketApiDownloadArquivoUrl(), "DOCKET_API_GET_ESTADOS_URL",
+						config.getDocketApiGetEstadosUrl(),
+						"DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
+						config.getDocketApiGetCidadesByEstadoUrl()))
 				.build();
 		tenantBucket.grantWrite(docketCreateDocumentFunction);
 		docketApiSecret.grantRead(docketCreateDocumentFunction);
@@ -123,8 +126,11 @@ public class MyStack extends Stack {
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
 						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
 						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
-						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_DOCUMENTO_URL",
-						config.getDocketApiDownloadDocumentoUrl()))
+						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_ARQUIVO_URL",
+						config.getDocketApiDownloadArquivoUrl(), "DOCKET_API_GET_ESTADOS_URL",
+						config.getDocketApiGetEstadosUrl(),
+						"DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
+						config.getDocketApiGetCidadesByEstadoUrl()))
 				.build();
 		tenantBucket.grantReadWrite(docketProcessDocumentFunction);
 		docketApiSecret.grantRead(docketProcessDocumentFunction);

@@ -13,7 +13,9 @@ public class Config {
 	private String docketApiAuthUrl;
 	private String docketApiCreatePedidoUrl;
 	private String docketApiGetPedidoUrl;
-	private String docketApiDownloadDocumentoUrl;
+	private String docketApiDownloadArquivoUrl;
+	private String docketApiGetEstadosUrl;
+	private String docketApiGetCidadesByEstadoUrl;
 
 	public static Config create(Construct scope) {
 		String environment = (String) scope.getNode().tryGetContext("environment");
@@ -33,16 +35,19 @@ public class Config {
 		String docketApiAuthUrl = (String) envConfig.get("docketApiAuthUrl");
 		String docketApiCreatePedidoUrl = (String) envConfig.get("docketApiCreatePedidoUrl");
 		String docketApiGetPedidoUrl = (String) envConfig.get("docketApiGetPedidoUrl");
-		String docketApiDownloadDocumentoUrl = (String) envConfig.get("docketApiDownloadDocumentoUrl");
+		String docketApiDownloadArquivoUrl = (String) envConfig.get("docketApiDownloadArquivoUrl");
+		String docketApiGetEstadosUrl  = (String) envConfig.get("docketApiDownloadDocumentoUrl");
+		String docketApiGetCidadesByEstadoUrl  = (String) envConfig.get("docketApiGetCidadesByEstadoUrl");
 
 		Config config = new Config(environment, system, tenantId, logLevel, docketApiAuthUrl, docketApiCreatePedidoUrl,
-				docketApiGetPedidoUrl, docketApiDownloadDocumentoUrl);
+				docketApiGetPedidoUrl, docketApiDownloadArquivoUrl, docketApiGetEstadosUrl, docketApiGetCidadesByEstadoUrl);
 
 		return config;
 	}
 
 	public Config(String environment, String system, String tenantId, String logLevel, String docketApiAuthUrl,
-			String docketApiCreatePedidoUrl, String docketApiGetPedidoUrl, String docketApiDownloadDocumentoUrl) {
+			String docketApiCreatePedidoUrl, String docketApiGetPedidoUrl, String docketApiDownloadArquivoUrl,
+			String docketApiGetEstadosUrl, String docketApiGetCidadesByEstadoUrl) {
 		super();
 		this.environment = environment;
 		this.system = system;
@@ -51,7 +56,9 @@ public class Config {
 		this.docketApiAuthUrl = docketApiAuthUrl;
 		this.docketApiCreatePedidoUrl = docketApiCreatePedidoUrl;
 		this.docketApiGetPedidoUrl = docketApiGetPedidoUrl;
-		this.docketApiDownloadDocumentoUrl = docketApiDownloadDocumentoUrl;
+		this.docketApiDownloadArquivoUrl = docketApiDownloadArquivoUrl;
+		this.docketApiGetEstadosUrl = docketApiGetEstadosUrl;
+		this.docketApiGetCidadesByEstadoUrl = docketApiGetCidadesByEstadoUrl;
 	}
 
 	public String getEnvironment() {
@@ -82,14 +89,23 @@ public class Config {
 		return docketApiGetPedidoUrl;
 	}
 
-	public String getDocketApiDownloadDocumentoUrl() {
-		return docketApiDownloadDocumentoUrl;
+	public String getDocketApiDownloadArquivoUrl() {
+		return docketApiDownloadArquivoUrl;
+	}
+
+	public String getDocketApiGetEstadosUrl() {
+		return docketApiGetEstadosUrl;
+	}
+
+	public String getDocketApiGetCidadesByEstadoUrl() {
+		return docketApiGetCidadesByEstadoUrl;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(docketApiAuthUrl, docketApiCreatePedidoUrl, docketApiDownloadDocumentoUrl,
-				docketApiGetPedidoUrl, environment, logLevel, system, tenantId);
+		return Objects.hash(docketApiAuthUrl, docketApiCreatePedidoUrl, docketApiDownloadArquivoUrl,
+				docketApiGetCidadesByEstadoUrl, docketApiGetEstadosUrl, docketApiGetPedidoUrl, environment, logLevel,
+				system, tenantId);
 	}
 
 	@Override
@@ -103,10 +119,20 @@ public class Config {
 		Config other = (Config) obj;
 		return Objects.equals(docketApiAuthUrl, other.docketApiAuthUrl)
 				&& Objects.equals(docketApiCreatePedidoUrl, other.docketApiCreatePedidoUrl)
-				&& Objects.equals(docketApiDownloadDocumentoUrl, other.docketApiDownloadDocumentoUrl)
+				&& Objects.equals(docketApiDownloadArquivoUrl, other.docketApiDownloadArquivoUrl)
+				&& Objects.equals(docketApiGetCidadesByEstadoUrl, other.docketApiGetCidadesByEstadoUrl)
+				&& Objects.equals(docketApiGetEstadosUrl, other.docketApiGetEstadosUrl)
 				&& Objects.equals(docketApiGetPedidoUrl, other.docketApiGetPedidoUrl)
 				&& Objects.equals(environment, other.environment) && Objects.equals(logLevel, other.logLevel)
 				&& Objects.equals(system, other.system) && Objects.equals(tenantId, other.tenantId);
 	}
 
+	@Override
+	public String toString() {
+		return "Config [environment=" + environment + ", system=" + system + ", tenantId=" + tenantId + ", logLevel="
+				+ logLevel + ", docketApiAuthUrl=" + docketApiAuthUrl + ", docketApiCreatePedidoUrl="
+				+ docketApiCreatePedidoUrl + ", docketApiGetPedidoUrl=" + docketApiGetPedidoUrl
+				+ ", docketApiDownloadArquivoUrl=" + docketApiDownloadArquivoUrl + ", docketApiGetEstadosUrl="
+				+ docketApiGetEstadosUrl + ", docketApiGetCidadesByEstadoUrl=" + docketApiGetCidadesByEstadoUrl + "]";
+	}
 }
