@@ -36,7 +36,7 @@ public class Config {
 		String docketApiCreatePedidoUrl = (String) envConfig.get("docketApiCreatePedidoUrl");
 		String docketApiGetPedidoUrl = (String) envConfig.get("docketApiGetPedidoUrl");
 		String docketApiDownloadArquivoUrl = (String) envConfig.get("docketApiDownloadArquivoUrl");
-		String docketApiGetEstadosUrl  = (String) envConfig.get("docketApiDownloadDocumentoUrl");
+		String docketApiGetEstadosUrl  = (String) envConfig.get("docketApiGetEstadosUrl");
 		String docketApiGetCidadesByEstadoUrl  = (String) envConfig.get("docketApiGetCidadesByEstadoUrl");
 
 		Config config = new Config(environment, system, tenantId, logLevel, docketApiAuthUrl, docketApiCreatePedidoUrl,

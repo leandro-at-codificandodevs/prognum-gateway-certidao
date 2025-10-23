@@ -13,7 +13,7 @@
       "docketApiAuthUrl": "https://sandbox-saas.docket.com.br/api/v2/auth/login",
       "docketApiCreatePedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos",
       "docketApiGetPedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos/{pedidoId}",
-      "docketApiDownloadDocumentoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
+      "docketApiDownloadArquivoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
       "docketApiGetEstadosUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/estados",
       "docketApiGetCidadesByEstadoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades?{estadoId}"
     },
@@ -24,7 +24,7 @@
       "docketApiAuthUrl": "https://sandbox-saas.docket.com.br/api/v2/auth/login",
       "docketApiCreatePedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos",
       "docketApiGetPedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos/{pedidoId}",
-      "docketApiDownloadDocumentoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
+      "docketApiDownloadArquivoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
       "docketApiGetEstadosUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/estados",
       "docketApiGetCidadesByEstadoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades?{estadoId}"
     },

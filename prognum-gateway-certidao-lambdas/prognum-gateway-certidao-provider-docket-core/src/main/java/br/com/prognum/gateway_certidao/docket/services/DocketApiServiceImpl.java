@@ -44,6 +44,18 @@ public class DocketApiServiceImpl implements DocketApiService {
 		this.httpClient = httpClient;
 		this.jsonService = jsonService;
 		this.docketAuthService = docketAuthService;
+		
+		try {
+			GetEstadosResponse getEstadosResponse = getEstados();
+			System.out.println(jsonService.toJson(getEstadosResponse.getEstados()));
+			for (GetEstadosResponse.Estado estado : getEstadosResponse.getEstados()) {
+				GetCidadesByEstadoResponse getCidadesByEstadoResponse = getCidadesByEstado(estado.getId());
+				System.out.println(jsonService.toJson(getCidadesByEstadoResponse.getCidades()));
+			}
+		} catch (ToJsonException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -78,7 +90,7 @@ public class DocketApiServiceImpl implements DocketApiService {
 	}
 
 	public GetPedidoStatusResponse getPedidoStatus(String pedidoId) {
-		URI uri = URI.create(String.format("%s/%s", docketApiGetPedidoUrl, pedidoId));
+		URI uri = URI.create(docketApiGetPedidoUrl.replace("{pedidoId}", pedidoId));
 		HttpRequest request = HttpRequest.newBuilder().uri(uri)
 				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
 
@@ -100,7 +112,7 @@ public class DocketApiServiceImpl implements DocketApiService {
 	}
 
 	public byte[] downloadArquivo(String arquivoId) {
-		URI uri = URI.create(String.format("%s/%s", docketApiDownloadArquivoUrl, arquivoId));
+		URI uri = URI.create(docketApiDownloadArquivoUrl.replace("{arquivoId}", arquivoId));
 		HttpRequest request = HttpRequest.newBuilder().uri(uri)
 				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
 
@@ -151,7 +163,7 @@ public class DocketApiServiceImpl implements DocketApiService {
 
 	@Override
 	public GetEstadosResponse getEstados() {
-		URI uri = URI.create(String.format("%s/%s", docketApiGetEstadosUrl));
+		URI uri = URI.create(docketApiGetEstadosUrl);
 		HttpRequest request = HttpRequest.newBuilder().uri(uri)
 				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
 
@@ -174,7 +186,7 @@ public class DocketApiServiceImpl implements DocketApiService {
 
 	@Override
 	public GetCidadesByEstadoResponse getCidadesByEstado(String estadoId) {
-		URI uri = URI.create(String.format("%s/%s", docketApiGetCidadesByEstadoUrl.replace("{estadoId}", estadoId)));
+		URI uri = URI.create(docketApiGetCidadesByEstadoUrl.replace("{estadoId}", estadoId));
 		HttpRequest request = HttpRequest.newBuilder().uri(uri)
 				.header("Authorization", String.format("Bearer %s", docketAuthService.getToken())).GET().build();
 
