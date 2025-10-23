@@ -1,11 +1,11 @@
-1) Testar o download usando cURL com application/octect-stream
-2) Ajustar o formato da data para o formato da Prognum
+1) Testar o download usando cURL com application/octect-stream x
+2) Ajustar o formato da data para o formato da Prognum x
 3) Colocar os tratamentos de estados possíveis dos documentos
 4) Discutir com a Prognum sobre documentos que possuem mais do que um arquivo
 5) Implementar o mapeamento para todos os estados
 6) Implementar o mapeamento para todas as cidades
-7) Fazer instalação na Prognum
-8) Revisar os logs.
+7) Fazer instalação na Prognum x
+8) Revisar os logs
 9) Modificar o formatador de log para não colocar stack trace nos logs.
 10) Criar um registro no DNS para o API Gateway
 
