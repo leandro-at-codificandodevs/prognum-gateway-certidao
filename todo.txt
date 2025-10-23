@@ -7,4 +7,5 @@
 7) Fazer instalação na Prognum
 8) Revisar os logs.
 9) Modificar o formatador de log para não colocar stack trace nos logs.
+10) Criar um registro no DNS para o API Gateway
 
