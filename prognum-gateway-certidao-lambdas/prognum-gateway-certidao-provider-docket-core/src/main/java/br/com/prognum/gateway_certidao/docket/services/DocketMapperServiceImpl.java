@@ -16,21 +16,19 @@ import static br.com.prognum.gateway_certidao.core.models.States.RJ_STATE_ID;
 import static br.com.prognum.gateway_certidao.core.models.States.SAO_PAULO_CITY_ID;
 import static br.com.prognum.gateway_certidao.core.models.States.SP_STATE_ID;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
+import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
 import br.com.prognum.gateway_certidao.core.models.City;
 import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
 import br.com.prognum.gateway_certidao.core.models.FieldTypes;
 import br.com.prognum.gateway_certidao.core.models.State;
 import br.com.prognum.gateway_certidao.core.models.States;
+import br.com.prognum.gateway_certidao.core.utils.DateUtils;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest.Documento;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest.Pedido;
@@ -270,10 +268,9 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 	}
 
 	private long toEpochSeconds(String date) {
-		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			return Instant.ofEpochMilli(fmt.parse(date).getTime()).getEpochSecond();
-		} catch (ParseException e) {
+			return DateUtils.fromScci(date).getEpochSecond();
+		} catch (InvalidDateException e) {
 			throw new InternalServerException(e);
 		}
 	}
