@@ -5,4 +5,6 @@
 5) Implementar o mapeamento para todos os estados
 6) Implementar o mapeamento para todas as cidades
 7) Fazer instalação na Prognum
+8) Revisar os logs.
+9) Modificar o formatador de log para não colocar stack trace nos logs.
 

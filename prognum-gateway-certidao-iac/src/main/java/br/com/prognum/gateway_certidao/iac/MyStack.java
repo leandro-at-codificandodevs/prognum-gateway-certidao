@@ -39,8 +39,7 @@ public class MyStack extends Stack {
 		String system = config.getSystem();
 		String environment = config.getEnvironment();
 		String tenantId = config.getTenantId();
-		
-		String logLevel = "DEBUG";
+		String logLevel = config.getLogLevel();
 
 		Tags.of(this).add("Environment", environment);
 		Tags.of(this).add("System", system);

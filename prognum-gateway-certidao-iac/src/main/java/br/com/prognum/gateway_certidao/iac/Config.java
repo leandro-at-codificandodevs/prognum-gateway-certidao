@@ -9,6 +9,7 @@ public class Config {
 	private String environment;
 	private String system;
 	private String tenantId;
+	private String logLevel;
 	private String docketApiAuthUrl;
 	private String docketApiCreatePedidoUrl;
 	private String docketApiGetPedidoUrl;
@@ -28,23 +29,25 @@ public class Config {
 
 		String system = (String) envConfig.get("system");
 		String tenantId = (String) envConfig.get("tenantId");
+		String logLevel = (String) envConfig.get("logLevel");
 		String docketApiAuthUrl = (String) envConfig.get("docketApiAuthUrl");
 		String docketApiCreatePedidoUrl = (String) envConfig.get("docketApiCreatePedidoUrl");
 		String docketApiGetPedidoUrl = (String) envConfig.get("docketApiGetPedidoUrl");
 		String docketApiDownloadDocumentoUrl = (String) envConfig.get("docketApiDownloadDocumentoUrl");
 
-		Config config = new Config(environment, system, tenantId, docketApiAuthUrl, docketApiCreatePedidoUrl,
+		Config config = new Config(environment, system, tenantId, logLevel, docketApiAuthUrl, docketApiCreatePedidoUrl,
 				docketApiGetPedidoUrl, docketApiDownloadDocumentoUrl);
 
 		return config;
 	}
 
-	public Config(String environment, String system, String tenantId, String docketApiAuthUrl,
+	public Config(String environment, String system, String tenantId, String logLevel, String docketApiAuthUrl,
 			String docketApiCreatePedidoUrl, String docketApiGetPedidoUrl, String docketApiDownloadDocumentoUrl) {
 		super();
 		this.environment = environment;
 		this.system = system;
 		this.tenantId = tenantId;
+		this.logLevel = logLevel;
 		this.docketApiAuthUrl = docketApiAuthUrl;
 		this.docketApiCreatePedidoUrl = docketApiCreatePedidoUrl;
 		this.docketApiGetPedidoUrl = docketApiGetPedidoUrl;
@@ -61,6 +64,10 @@ public class Config {
 
 	public String getTenantId() {
 		return tenantId;
+	}
+
+	public String getLogLevel() {
+		return logLevel;
 	}
 
 	public String getDocketApiAuthUrl() {
@@ -80,17 +87,9 @@ public class Config {
 	}
 
 	@Override
-	public String toString() {
-		return "Config [environment=" + environment + ", system=" + system + ", tenantId=" + tenantId
-				+ ", docketApiAuthUrl=" + docketApiAuthUrl + ", docketApiCreatePedidoUrl=" + docketApiCreatePedidoUrl
-				+ ", docketApiGetPedidoUrl=" + docketApiGetPedidoUrl + ", docketApiDownloadDocumentoUrl="
-				+ docketApiDownloadDocumentoUrl + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		return Objects.hash(docketApiAuthUrl, docketApiCreatePedidoUrl, docketApiDownloadDocumentoUrl,
-				docketApiGetPedidoUrl, environment, system, tenantId);
+				docketApiGetPedidoUrl, environment, logLevel, system, tenantId);
 	}
 
 	@Override
@@ -106,7 +105,8 @@ public class Config {
 				&& Objects.equals(docketApiCreatePedidoUrl, other.docketApiCreatePedidoUrl)
 				&& Objects.equals(docketApiDownloadDocumentoUrl, other.docketApiDownloadDocumentoUrl)
 				&& Objects.equals(docketApiGetPedidoUrl, other.docketApiGetPedidoUrl)
-				&& Objects.equals(environment, other.environment) && Objects.equals(system, other.system)
-				&& Objects.equals(tenantId, other.tenantId);
+				&& Objects.equals(environment, other.environment) && Objects.equals(logLevel, other.logLevel)
+				&& Objects.equals(system, other.system) && Objects.equals(tenantId, other.tenantId);
 	}
+
 }
