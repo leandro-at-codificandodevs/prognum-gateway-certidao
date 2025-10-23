@@ -82,6 +82,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 	@Override
 	public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
+		logger.info("Trantando evento {} {}", event, context);
 		try {
 			CreateDocumentGroupInput input = apiGatewayService.parse(CreateDocumentGroupInput.class, event);
 
@@ -116,13 +117,16 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 			output.setId(documentGroupId);
 			output.setStatus(DocumentStatus.PREPARING);
 
-			return apiGatewayService.build2XXResponse(HttpStatusCode.CREATED, output);
-
+			APIGatewayV2HTTPResponse response = apiGatewayService.build2XXResponse(HttpStatusCode.CREATED, output);
+			logger.info("Evento tratado {}", response);
+			return response;
 		} catch (InvalidDocumentGroupRequestException | DocumentTypeNotFoundException | UnknownFieldException
 				| MissingFieldException | FromJsonException | StateNotFoundException | CityNotFoundException
 				| InvalidDateException e) {
 			logger.error("Erro ao tentar criar grupo de documentos", e);
-			return apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
+			APIGatewayV2HTTPResponse response = apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
+			logger.info("Evento tratado {}", response);
+			return response;
 		}
 	}
 

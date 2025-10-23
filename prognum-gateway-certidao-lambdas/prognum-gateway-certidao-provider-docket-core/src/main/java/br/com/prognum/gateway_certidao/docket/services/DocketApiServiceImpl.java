@@ -25,8 +25,6 @@ public class DocketApiServiceImpl implements DocketApiService {
 	private String docketApiDownloadDocumentoUrl;
 	private JsonService jsonService;
 	private HttpClient httpClient;
-	
-	private static final Logger logger = LoggerFactory.getLogger(DocketApiServiceImpl.class);
 
 	public DocketApiServiceImpl(
 		HttpClient httpClient,
@@ -103,9 +101,7 @@ public class DocketApiServiceImpl implements DocketApiService {
 
 		return callAndInvalidateTokenIfNeeded(() -> {
 			try {
-				logger.debug("Executando download de arquivo {}", request);
 				HttpResponse<byte[]> response = httpClient.send(request, BodyHandlers.ofByteArray());
-				logger.debug("Download de arquivo executado {}", response);
 
 				if (response.statusCode() != 200) {
 					String message = String.format("Erro ao fazer download de arquivo: HTTP %s - %s",

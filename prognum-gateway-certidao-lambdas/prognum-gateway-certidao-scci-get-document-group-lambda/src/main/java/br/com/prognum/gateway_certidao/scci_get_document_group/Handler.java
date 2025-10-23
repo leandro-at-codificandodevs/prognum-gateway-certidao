@@ -54,6 +54,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 	@Override
 	public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
+		logger.info("Trantando evento {} {}", event, context);
 		try {
 			String documentGroupId = apiGatewayService.getPathParameter(event, "id");
 			DocumentGroup documentGroup = documentGroupService.getDocumentGroupById(TENANT_BUCKET_NAME,
@@ -65,13 +66,19 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 					documentGroupService.getDocumentGroupObjectKey(documentGroupId));
 				queueService.sendMessage(DOCKET_GET_DOCUMENT_QUEUE_URL, updateProviderDocumentGroupInput, documentGroupId);
 			}
-			return apiGatewayService.build2XXResponse(HttpStatusCode.OK, documentGroup);
+			APIGatewayV2HTTPResponse response = apiGatewayService.build2XXResponse(HttpStatusCode.OK, documentGroup);
+			logger.info("Evento tratado {}", response);
+			return response;
 		} catch (PathParameterNotFoundException e) {
 			logger.error("Parâmetro de caminho não encontrado", e);
-			return apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
+			APIGatewayV2HTTPResponse response = apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
+			logger.info("Evento tratado {}", response);
+			return response;
 		} catch (DocumentGroupNotFoundException e) {
 			logger.error("Grupo de documento não encontrado", e);
-			return apiGatewayService.build4XXResponse(HttpStatusCode.NOT_FOUND, e);
+			APIGatewayV2HTTPResponse response = apiGatewayService.build4XXResponse(HttpStatusCode.NOT_FOUND, e);
+			logger.info("Evento tratado {}", response);
+			return response;
 		}
 	}
 }

@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import br.com.prognum.gateway_certidao.core.exceptions.FromJsonException;
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
@@ -29,8 +26,6 @@ public class BucketServiceImpl implements BucketService {
 	private JsonService jsonService;
 
 	private S3Presigner s3Presigner;
-
-	private static final Logger logger = LoggerFactory.getLogger(BucketServiceImpl.class);
 
 	public BucketServiceImpl(S3Client s3Client, S3Presigner s3Presigner, JsonService jsonService) {
 		super();
@@ -83,13 +78,10 @@ public class BucketServiceImpl implements BucketService {
 	public boolean verifyIfObjectExists(String bucketName, String objectKey) {
 		try {
 			HeadObjectRequest headRequest = HeadObjectRequest.builder().bucket(bucketName).key(objectKey).build();
-			logger.debug("Verificando se há no bucket o objeto {} {}", bucketName, objectKey);
 			s3Client.headObject(headRequest);
-			logger.debug("Há no bucket o objeto {} {}", bucketName, objectKey);
 			return true;
 		} catch (NoSuchKeyException e) {
 			if (e.statusCode() == 404) {
-				logger.debug("Não há no bucket o objeto {} {}", bucketName, objectKey);
 				return false;
 			} else {
 				throw e;

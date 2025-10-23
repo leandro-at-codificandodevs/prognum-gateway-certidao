@@ -90,6 +90,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
 	@Override
 	public SQSBatchResponse handleRequest(SQSEvent event, Context context) {
+		logger.info("Trantando evento {} {}", event, context);
 		List<SQSMessage> failedMessages = new LinkedList<>();
 		for (SQSMessage message : event.getRecords()) {
 			try {
@@ -117,6 +118,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				failedMessages.add(message);
 			}
 		}
-		return queueService.buildBatchResponse(failedMessages);
+		SQSBatchResponse response = queueService.buildBatchResponse(failedMessages);
+		logger.info("Evento tratado {}", response);
+		return response;
 	}
 }

@@ -19,7 +19,9 @@ public class SecretServiceImpl implements SecretService {
 	@Override
 	public <T> T read(String secretName, Class<T> type) {
 		GetSecretValueRequest request = GetSecretValueRequest.builder().secretId(secretName).build();
+
 		GetSecretValueResponse response = client.getSecretValue(request);
+
 		String secretContent = response.secretString();
 		T secret;
 		try {
