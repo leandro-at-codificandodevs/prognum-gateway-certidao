@@ -81,7 +81,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 		
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
-		BucketService bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
+		this.bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
 		this.docketMetadataService = new DocketMetadataServiceImpl(bucketService);
 
 		SqsClient sqsClient = SqsClient.builder().build();

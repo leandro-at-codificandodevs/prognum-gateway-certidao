@@ -127,7 +127,7 @@ public class MyStack extends Stack {
 						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_DOCUMENTO_URL",
 						config.getDocketApiDownloadDocumentoUrl()))
 				.build();
-		tenantBucket.grantRead(docketProcessDocumentFunction);
+		tenantBucket.grantReadWrite(docketProcessDocumentFunction);
 		docketApiSecret.grantRead(docketProcessDocumentFunction);
 
 		docketProcessDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentQueue).batchSize(10)
