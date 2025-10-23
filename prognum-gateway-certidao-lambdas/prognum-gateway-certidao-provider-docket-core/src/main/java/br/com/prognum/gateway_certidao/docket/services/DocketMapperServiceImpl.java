@@ -177,7 +177,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.ESTADO_FIELD_TYPE_ID);
 		GetEstadosResponse response = docketApiService.getEstados();
 		for (GetEstadosResponse.Estado estado : response.getEstados()) {
-			if  (estado.getSigla().equals(value)) {
+			if  (estado.getUf().equals(value)) {
 				return estado.getId();
 			}
 		}

@@ -6,12 +6,18 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.LinkedList;
+import java.util.List;
 
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
+import br.com.prognum.gateway_certidao.core.models.City;
+import br.com.prognum.gateway_certidao.core.models.State;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
+import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoRequest;
 import br.com.prognum.gateway_certidao.docket.models.CreatePedidoResponse;
+import br.com.prognum.gateway_certidao.docket.models.DocketUser;
 import br.com.prognum.gateway_certidao.docket.models.GetCidadesByEstadoResponse;
 import br.com.prognum.gateway_certidao.docket.models.GetEstadosResponse;
 import br.com.prognum.gateway_certidao.docket.models.GetPedidoStatusResponse;
@@ -27,15 +33,9 @@ public class DocketApiServiceImpl implements DocketApiService {
 	private JsonService jsonService;
 	private HttpClient httpClient;
 
-	public DocketApiServiceImpl(
-		HttpClient httpClient,
-		DocketAuthService docketAuthService,
-		String docketApiCreatePedidoUrl,
-		String docketApiGetPedidoUrl,
-		String docketApiDownloadArquivoUrl,
-		String docketApiGetEstadosUrl,
-		String docketApiGetCidadesByEstadoUrl,
-		JsonService jsonService) {
+	public DocketApiServiceImpl(HttpClient httpClient, DocketAuthService docketAuthService,
+			String docketApiCreatePedidoUrl, String docketApiGetPedidoUrl, String docketApiDownloadArquivoUrl,
+			String docketApiGetEstadosUrl, String docketApiGetCidadesByEstadoUrl, JsonService jsonService) {
 		this.docketApiCreatePedidoUrl = docketApiCreatePedidoUrl;
 		this.docketApiGetPedidoUrl = docketApiGetPedidoUrl;
 		this.docketApiDownloadArquivoUrl = docketApiDownloadArquivoUrl;
@@ -44,18 +44,6 @@ public class DocketApiServiceImpl implements DocketApiService {
 		this.httpClient = httpClient;
 		this.jsonService = jsonService;
 		this.docketAuthService = docketAuthService;
-		
-		try {
-			GetEstadosResponse getEstadosResponse = getEstados();
-			System.out.println(jsonService.toJson(getEstadosResponse.getEstados()));
-			for (GetEstadosResponse.Estado estado : getEstadosResponse.getEstados()) {
-				GetCidadesByEstadoResponse getCidadesByEstadoResponse = getCidadesByEstado(estado.getId());
-				System.out.println(jsonService.toJson(getCidadesByEstadoResponse.getCidades()));
-			}
-		} catch (ToJsonException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -205,5 +193,49 @@ public class DocketApiServiceImpl implements DocketApiService {
 				throw new RuntimeException("Falha ao chamar API Docket", e);
 			}
 		});
+	}
+
+	public static void main(String[] args) throws ToJsonException {
+		String docketApiAuthUrl = "https://sandbox-saas.docket.com.br/api/v2/auth/login";
+		DocketUserService userService = new DocketUserService() {
+
+			@Override
+			public DocketUser getDocketUser() {
+				DocketUser user = new DocketUser();
+				user.setUsername("jaime.vicente");
+				user.setPassword("!ab@2NLhwUp#yM@sVDfE");
+				return user;
+			}
+		};
+		HttpClient httpClient = HttpClient.newBuilder().build();
+		JsonService jsonService = new JsonServiceImpl();
+		DocketAuthService authService = new DocketAuthServiceImpl(docketApiAuthUrl, httpClient, jsonService,
+				userService);
+		String docketApiCreatePedidoUrl = "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos";
+		String docketApiGetPedidoUrl = "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos/{pedidoId}";
+		String docketApiDownloadArquivoUrl = "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}";
+		String docketApiGetEstadosUrl = "https://sandbox-saas.docket.com.br/api/v2/prognum/estados";
+		String docketApiGetCidadesByEstadoUrl = "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades?estadoId={estadoId}";
+		DocketApiService apiService = new DocketApiServiceImpl(httpClient, authService, docketApiCreatePedidoUrl,
+				docketApiGetPedidoUrl, docketApiDownloadArquivoUrl, docketApiGetEstadosUrl,
+				docketApiGetCidadesByEstadoUrl, jsonService);
+		GetEstadosResponse getEstadosResponse = apiService.getEstados();
+		List<GetEstadosResponse.Estado> estados = getEstadosResponse.getEstados();
+		List<State> states = new LinkedList<>();
+		for (GetEstadosResponse.Estado estado : estados) {
+			String estadoId = estado.getId();
+			State state = new State();
+			state.setAcronymn(estado.getUf());
+			state.setCities(new LinkedList<>());
+			GetCidadesByEstadoResponse cidadesByEstadoResponse = apiService.getCidadesByEstado(estadoId);
+			List<GetCidadesByEstadoResponse.Cidade> cidades = cidadesByEstadoResponse.getCidades();
+			for (GetCidadesByEstadoResponse.Cidade cidade : cidades) {
+				City city = new City();
+				city.setName(cidade.getNome());
+				state.getCities().add(city);
+			}
+			states.add(state);
+		}
+		System.out.println(jsonService.toJson(states));
 	}
 }

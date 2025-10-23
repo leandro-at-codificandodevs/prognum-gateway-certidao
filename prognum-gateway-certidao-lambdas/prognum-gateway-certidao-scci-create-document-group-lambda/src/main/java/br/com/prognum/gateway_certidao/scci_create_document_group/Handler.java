@@ -33,6 +33,7 @@ import br.com.prognum.gateway_certidao.core.models.DocumentStatus;
 import br.com.prognum.gateway_certidao.core.models.DocumentType;
 import br.com.prognum.gateway_certidao.core.models.DocumentTypes;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
+import br.com.prognum.gateway_certidao.core.models.States;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayService;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.BucketService;
@@ -43,6 +44,8 @@ import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.QueueService;
 import br.com.prognum.gateway_certidao.core.services.QueueServiceImpl;
+import br.com.prognum.gateway_certidao.core.services.StateService;
+import br.com.prognum.gateway_certidao.core.services.StateServiceImpl;
 import br.com.prognum.gateway_certidao.core.utils.DateUtils;
 import software.amazon.awssdk.http.HttpStatusCode;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -55,6 +58,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private ApiGatewayService apiGatewayService;
 	private DocumentGroupService documentGroupService;
 	private DocumentTypes documentTypes;
+	private States states;
 
 	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
 	private static final String DOCKET_CREATE_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_CREATE_DOCUMENT_QUEUE_URL");
@@ -75,6 +79,9 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		this.queueService = new QueueServiceImpl(sqsClient, jsonService);
 
 		this.apiGatewayService = new ApiGatewayServiceImpl(jsonService);
+		
+		StateService stateService = new StateServiceImpl();
+		this.states = stateService.getStates();
 	}
 
 	@Override
@@ -141,6 +148,9 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		}
 
 		Map<String, String> inputFields = input.getFields();
+		
+		validateStateAndCity(input);
+		
 		Set<String> requestFieldIds = inputFields.keySet();
 		Set<String> allAcceptedFieldIds = new HashSet<>();
 
@@ -184,5 +194,11 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 				throw new MissingFieldException(missingFields.get(0));
 			}
 		}
+	}
+
+	private void validateStateAndCity(CreateDocumentGroupInput input) {
+		String stateAcronymn = input.getFields().get("estado");
+		String cityName = input.getFields().get("cidade");
+		states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
 	}
 }

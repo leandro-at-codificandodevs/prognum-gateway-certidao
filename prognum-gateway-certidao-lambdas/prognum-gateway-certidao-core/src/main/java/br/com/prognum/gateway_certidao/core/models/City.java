@@ -1,0 +1,8 @@
+package br.com.prognum.gateway_certidao.core.models;
+
+import lombok.Data;
+
+@Data
+public class City {
+	private String name;
+}

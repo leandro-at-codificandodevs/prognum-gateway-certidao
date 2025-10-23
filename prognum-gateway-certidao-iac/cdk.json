@@ -15,18 +15,7 @@
       "docketApiGetPedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos/{pedidoId}",
       "docketApiDownloadArquivoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
       "docketApiGetEstadosUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/estados",
-      "docketApiGetCidadesByEstadoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades?{estadoId}"
-    },
-    "LOCAL": {
-      "system": "prognum",
-      "tenantId": "inter",
-      "logLevel": "DEBUG",
-      "docketApiAuthUrl": "https://sandbox-saas.docket.com.br/api/v2/auth/login",
-      "docketApiCreatePedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos",
-      "docketApiGetPedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos/{pedidoId}",
-      "docketApiDownloadArquivoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
-      "docketApiGetEstadosUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/estados",
-      "docketApiGetCidadesByEstadoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades?{estadoId}"
+      "docketApiGetCidadesByEstadoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades??estadoId={estadoId}"
     },
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
