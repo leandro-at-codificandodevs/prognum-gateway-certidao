@@ -6,7 +6,6 @@
   },
  
   "context": {
-    "environment": "LOCAL",
     "DEV": {
       "system": "prognum",
       "tenantId": "inter",
