@@ -51,6 +51,7 @@ import software.amazon.awssdk.http.HttpStatusCode;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.utils.StringUtils;
 
 public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
@@ -197,8 +198,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	}
 
 	private void validateStateAndCity(CreateDocumentGroupInput input) {
-		String stateAcronymn = input.getFields().get("estado");
-		String cityName = input.getFields().get("cidade");
+		String stateAcronymn = StringUtils.lowerCase(input.getFields().get("estado"));
+		String cityName = StringUtils.lowerCase(input.getFields().get("cidade"));
 		states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
 	}
 }
