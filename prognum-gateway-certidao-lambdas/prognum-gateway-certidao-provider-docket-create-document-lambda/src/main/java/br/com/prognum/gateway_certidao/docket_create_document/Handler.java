@@ -36,6 +36,8 @@ import br.com.prognum.gateway_certidao.docket.services.DocketMapperServiceImpl;
 import br.com.prognum.gateway_certidao.docket.services.DocketMetadataService;
 import br.com.prognum.gateway_certidao.docket.services.DocketMetadataServiceImpl;
 import br.com.prognum.gateway_certidao.docket.services.DocketUserService;
+import br.com.prognum.gateway_certidao.docket.services.DocumentoMetadataService;
+import br.com.prognum.gateway_certidao.docket.services.DocumentoMetadataServiceImpl;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
@@ -76,7 +78,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				DOCKET_API_GET_PEDIDO_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL, DOCKET_API_GET_ESTADOS_URL,
 				DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
 
-		this.docketMapperService = new DocketMapperServiceImpl(docketApiService);
+		DocumentoMetadataService documentoMetadataService = new DocumentoMetadataServiceImpl();
+		this.docketMapperService = new DocketMapperServiceImpl(docketApiService, documentoMetadataService);
 
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
