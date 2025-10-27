@@ -9,7 +9,6 @@ import lombok.Value;
 public class DocumentType {
 	private final String id;
 	private final String name;
-	private final String description;
 	private final List<FieldType> fieldTypes;
 
 	public FieldType getFieldById(String fieldTypeId) throws FieldTypeNotFoundException {
