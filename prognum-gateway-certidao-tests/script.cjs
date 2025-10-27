@@ -7,7 +7,7 @@ const {
   getXApiKey,
 } = require("./urls.cjs");
 
-const environment = "local";
+const environment = "dev";
 
 const main = async () => {
   const createDocumentGroupUrl = getCreateDocumentGroupUrl(environment);
@@ -31,17 +31,17 @@ const main = async () => {
     },
   };
 
-//   const createDocumentGroupRequest = {
-//     url: createDocumentGroupUrl,
-//     xApiKey,
-//     payload,
-//   };
-//   const createDocumentGroupResponse = await createDocumentGroup(createDocumentGroupRequest);
-//   console.log(colorize(JSON.stringify(createDocumentGroupResponse, null, 2)));
+  const createDocumentGroupRequest = {
+    url: createDocumentGroupUrl,
+    xApiKey,
+    payload,
+  };
+  const createDocumentGroupResponse = await createDocumentGroup(createDocumentGroupRequest);
+  console.log(colorize(JSON.stringify(createDocumentGroupResponse, null, 2)));
 
-//   const id = createDocumentGroupResponse.payload.id;
+  const id = createDocumentGroupResponse.payload.id;
 
-  const id = "b04822ce-ab72-45f9-891b-c871d9129de8";
+  // const id = "b04822ce-ab72-45f9-891b-c871d9129de8";
 
   const getDocumentGroupByIdUrl = getGetDocumentGroupByIdUrl(environment, id);
   const getDocumentGroupByIdRequest = {

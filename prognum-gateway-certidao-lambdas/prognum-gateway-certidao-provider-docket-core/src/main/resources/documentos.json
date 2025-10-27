@@ -1,36 +1,68 @@
 {
-  "documentos": [
-    {
-      "documentKitId": "e72ac096-6c91-45f1-990f-923b9fe32dcd",
-      "produtoId": "02a3f467-23d7-4859-9b58-adc4aa54fc47",
-      "kitId": "b016d923-ee0e-4274-af84-5e36183a1b03",
-      "kitNome": "DOCUMENTOS DA JUSTIÇA FEDERAL",
-      "titularTipo": "PESSOA_FISICA",
-      "documentoNome": "Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)"
-    },
-    {
-      "documentKitId": "fda139a8-6592-4a1c-9f36-da3204a818fb",
-      "produtoId": "e3acc2fb-5913-4b56-bdf8-d7f0b01212b3",
-      "kitId": "b016d923-ee0e-4274-af84-5e36183a1b03",
-      "kitNome": "DOCUMENTOS DA JUSTIÇA FEDERAL",
-      "titularTipo": "PESSOA_FISICA",
-      "documentoNome": "Certidão De Distribuição De Ações Cíveis - Justiça Federal (2° Instância)"
-    },
-    {
-      "documentKitId": "6f297889-c06c-4cd0-a498-dc48ecde9105",
-      "produtoId": "ad83db22-3e7a-4819-8cf0-9ee332b0406f",
-      "kitId": "b016d923-ee0e-4274-af84-5e36183a1b03",
-      "kitNome": "DOCUMENTOS DA JUSTIÇA FEDERAL",
-      "titularTipo": "PESSOA_FISICA",
-      "documentoNome": "Certidão De Distribuição De Ações Criminais - Justiça Federal (1° Instância)"
-    },
-    {
-      "documentKitId": "695c8a27-8e00-435e-9a50-d35a32507a1a",
-      "produtoId": "ecd6bba1-bddc-46df-901e-94f5dd5f15ab",
-      "kitId": "b016d923-ee0e-4274-af84-5e36183a1b03",
-      "kitNome": "DOCUMENTOS DA JUSTIÇA FEDERAL",
-      "titularTipo": "PESSOA_FISICA",
-      "documentoNome": "Certidão De Distribuição De Ações Criminais - Justiça Federal (2° Instância)"
-    }
-  ]
+	"documentos":[
+		{
+			"documentKitId":"e72ac096-6c91-45f1-990f-923b9fe32dcd",
+			"produtoId":"02a3f467-23d7-4859-9b58-adc4aa54fc47",
+			"kitId":"b016d923-ee0e-4274-af84-5e36183a1b03",
+			"kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
+			"titularTipo":"PESSOA_FISICA",
+			"documentoNome":"Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)"
+		},
+		{
+			"documentKitId":"e72ac096-6c91-45f1-990f-923b9fe32dcd",
+			"produtoId":"02a3f467-23d7-4859-9b58-adc4aa54fc47",
+			"kitId":"b016d923-ee0e-4274-af84-5e36183a1b03",
+			"kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
+			"titularTipo":"PESSOA_JURIDICA",
+			"documentoNome":"Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)"
+		},
+		{
+			"documentKitId":"6f297889-c06c-4cd0-a498-dc48ecde9105",
+			"produtoId":"ad83db22-3e7a-4819-8cf0-9ee332b0406f",
+			"kitId":"b016d923-ee0e-4274-af84-5e36183a1b03",
+			"kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
+			"titularTipo":"PESSOA_FISICA",
+			"documentoNome":"Certidão De Distribuição De Ações Criminais - Justiça Federal (1° Instância)"
+		},
+		{
+			"documentKitId":"6f297889-c06c-4cd0-a498-dc48ecde9105",
+			"produtoId":"ad83db22-3e7a-4819-8cf0-9ee332b0406f",
+			"kitId":"b016d923-ee0e-4274-af84-5e36183a1b03",
+			"kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
+			"titularTipo":"PESSOA_JURIDICA",
+			"documentoNome":"Certidão De Distribuição De Ações Criminais - Justiça Federal (1° Instância)"
+		},
+		{
+			"documentKitId":"de65a0e0-9e5a-4b5a-b0b9-5372209c0edc",
+			"produtoId":"01c958d1-c786-6c7b-0c02-092bdd95aadc",
+			"kitId":"ef03f797-dc43-411f-b339-1fa49f1e7dbe",
+			"kitNome":"GOVERNO ESTADUAL",
+			"titularTipo":"PESSOA_FISICA",
+			"documentoNome":"Certidão de Regularidade Fiscal Estadual - CND Estadual"
+		},
+        {
+            "documentKitId": "e606fe9f-ea02-4436-9216-b766a2000129",
+            "produtoId": "050bf88b-258b-7b6c-dbbb-f046d1188786",
+            "kitId": "4ded5a61-abca-4cda-81c2-7347b70defb1",
+            "kitNome": "DOCUMENTOS DA JUSTIÇA ESTADUAL",
+            "titularTipo": "PESSOA_FISICA",
+            "documentoNome": "Certidão de Distribuição de Ações Cíveis - Justiça Estadual (1° instância)",
+        },
+        {
+            "documentKitId": "e606fe9f-ea02-4436-9216-b766a2000129",
+            "produtoId": "050bf88b-258b-7b6c-dbbb-f046d1188786",
+            "kitId": "4ded5a61-abca-4cda-81c2-7347b70defb1",
+            "kitNome": "DOCUMENTOS DA JUSTIÇA ESTADUAL",
+            "titularTipo": "PESSOA_FISICA",
+            "documentoNome": "Certidão de Distribuição de Ações Cíveis - Justiça Estadual (1° instância)",
+        },
+        {
+            "documentKitId": "e606fe9f-ea02-4436-9216-b766a2000129",
+            "produtoId": "050bf88b-258b-7b6c-dbbb-f046d1188786",
+            "kitId": "4ded5a61-abca-4cda-81c2-7347b70defb1",
+            "kitNome": "DOCUMENTOS DA JUSTIÇA ESTADUAL",
+            "titularTipo": "PESSOA_JURIDICA",
+            "documentoNome": "Certidão de Distribuição de Ações Cíveis - Justiça Estadual (1° instância)",
+        }
+	]
 }

@@ -1,7 +1,7 @@
 const getCreateDocumentGroupUrl = (environment) => {
     switch (environment) {
-        case "local":
-            return "https://il3c1fp9di.execute-api.us-east-2.amazonaws.com/prod/document-groups";
+        case "dev":
+            return "https://gateway-certidao-dev.prognum.com.br/document-groups";
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }
@@ -9,8 +9,8 @@ const getCreateDocumentGroupUrl = (environment) => {
 
 const getGetDocumentGroupByIdUrl = (environment, id) => {
     switch (environment) {
-        case "local":
-            return `https://il3c1fp9di.execute-api.us-east-2.amazonaws.com/prod/document-groups/${id}`;
+        case "dev":
+            return `https://gateway-certidao-dev.prognum.com.br/document-groups/${id}`;
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }
@@ -18,8 +18,8 @@ const getGetDocumentGroupByIdUrl = (environment, id) => {
 
 const getXApiKey = (environment) => {
     switch (environment) {
-        case "local":
-            return "h7uIo5ziGC5uOSEwTExKM5gc6lrefulkom61Bu10";
+        case "dev":
+            return "54ADo9WMRM6QeO6FJ804YxbuZ8RoRrO1DkkeqRT0";
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }
