@@ -42,7 +42,6 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.sqs.SqsClient;
-import software.amazon.lambda.powertools.logging.Logging;
 
 public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
@@ -91,7 +90,6 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 		this.queueService = new QueueServiceImpl(sqsClient, jsonService);
 	}
 
-	@Logging
 	@Override
 	public SQSBatchResponse handleRequest(SQSEvent event, Context context) {
 		logger.info("Trantando evento {} {}", event, context);

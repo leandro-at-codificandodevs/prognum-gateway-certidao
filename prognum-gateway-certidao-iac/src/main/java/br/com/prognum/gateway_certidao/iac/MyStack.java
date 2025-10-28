@@ -44,8 +44,6 @@ public class MyStack extends Stack {
 		Tags.of(this).add("Environment", environment);
 		Tags.of(this).add("System", system);
 
-		String serviceName = String.format("%s-certidao-%s", system, environment);
-
 		String docketCreateDocumentQueueId = String.format("%s-certidao-%s-provider-docket-create-document-queue.fifo",
 				system, environment);
 		Queue docketCreateDocumentQueue = Queue.Builder.create(this, docketCreateDocumentQueueId)
@@ -75,8 +73,7 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-scci-create-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.scci_create_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(Map.of("POWERTOOLS_LOG_LEVEL", logLevel, "POWERTOOLS_SERVICE_NAME", serviceName,
-						"POWERTOOLS_LOGGER_LOG_EVENT", Boolean.toString(true), "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
 						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
 				.build();
@@ -90,8 +87,7 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-scci-get-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.scci_get_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(Map.of("POWERTOOLS_LOG_LEVEL", logLevel, "POWERTOOLS_SERVICE_NAME", serviceName,
-						"POWERTOOLS_LOGGER_LOG_EVENT", Boolean.toString(true), "DOCKET_GET_DOCUMENT_QUEUE_URL",
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
 						docketGetDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
 				.build();
@@ -105,8 +101,7 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-create-document-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_create_document.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(Map.of("POWERTOOLS_LOG_LEVEL", logLevel, "POWERTOOLS_SERVICE_NAME", serviceName,
-						"POWERTOOLS_LOGGER_LOG_EVENT", Boolean.toString(true), "DOCKET_API_SECRET_NAME", docketApiSecretId,
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
 						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
 						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
 						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_ARQUIVO_URL",
@@ -127,8 +122,7 @@ public class MyStack extends Stack {
 				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-process-document-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_process_document.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
-				.environment(Map.of("POWERTOOLS_LOG_LEVEL", logLevel, "POWERTOOLS_SERVICE_NAME", serviceName,
-						"POWERTOOLS_LOGGER_LOG_EVENT", Boolean.toString(true), "DOCKET_API_SECRET_NAME", docketApiSecretId,
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
 						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
 						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
 						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_ARQUIVO_URL",

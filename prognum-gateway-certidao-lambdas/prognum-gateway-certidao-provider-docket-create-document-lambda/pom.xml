@@ -58,17 +58,6 @@
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <dependency>
-            <groupId>software.amazon.lambda</groupId>
-            <artifactId>powertools-logging</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.lambda</groupId>
-            <artifactId>powertools-logging-logback</artifactId>
-            <scope>runtime</scope>
-        </dependency>
     </dependencies>
 
     <build>
