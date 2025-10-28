@@ -2,8 +2,8 @@
     <import class="ch.qos.logback.core.ConsoleAppender" />
     <import class="ch.qos.logback.classic.encoder.JsonEncoder" />
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.JsonEncoder" />
+    <appender name="stdout" class="ConsoleAppender">
+        <encoder class="JsonEncoder" />
     </appender>
     <root level="debug">
         <appender-ref ref="stdout" />
