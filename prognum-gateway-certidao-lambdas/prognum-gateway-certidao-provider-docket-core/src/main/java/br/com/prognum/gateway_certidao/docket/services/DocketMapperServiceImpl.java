@@ -77,30 +77,44 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			FieldType fieldType = fieldTypes.getFieldTypeById(key);
 
 			switch (fieldType.getId()) {
+			case FieldTypes.ESTADO_FIELD_TYPE_ID:
+				fieldsToRequest.put("estado", getEstadoId(createProviderDocumentGroupInput));
+				break;
+			case FieldTypes.CIDADE_FIELD_TYPE_ID:
+				fieldsToRequest.put("cidade", getCidadeId(createProviderDocumentGroupInput));
+				break;
+				
+			case FieldTypes.RG_FIELD_TYPE_ID:
+				fieldsToRequest.put("rg", value);
+				break;
 			case FieldTypes.CPF_FIELD_TYPE_ID:
 				fieldsToRequest.put("cpf", value);
 				break;
-			case FieldTypes.ESTADO_FIELD_TYPE_ID: {
-				value = getEstadoId(createProviderDocumentGroupInput);
-				fieldsToRequest.put("estado", value);
-				break;
-			}
-			case FieldTypes.CIDADE_FIELD_TYPE_ID: {
-				value = getCidadeId(createProviderDocumentGroupInput);
-				fieldsToRequest.put("cidade", value);
-				break;
-			}
-			case FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID:
-				long dataNascimento = toEpochSeconds(value);
-				fieldsToRequest.put("dataNascimento", dataNascimento);
+			case FieldTypes.CEI_FIELD_TYPE_ID:
+				fieldsToRequest.put("cei", value);
 				break;
 			case FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID:
 				fieldsToRequest.put("nomeCompleto", value);
 				break;
+			case FieldTypes.NOME_MAE_FIELD_TYPE_ID:
+				fieldsToRequest.put("nomeMae", value);
+				break;
+			case FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID:
+				fieldsToRequest.put("dataNascimento", toEpochSeconds(value));
+				break;
+
+			case FieldTypes.CNPJ_FIELD_TYPE_ID:
+				fieldsToRequest.put("cnpj", value);
+				break;
+			case FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID:
+				fieldsToRequest.put("razaoSocial", value);
+				break;
+
 			default:
 				throw new IllegalStateException(String.format("O tipo %s não foi tratado", fieldType.getId()));
 			}
 		}
+
 		CreatePedidoRequest.Pedido pedido = new Pedido();
 		pedido.setCentroCustoId(CENTRO_CUSTO_ID);
 		pedido.setGrupoId(GRUPO_ID);

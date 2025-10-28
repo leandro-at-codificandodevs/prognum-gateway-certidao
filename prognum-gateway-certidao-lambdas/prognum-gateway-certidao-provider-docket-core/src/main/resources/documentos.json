@@ -7,7 +7,7 @@
          "kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
          "titularTipo":"PESSOA_FISICA",
          "documentoNome":"Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)",
-         "documentTypeId": "cert-acoes-civis-justica-federal-1a-instancia-pf"
+         "documentTypeId":"cert-acoes-civis-justica-federal-1a-instancia-pf"
       },
       {
          "documentKitId":"e72ac096-6c91-45f1-990f-923b9fe32dcd",
@@ -16,7 +16,7 @@
          "kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
          "titularTipo":"PESSOA_JURIDICA",
          "documentoNome":"Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)",
-         "documentTypeId": "cert-acoes-civis-justica-federal-1a-instancia-pj"
+         "documentTypeId":"cert-acoes-civis-justica-federal-1a-instancia-pj"
       },
       {
          "documentKitId":"6f297889-c06c-4cd0-a498-dc48ecde9105",
@@ -25,34 +25,106 @@
          "kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
          "titularTipo":"PESSOA_FISICA",
          "documentoNome":"Certidão De Distribuição De Ações Criminais - Justiça Federal (1° Instância)",
-         "documentTypeId": "cert-acoes-criminais-justica-federal-1a-instancia-pf"
+         "documentTypeId":"cert-acoes-criminais-justica-federal-1a-instancia-pf"
       },
       {
-         "documentKitId":"6f297889-c06c-4cd0-a498-dc48ecde9105",
-         "produtoId":"ad83db22-3e7a-4819-8cf0-9ee332b0406f",
-         "kitId":"b016d923-ee0e-4274-af84-5e36183a1b03",
-         "kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
+         "documentKitId":"34745216-fbcb-401e-a63c-0ebb62058ed7",
+         "produtoId":"f5505654-e0dd-3ffd-5fc7-5dbd13f58422",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
          "titularTipo":"PESSOA_JURIDICA",
-         "documentoNome":"Certidão De Distribuição De Ações Criminais - Justiça Federal (1° Instância)",
-         "documentTypeId": "cert-acoes-criminais-justica-federal-1a-instancia-pj"
+         "documentoNome":"Certidão de Distribuição de Ações Criminais - Justiça Estadual (1° instância)",
+         "documentTypeId":"cert-acoes-criminais-justica-estadual-1a-instancia-pj"
       },
       {
-        "documentKitId": "6434a5bd-c5a8-4f51-8870-d7484529b53c",
-        "produtoId": "df68df31-5b57-8e48-44c4-a4344a757b69",
-        "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
-        "kitNome": "DOCUMENTOS TRABALHISTAS",
-        "titularTipo": "PESSOA_FISICA",
-        "documentoNome": "Certidão Negativa de Débitos Trabalhistas - CNDT",
-        "documentTypeId": "cert-negativa-debitos-trabalhistas-pf"
+         "documentKitId":"429cf046-ad03-4024-b077-61578cf77db0",
+         "produtoId":"c6ba934c-b824-8b83-839a-eb1a341d97d3",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidões De Inventários, Arrolamentos E Testamentos - Judicial",
+         "documentTypeId":"cert-inventarios-arrolamentos-testamentos-judicial-pf"
       },
       {
-        "documentKitId": "6434a5bd-c5a8-4f51-8870-d7484529b53c",
-        "produtoId": "df68df31-5b57-8e48-44c4-a4344a757b69",
-        "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
-        "kitNome": "DOCUMENTOS TRABALHISTAS",
-        "titularTipo": "PESSOA_JURIDICA",
-        "documentoNome": "Certidão Negativa de Débitos Trabalhistas - CNDT",
-        "documentTypeId": "cert-negativa-debitos-trabalhistas-pj"
+         "documentKitId":"429cf046-ad03-4024-b077-61578cf77db0",
+         "produtoId":"c6ba934c-b824-8b83-839a-eb1a341d97d3",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidões De Inventários, Arrolamentos E Testamentos - Judicial",
+         "documentTypeId":"cert-inventarios-arrolamentos-testamentos-judicial-pj"
       },
+      {
+         "documentKitId":"87327576-277a-4b41-8e41-d5068c089dfc",
+         "produtoId":"dbef5ae9-846c-21ed-cb03-6d56c13c3b6f",
+         "kitId":"50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+         "kitNome":"DOCUMENTOS TRABALHISTAS",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância)",
+         "documentTypeId":"cert-acoes-trabalhias-tribunal-regional-trabalho-1a-instancia-pf"
+      },
+      {
+         "documentKitId":"87327576-277a-4b41-8e41-d5068c089dfc",
+         "produtoId":"dbef5ae9-846c-21ed-cb03-6d56c13c3b6f",
+         "kitId":"50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+         "kitNome":"DOCUMENTOS TRABALHISTAS",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância)",
+         "documentTypeId":"cert-acoes-trabalhias-tribunal-regional-trabalho-1a-instancia-pj"
+      },
+      {
+         "documentKitId":"de65a0e0-9e5a-4b5a-b0b9-5372209c0edc",
+         "produtoId":"01c958d1-c786-6c7b-0c02-092bdd95aadc",
+         "kitId":"ef03f797-dc43-411f-b339-1fa49f1e7dbe",
+         "kitNome":"GOVERNO ESTADUAL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão de Regularidade Fiscal Estadual - CND Estadual",
+         "documentTypeId":"cert-regularidade-fiscal-estadual-pf"
+      },
+      {
+         "documentKitId":"de65a0e0-9e5a-4b5a-b0b9-5372209c0edc",
+         "produtoId":"01c958d1-c786-6c7b-0c02-092bdd95aadc",
+         "kitId":"ef03f797-dc43-411f-b339-1fa49f1e7dbe",
+         "kitNome":"GOVERNO ESTADUAL",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão de Regularidade Fiscal Estadual - CND Estadual",
+         "documentTypeId":"cert-regularidade-fiscal-estadual-pj"
+      },
+      {
+         "documentKitId":"9b6af1fe-339e-4205-8bb1-1a25f132f33f",
+         "produtoId":"d1b59ea1-9800-b1e4-2bbe-5072daa69d4a",
+         "kitId":"ef03f797-dc43-411f-b339-1fa49f1e7dbe",
+         "kitNome":"GOVERNO ESTADUAL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Inscrição Estadual do Produtor Rural - SINTEGRA",
+         "documentTypeId":"cert-inscricao-estadual-produtor-rural-pf"
+      },
+      {
+         "documentKitId":"9b6af1fe-339e-4205-8bb1-1a25f132f33f",
+         "produtoId":"d1b59ea1-9800-b1e4-2bbe-5072daa69d4a",
+         "kitId":"ef03f797-dc43-411f-b339-1fa49f1e7dbe",
+         "kitNome":"GOVERNO ESTADUAL",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Inscrição Estadual do Produtor Rural - SINTEGRA",
+         "documentTypeId":"cert-inscricao-estadual-produtor-rural-pf"
+      },
+      {
+          "documentKitId": "ef9d455e-f708-46d5-8db9-f94c0e9b5a26",
+          "produtoId": "d42e5ee2-1905-e144-be63-0b8498fb8d71",
+          "kitId": "f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
+          "kitNome": "PREFEITURAS",
+          "titularTipo": "PESSOA_FISICA",
+          "documentoNome": "Certidão de Regularidade Fiscal Municipal - CND Municipal",
+          "documentTypeId": "cert-regularidade-fiscal-municipal-pf"
+      },
+      {
+          "documentKitId": "ef9d455e-f708-46d5-8db9-f94c0e9b5a26",
+          "produtoId": "d42e5ee2-1905-e144-be63-0b8498fb8d71",
+          "kitId": "f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
+          "kitNome": "PREFEITURAS",
+          "titularTipo": "PESSOA_JURIDICA",
+          "documentoNome": "Certidão de Regularidade Fiscal Municipal - CND Municipal",
+          "documentTypeId": "cert-regularidade-fiscal-municipal-pj"
+      }
    ]
 }

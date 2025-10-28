@@ -1,7 +1,10 @@
+//const baseUrl = "https://5som14qz8b.execute-api.sa-east-1.amazonaws.com/prod";
+const baseUrl = "https://gateway-certidao-dev.prognum.com.br";
+
 const getCreateDocumentGroupUrl = (environment) => {
     switch (environment) {
         case "dev":
-            return "https://gateway-certidao-dev.prognum.com.br/document-groups";
+            return `${baseUrl}/document-groups`;
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }
@@ -10,7 +13,7 @@ const getCreateDocumentGroupUrl = (environment) => {
 const getGetDocumentGroupByIdUrl = (environment, id) => {
     switch (environment) {
         case "dev":
-            return `https://gateway-certidao-dev.prognum.com.br/document-groups/${id}`;
+            return `${baseUrl}/document-groups/${id}`;
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }
@@ -19,7 +22,7 @@ const getGetDocumentGroupByIdUrl = (environment, id) => {
 const getGetDocumentTypesUrl = (environment, id) => {
     switch (environment) {
         case "dev":
-            return "https://gateway-certidao-dev.prognum.com.br/document-types";
+            return `${baseUrl}/document-types`;
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }
