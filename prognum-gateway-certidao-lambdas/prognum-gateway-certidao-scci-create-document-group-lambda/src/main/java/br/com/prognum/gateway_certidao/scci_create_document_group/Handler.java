@@ -52,6 +52,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.utils.StringUtils;
+import software.amazon.lambda.powertools.logging.Logging;
 
 public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
@@ -85,6 +86,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		this.states = stateService.getStates();
 	}
 
+	@Logging
 	@Override
 	public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
 		logger.info("Trantando evento {} {}", event, context);
