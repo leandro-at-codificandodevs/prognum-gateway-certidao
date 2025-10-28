@@ -183,7 +183,7 @@ public class MyStack extends Stack {
 		ICertificate certificate = Certificate.fromCertificateArn(this, certificateId, certificateArn);
 		String apiDomainId = String.format("%s-certidao-%s-api", system, environment).toLowerCase();
 		DomainName apiDomainName = api.addDomainName(apiDomainId,
-				DomainNameOptions.builder().domainName(apiDomainId).certificate(certificate).build());
+				DomainNameOptions.builder().domainName(apiDomainId).certificate(certificate).basePath("prod").build());
 		apiDomainName.addApiMapping(api.getDeploymentStage());
 	}
 
