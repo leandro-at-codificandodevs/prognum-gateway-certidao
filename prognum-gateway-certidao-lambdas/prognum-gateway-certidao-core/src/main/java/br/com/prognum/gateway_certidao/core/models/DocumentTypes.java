@@ -7,9 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
@@ -17,18 +14,12 @@ import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import software.amazon.awssdk.utils.StringUtils;
 
 public class DocumentTypes {
-	
-	private static final Logger logger = LoggerFactory.getLogger(DocumentTypes.class);
-
-	public static final String DOCUMENT_TYPE_ID_1 = "cert-acoes-civis-justica-federal-1a-instancia-pf";
-	public static final String DOCUMENT_TYPE_ID_2 = "cert-acoes-civis-justica-federal-1a-instancia-pj";
-	public static final String DOCUMENT_TYPE_ID_3 = "cert-acoes-criminais-justica-federal-1a-instancia-pf";
-	public static final String DOCUMENT_TYPE_ID_4 = "cert-acoes-criminais-justica-federal-1a-instancia-pj";
+	public static final String DOCUMENT_TYPE_ID_1 = "cert-distribuicao-acoes-civeis-justica-federal-1a-instancia-pf";
+	public static final String DOCUMENT_TYPE_ID_2 = "cert-distribuicao-acoes-civeis-justica-federal-1a-instancia-pj";
+	public static final String DOCUMENT_TYPE_ID_3 = "cert-distribuicao-acoes-criminais-justica-federal-1a-instancia-pf";
+	public static final String DOCUMENT_TYPE_ID_4 = "cert-distribuicao-acoes-criminais-justica-federal-1a-instancia-pj";
 	public static final String DOCUMENT_TYPE_ID_5 = "cert-negativa-debitos-trabalhistas-pf";
 	public static final String DOCUMENT_TYPE_ID_6 = "cert-negativa-debitos-trabalhistas-pj";
-	public static final String DOCUMENT_TYPE_ID_7 = "cert-regularidade-fiscal-estadual-pf";
-	public static final String DOCUMENT_TYPE_ID_8 = "cert-distribuicao-acoes-civeis-justica-estadual-1a-instancia-pf";
-	public static final String DOCUMENT_TYPE_ID_9 = "cert-distribuicao-acoes-civeis-justica-estadual-1a-instancia-pj";
 
 	private final FieldTypes fieldTypes;
 
@@ -64,20 +55,6 @@ public class DocumentTypes {
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
 
 		newDocumentType(DOCUMENT_TYPE_ID_6, "Certidão Negativa de Débitos Trabalhistas - PJ",
-				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
-				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-
-		newDocumentType(DOCUMENT_TYPE_ID_7, "Certidão de Regularidade Fiscal Estadual - PF",
-				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
-				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
-
-		newDocumentType(DOCUMENT_TYPE_ID_8,
-				"Certidão De Distribuição De Ações Cíveis - Justiça Estadual (1a Instância) - PF",
-				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.RG_FIELD_TYPE_ID,
-				FieldTypes.CPF_FIELD_TYPE_ID, FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
-
-		newDocumentType(DOCUMENT_TYPE_ID_9,
-				"Certidão De Distribuição De Ações Cíveis - Justiça Estadual (1a Instância) - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
 	}
