@@ -121,7 +121,6 @@ public class DocumentTypes {
 			System.out.println(StringUtils.repeat("-", 80));
 			System.out.println(jsonService.toJson(map));
 			System.out.println(StringUtils.repeat("=", 80));
-			logger.debug("XXXX {}", map);
 		}
 	}
 }
