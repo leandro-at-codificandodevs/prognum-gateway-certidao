@@ -9,8 +9,6 @@ import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.Tags;
 import software.amazon.awscdk.services.apigateway.ApiKey;
-import software.amazon.awscdk.services.apigateway.DomainName;
-import software.amazon.awscdk.services.apigateway.DomainNameOptions;
 import software.amazon.awscdk.services.apigateway.IResource;
 import software.amazon.awscdk.services.apigateway.LambdaIntegration;
 import software.amazon.awscdk.services.apigateway.MethodOptions;
@@ -18,8 +16,6 @@ import software.amazon.awscdk.services.apigateway.Resource;
 import software.amazon.awscdk.services.apigateway.RestApi;
 import software.amazon.awscdk.services.apigateway.UsagePlan;
 import software.amazon.awscdk.services.apigateway.UsagePlanPerApiStage;
-import software.amazon.awscdk.services.certificatemanager.Certificate;
-import software.amazon.awscdk.services.certificatemanager.ICertificate;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
@@ -176,15 +172,6 @@ public class MyStack extends Stack {
 				.apiStages(List.of(UsagePlanPerApiStage.builder().api(api).stage(api.getDeploymentStage()).build()))
 				.build();
 		tenantUsagePlan.addApiKey(tenantApiKey);
-
-		String certificateArn = "arn:aws:acm:sa-east-1:784526594195:certificate/f0d42e52-6cf8-486b-a098-7f631236825e";
-
-		String certificateId = String.format("%s-certidao-%s-certificate", system, environment);
-		ICertificate certificate = Certificate.fromCertificateArn(this, certificateId, certificateArn);
-		String apiDomainId = String.format("%s-certidao-%s-api", system, environment).toLowerCase();
-		DomainName apiDomainName = api.addDomainName(apiDomainId,
-				DomainNameOptions.builder().domainName(apiDomainId).certificate(certificate).basePath("prod").build());
-		apiDomainName.addApiMapping(api.getDeploymentStage());
 	}
 
 	private static Code getLambdaCode(String lambdaName) {
