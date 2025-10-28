@@ -1,18 +1,29 @@
 const { colorize } = require("json-colorizer");
 const createDocumentGroup = require("./createDocumentGroup.cjs");
 const getDocumentGroupById = require("./getDocumentGroupById.cjs");
+const getDocumentTypes = require("./getDocumentTypes.cjs");
+
 const {
   getCreateDocumentGroupUrl,
   getGetDocumentGroupByIdUrl,
+  getGetDocumentTypesUrl,
   getXApiKey,
 } = require("./urls.cjs");
 
 const environment = "dev";
 
 const main = async () => {
+  const getDocumentTypesUrl = getGetDocumentTypesUrl(environment);
   const createDocumentGroupUrl = getCreateDocumentGroupUrl(environment);
 
   const xApiKey = getXApiKey(environment);
+
+  const getDocumentTypesRequest = {
+    url: getDocumentTypesUrl,
+    xApiKey,
+  };
+  const getDocumentTypesResponse = await getDocumentTypes(getDocumentTypesRequest);
+  console.log(colorize(JSON.stringify(getDocumentTypesResponse, null, 2)));
 
   const cpf = "79427201010";
   const estado = "RJ";
@@ -47,7 +58,6 @@ const main = async () => {
   const getDocumentGroupByIdRequest = {
     url: getDocumentGroupByIdUrl,
     xApiKey,
-    payload,
   };
   const getDocumentGroupByIdResponse = await getDocumentGroupById(getDocumentGroupByIdRequest);
   console.log(colorize(JSON.stringify(getDocumentGroupByIdResponse, null, 2)));

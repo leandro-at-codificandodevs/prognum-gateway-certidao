@@ -1,7 +1,6 @@
 package br.com.prognum.gateway_certidao.docket.services;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import br.com.prognum.gateway_certidao.core.exceptions.CityNotFoundException;
@@ -9,7 +8,6 @@ import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
 import br.com.prognum.gateway_certidao.core.exceptions.StateNotFoundException;
 import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
-import br.com.prognum.gateway_certidao.core.models.DocumentTypes;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
 import br.com.prognum.gateway_certidao.core.models.FieldTypes;
 import br.com.prognum.gateway_certidao.core.utils.DateUtils;
@@ -34,8 +32,6 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 
 	private FieldTypes fieldTypes;
 
-	private List<String> documentTypeIds;
-
 
 	public DocketMapperServiceImpl(DocketApiService docketApiService, DocumentoMetadataService documentoMetadataService) {
 		this.docketApiService = docketApiService;
@@ -43,8 +39,6 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		this.documentoMetadata = documentoMetadataService.getDocumentoMetadata();
 
 		fieldTypes = new FieldTypes();
-
-		documentTypeIds = List.of(DocumentTypes.DOCUMENT_TYPE_ID_1, DocumentTypes.DOCUMENT_TYPE_ID_2, DocumentTypes.DOCUMENT_TYPE_ID_3, DocumentTypes.DOCUMENT_TYPE_ID_4);
 	}
 
 	private String getEstadoId(CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
@@ -114,8 +108,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		pedido.setTipoOperacaoId(TIPO_OPERACAO_ID);
 
 		for (String documentTypeId : createProviderDocumentGroupInput.getDocumentTypeIds()) {
-			int index = documentTypeIds.indexOf(documentTypeId);
-			DocumentoMetadatum documentoMetadatum = documentoMetadata.getDocuments().get(index);
+			DocumentoMetadatum documentoMetadatum = documentoMetadata.getDocumentoByDocumentTypeId(documentTypeId);
 
 			Documento documento = new Documento();
 			documento.setDocumentKitId(documentoMetadatum.getDocumentKitId());

@@ -10,4 +10,5 @@ public class DocumentoMetadatum {
 	private String kitNome;
 	private String titularTipo;
 	private String documentoNome;
+	private String documentTypeId;
 }

@@ -1,4 +1,4 @@
-const getDocumentGroupById = async ({ url, xApiKey }) => {
+const getDocumentTypes = async ({ url, xApiKey }) => {
   const init = {
     method: "GET",
     headers: {
@@ -26,4 +26,4 @@ const getDocumentGroupById = async ({ url, xApiKey }) => {
   };
 };
 
-module.exports = getDocumentGroupById;
+module.exports = getDocumentTypes;

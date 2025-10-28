@@ -16,6 +16,15 @@ const getGetDocumentGroupByIdUrl = (environment, id) => {
     }
 };
 
+const getGetDocumentTypesUrl = (environment, id) => {
+    switch (environment) {
+        case "dev":
+            return "https://gateway-certidao-dev.prognum.com.br/document-types";
+        default:
+            throw new Error(`Ambiente ${environment} desconhecido`);
+    }
+};
+
 const getXApiKey = (environment) => {
     switch (environment) {
         case "dev":
@@ -28,5 +37,6 @@ const getXApiKey = (environment) => {
 module.exports = {
     getCreateDocumentGroupUrl,
     getGetDocumentGroupByIdUrl,
+    getGetDocumentTypesUrl,
     getXApiKey,
 };

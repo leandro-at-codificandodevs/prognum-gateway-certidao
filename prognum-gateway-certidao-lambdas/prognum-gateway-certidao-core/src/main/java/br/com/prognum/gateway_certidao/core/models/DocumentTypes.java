@@ -14,13 +14,13 @@ import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import software.amazon.awssdk.utils.StringUtils;
 
 public class DocumentTypes {
-	public static final String DOCUMENT_TYPE_ID_1 = "cert-distribuicao-acoes-civeis-justica-federal-1a-instancia-pf";
-	public static final String DOCUMENT_TYPE_ID_2 = "cert-distribuicao-acoes-civeis-justica-federal-1a-instancia-pj";
-	public static final String DOCUMENT_TYPE_ID_3 = "cert-distribuicao-acoes-criminais-justica-federal-1a-instancia-pf";
-	public static final String DOCUMENT_TYPE_ID_4 = "cert-distribuicao-acoes-criminais-justica-federal-1a-instancia-pj";
+	public static final String DOCUMENT_TYPE_ID_1 = "cert-acoes-civis-justica-federal-1a-instancia-pf";
+	public static final String DOCUMENT_TYPE_ID_2 = "cert-acoes-civis-justica-federal-1a-instancia-pj";
+	public static final String DOCUMENT_TYPE_ID_3 = "cert-acoes-criminais-justica-federal-1a-instancia-pf";
+	public static final String DOCUMENT_TYPE_ID_4 = "cert-acoes-criminais-justica-federal-1a-instancia-pj";
 	public static final String DOCUMENT_TYPE_ID_5 = "cert-negativa-debitos-trabalhistas-pf";
 	public static final String DOCUMENT_TYPE_ID_6 = "cert-negativa-debitos-trabalhistas-pj";
-
+	
 	private final FieldTypes fieldTypes;
 
 	private final Map<String, DocumentType> documentTypesById;

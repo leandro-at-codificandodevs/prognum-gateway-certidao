@@ -7,7 +7,7 @@
         <artifactId>prognum-gateway-certidao-lambdas</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>prognum-gateway-certidao-scci-create-document-group-lambda</artifactId>
+    <artifactId>prognum-gateway-certidao-scci-get-document-types-lambda</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -25,16 +25,6 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-events</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>sqs</artifactId>
         </dependency>
 
         <dependency>

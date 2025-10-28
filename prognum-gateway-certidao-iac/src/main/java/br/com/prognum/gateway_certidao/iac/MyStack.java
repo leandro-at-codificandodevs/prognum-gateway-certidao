@@ -9,6 +9,8 @@ import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.Tags;
 import software.amazon.awscdk.services.apigateway.ApiKey;
+import software.amazon.awscdk.services.apigateway.DomainName;
+import software.amazon.awscdk.services.apigateway.DomainNameOptions;
 import software.amazon.awscdk.services.apigateway.IResource;
 import software.amazon.awscdk.services.apigateway.LambdaIntegration;
 import software.amazon.awscdk.services.apigateway.MethodOptions;
@@ -16,6 +18,8 @@ import software.amazon.awscdk.services.apigateway.Resource;
 import software.amazon.awscdk.services.apigateway.RestApi;
 import software.amazon.awscdk.services.apigateway.UsagePlan;
 import software.amazon.awscdk.services.apigateway.UsagePlanPerApiStage;
+import software.amazon.awscdk.services.certificatemanager.Certificate;
+import software.amazon.awscdk.services.certificatemanager.ICertificate;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
@@ -34,7 +38,7 @@ public class MyStack extends Stack {
 	private static final int DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = 300;
 
 	public MyStack(Construct scope, Config config, StackProps props) {
-		super(scope, String.format("%s-%s-stack", config.getSystem(), config.getEnvironment()), props);
+		super(scope, String.format("%s-certidao-%s-stack", config.getSystem(), config.getEnvironment()), props);
 
 		String system = config.getSystem();
 		String environment = config.getEnvironment();
@@ -94,6 +98,15 @@ public class MyStack extends Stack {
 		docketGetDocumentQueue.grantSendMessages(scciGetDocumentGroupFunction);
 		tenantBucket.grantRead(scciGetDocumentGroupFunction);
 
+		String scciGetDocumentTypesFunctionId = String.format("%s-certidao-%s-scci-get-document-types-lambda", system,
+				environment);
+		Function scciGetDocumentTypesFunction = Function.Builder.create(this, scciGetDocumentTypesFunctionId)
+				.functionName(scciGetDocumentTypesFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-scci-get-document-types-lambda"))
+				.handler("br.com.prognum.gateway_certidao.scci_get_document_types.Handler::handleRequest")
+				.runtime(Runtime.JAVA_17).memorySize(512).timeout(Duration.seconds(30))
+				.environment(Map.of("LOG_LEVEL", logLevel)).build();
+
 		String docketCreateDocumentFunctionId = String.format("%s-certidao-%s-provider-docket-create-document-lambda",
 				system, environment);
 		Function docketCreateDocumentFunction = Function.Builder.create(this, docketCreateDocumentFunctionId)
@@ -150,6 +163,12 @@ public class MyStack extends Stack {
 		documentGroupsResource.addResource("{id}").addMethod("GET", scciGetDocumentGroupFunctionIntegration,
 				MethodOptions.builder().apiKeyRequired(true).build());
 
+		LambdaIntegration scciGetDocumentTypesFunctionIntegration = LambdaIntegration.Builder
+				.create(scciGetDocumentTypesFunction).build();
+		Resource documentTypesResource = apiRootResource.addResource("document-types");
+		documentTypesResource.addMethod("GET", scciGetDocumentTypesFunctionIntegration,
+				MethodOptions.builder().apiKeyRequired(true).build());
+
 		String tenantApiKeyId = String.format("%s-certidao-%s-tenant-%s-api-key", system, environment, tenantId);
 		ApiKey tenantApiKey = ApiKey.Builder.create(this, tenantApiKeyId).apiKeyName(tenantApiKeyId).build();
 		String tenantUsagePlanId = String.format("%s-certidao-%s-tenant-%s-usage-plan", system, environment, tenantId);
@@ -157,6 +176,15 @@ public class MyStack extends Stack {
 				.apiStages(List.of(UsagePlanPerApiStage.builder().api(api).stage(api.getDeploymentStage()).build()))
 				.build();
 		tenantUsagePlan.addApiKey(tenantApiKey);
+
+		String certificateArn = "arn:aws:acm:sa-east-1:784526594195:certificate/f0d42e52-6cf8-486b-a098-7f631236825e";
+
+		String certificateId = String.format("%s-certidao-%s-certificate", system, environment);
+		ICertificate certificate = Certificate.fromCertificateArn(this, certificateId, certificateArn);
+		String apiDomainId = String.format("%s-certidao-%s-api", system, environment).toLowerCase();
+		DomainName apiDomainName = api.addDomainName(apiDomainId,
+				DomainNameOptions.builder().domainName(apiDomainId).certificate(certificate).build());
+		apiDomainName.addApiMapping(api.getDeploymentStage());
 	}
 
 	private static Code getLambdaCode(String lambdaName) {

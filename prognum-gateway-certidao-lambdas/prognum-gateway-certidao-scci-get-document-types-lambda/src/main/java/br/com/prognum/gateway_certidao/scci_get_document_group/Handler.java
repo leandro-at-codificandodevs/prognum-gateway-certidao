@@ -23,7 +23,6 @@ import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.QueueService;
 import br.com.prognum.gateway_certidao.core.services.QueueServiceImpl;
-
 import software.amazon.awssdk.http.HttpStatusCode;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;

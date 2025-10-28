@@ -43,11 +43,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 	private static final String DOCUMENTO_STATUS_ENTREGUE = "ENTREGUE";
 
 	private QueueService queueService;
-
 	private DocketApiService docketApiService;
-
 	private DocketMetadataService docketMetadataService;
-
 	private BucketService bucketService;
 
 	private static final String DOCKET_API_AUTH_URL = System.getenv("DOCKET_API_AUTH_URL");
