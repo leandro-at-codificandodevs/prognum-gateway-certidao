@@ -23,6 +23,7 @@ import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
 import br.com.prognum.gateway_certidao.core.exceptions.InvalidDocumentGroupRequestException;
 import br.com.prognum.gateway_certidao.core.exceptions.MissingFieldException;
 import br.com.prognum.gateway_certidao.core.exceptions.StateNotFoundException;
+import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
 import br.com.prognum.gateway_certidao.core.exceptions.UnknownFieldException;
 import br.com.prognum.gateway_certidao.core.models.CreateDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.models.CreateDocumentGroupOutput;
@@ -201,5 +202,28 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		String stateAcronymn = StringUtils.lowerCase(input.getFields().get("estado"));
 		String cityName = StringUtils.lowerCase(input.getFields().get("cidade"));
 		states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
+	}
+	
+	public static final void main(String [] args) throws DocumentTypeNotFoundException, ToJsonException {
+		JsonService jsonService = new JsonServiceImpl();
+		DocumentTypes documentTypes =  new DocumentTypes();
+		
+		System.out.println(StringUtils.repeat("=", 80));
+		for (String documentTypeId: documentTypes.getDocumentTypeIds()) {
+			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
+			Map<String, Object> map = new HashMap<>();
+			map.put("document-type-ids:", List.of(documentType.getId()));
+			Map<String, String> fields = new HashMap<>();
+			for (String fieldTypeId : documentType.getFieldTypeIds()) {
+				fields.put(fieldTypeId, "?");
+			}
+			map.put("fields", fields);
+			
+			System.out.println(documentType.getName());
+			System.out.println(StringUtils.repeat("-", 80));
+			System.out.println(jsonService.toJson(map));
+			System.out.println(StringUtils.repeat("=", 80));
+			logger.debug("XXXX {}", map);
+		}
 	}
 }

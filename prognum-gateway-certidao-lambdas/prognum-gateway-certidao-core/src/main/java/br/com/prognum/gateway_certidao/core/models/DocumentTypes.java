@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
@@ -14,6 +17,8 @@ import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import software.amazon.awssdk.utils.StringUtils;
 
 public class DocumentTypes {
+	
+	private static final Logger logger = LoggerFactory.getLogger(DocumentTypes.class);
 
 	public static final String DOCUMENT_TYPE_ID_1 = "cert-acoes-civis-justica-federal-1a-instancia-pf";
 	public static final String DOCUMENT_TYPE_ID_2 = "cert-acoes-civis-justica-federal-1a-instancia-pj";
@@ -116,6 +121,7 @@ public class DocumentTypes {
 			System.out.println(StringUtils.repeat("-", 80));
 			System.out.println(jsonService.toJson(map));
 			System.out.println(StringUtils.repeat("=", 80));
+			logger.debug("XXXX {}", map);
 		}
 	}
 }

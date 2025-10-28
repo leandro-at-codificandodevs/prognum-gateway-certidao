@@ -1,16 +1,9 @@
 <configuration>
-  <import class="ch.qos.logback.core.encoder.LayoutWrappingEncoder"/>
-  <import class="ch.qos.logback.core.ConsoleAppender"/>
-  <import class="ch.qos.logback.contrib.json.classic.JsonLayout"/>
-  <import class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter"/>
-    <appender name="stdout" class="ConsoleAppender">
-        <encoder class="LayoutWrappingEncoder">
-            <layout class="JsonLayout">
-                <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSX</timestampFormat>
-                <timestampFormatTimezoneId>Etc/UTC</timestampFormatTimezoneId>
-                <jsonFormatter class="JacksonJsonFormatter"/>
-            </layout>
-        </encoder>
+    <import class="ch.qos.logback.core.ConsoleAppender" />
+    <import class="ch.qos.logback.classic.encoder.JsonEncoder" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.JsonEncoder" />
     </appender>
     <root level="debug">
         <appender-ref ref="stdout" />
