@@ -38,10 +38,10 @@ public class MyStack extends Stack {
 	private static final int DOCKET_CREATE_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
 	private static final int DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
 
-	private static final int DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = 300;
-	private static final int DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE = 10;
-	private static final int DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
-	private static final int DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
+	private static final int DOCKET_PROCESS_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = 300;
+	private static final int DOCKET_PROCESS_DOCUMENT_QUEUE_BATCH_SIZE = 10;
+	private static final int DOCKET_PROCESS_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
+	private static final int DOCKET_PROCESS_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
 
 	public MyStack(Construct scope, Config config, StackProps props) {
 		super(scope, String.format("%s-certidao-%s-stack", config.getSystem(), config.getEnvironment()), props);
@@ -71,20 +71,21 @@ public class MyStack extends Stack {
 						.maxReceiveCount(DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
 				.build();
 
-		String docketGetDocumentDlqId = String.format("%s-certidao-%s-provider-docket-process-document-dlq.fifo",
+		String docketProcessDocumentDlqId = String.format("%s-certidao-%s-provider-docket-process-document-dlq.fifo",
 				system, environment);
-		Queue docketGetDocumentDlq = Queue.Builder.create(this, docketGetDocumentDlqId)
-				.queueName(docketGetDocumentDlqId).encryption(QueueEncryption.KMS_MANAGED)
-				.retentionPeriod(Duration.days(DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
+		Queue docketProcessDocumentDlq = Queue.Builder.create(this, docketProcessDocumentDlqId)
+				.queueName(docketProcessDocumentDlqId).encryption(QueueEncryption.KMS_MANAGED)
+				.retentionPeriod(Duration.days(DOCKET_PROCESS_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
 				.contentBasedDeduplication(true).build();
 
-		String docketGetDocumentQueueId = String.format("%s-certidao-%s-provider-docket-process-document-queue.fifo",
-				system, environment);
-		Queue docketGetDocumentQueue = Queue.Builder.create(this, docketGetDocumentQueueId)
-				.queueName(docketGetDocumentQueueId).encryption(QueueEncryption.KMS_MANAGED)
-				.visibilityTimeout(Duration.seconds(DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
-				.contentBasedDeduplication(true).deadLetterQueue(DeadLetterQueue.builder().queue(docketGetDocumentDlq)
-						.maxReceiveCount(DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
+		String docketProcessDocumentQueueId = String
+				.format("%s-certidao-%s-provider-docket-process-document-queue.fifo", system, environment);
+		Queue docketProcessDocumentQueue = Queue.Builder.create(this, docketProcessDocumentQueueId)
+				.queueName(docketProcessDocumentQueueId).encryption(QueueEncryption.KMS_MANAGED)
+				.visibilityTimeout(Duration.seconds(DOCKET_PROCESS_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS))
+				.fifo(true).contentBasedDeduplication(true)
+				.deadLetterQueue(DeadLetterQueue.builder().queue(docketProcessDocumentDlq)
+						.maxReceiveCount(DOCKET_PROCESS_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
 				.build();
 
 		String docketApiSecretId = String.format("%s-certidao-%s-provider-docket-api-secret", system, environment);
@@ -102,8 +103,8 @@ public class MyStack extends Stack {
 				.functionName(scciCreateDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-scci-create-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.scci_create_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(
-						LAMBDA_MEMORY_SIZE_IN_MB).timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
 						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
@@ -119,11 +120,11 @@ public class MyStack extends Stack {
 				.handler("br.com.prognum.gateway_certidao.scci_get_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
-				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
-						docketGetDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_PROCESS_DOCUMENT_QUEUE_URL",
+						docketProcessDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
 				.build();
-		docketGetDocumentQueue.grantSendMessages(scciGetDocumentGroupFunction);
+		docketProcessDocumentQueue.grantSendMessages(scciGetDocumentGroupFunction);
 		tenantBucket.grantRead(scciGetDocumentGroupFunction);
 
 		String scciGetDocumentTypesFunctionId = String.format("%s-certidao-%s-scci-get-document-types-lambda", system,
@@ -176,8 +177,8 @@ public class MyStack extends Stack {
 		tenantBucket.grantReadWrite(docketProcessDocumentFunction);
 		docketApiSecret.grantRead(docketProcessDocumentFunction);
 
-		docketProcessDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentQueue)
-				.batchSize(DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
+		docketProcessDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketProcessDocumentQueue)
+				.batchSize(DOCKET_PROCESS_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String apiId = String.format("%s-certidao-%s-api-gateway", system, environment);
 		RestApi api = RestApi.Builder.create(this, apiId).restApiName(apiId).build();
