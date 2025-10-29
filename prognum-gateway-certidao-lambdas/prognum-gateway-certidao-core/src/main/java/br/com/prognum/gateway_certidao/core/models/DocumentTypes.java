@@ -36,7 +36,9 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_18 = "cert-inscricao-estadual-produtor-rural-pj";
 	public static final String DOCUMENT_TYPE_ID_19 = "cert-regularidade-fiscal-municipal-pf";
 	public static final String DOCUMENT_TYPE_ID_20 = "cert-regularidade-fiscal-municipal-pj";
-	
+	public static final String DOCUMENT_TYPE_ID_21 = "cert-execucoes-criminais-justica-estadual-1a-instancia-pf";
+	public static final String DOCUMENT_TYPE_ID_22 = "cert-execucoes-criminais-justica-estadual-1a-instancia-pj";
+
 	private final FieldTypes fieldTypes;
 
 	private final Map<String, DocumentType> documentTypesById;
@@ -127,6 +129,14 @@ public class DocumentTypes {
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
 
 		newDocumentType(DOCUMENT_TYPE_ID_20, "Certidão de Regularidade Fiscal Municipal - PJ",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
+				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
+		
+		newDocumentType(DOCUMENT_TYPE_ID_21, "Certidão de Execuções Criminais - Justiça Estadual - 1a instância - PF",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
+				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.NOME_MAE_FIELD_TYPE_ID, FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
+		
+		newDocumentType(DOCUMENT_TYPE_ID_22, "Certidão de Execuções Criminais - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
 	}
