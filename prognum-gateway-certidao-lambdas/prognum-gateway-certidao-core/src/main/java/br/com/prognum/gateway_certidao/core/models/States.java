@@ -11,7 +11,7 @@ public class States {
 	
 	public State getStateByAcronymn(String acronymn) {
 		for (State state : this.states) {
-			if (state.getAcronymn().equals(acronymn)) {
+			if (state.getAcronymn().equalsIgnoreCase(acronymn)) {
 				return state;
 			}
 		}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentGroupNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentNotFoundException;
@@ -20,14 +19,17 @@ import br.com.prognum.gateway_certidao.core.models.DocumentStatus;
 public class DocumentGroupServiceImpl implements DocumentGroupService {
 
 	private BucketService bucketService;
+	
+	private ULIDService ulidService;
 
-	public DocumentGroupServiceImpl(BucketService bucketService) {
+	public DocumentGroupServiceImpl(BucketService bucketService, ULIDService ulidService) {
 		this.bucketService = bucketService;
+		this.ulidService = ulidService;
 	}
 
 	@Override
 	public DocumentGroup createDocumentGroup(String bucketName, List<String> documentTypeIds) {
-		String documentGroupId = UUID.randomUUID().toString();
+		String documentGroupId = ulidService.next();
 
 		Instant now = Instant.now();
 
@@ -45,7 +47,7 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 
 		for (String documentTypeId : documentTypeIds) {
 			Document document = new Document();
-			String documentId = UUID.randomUUID().toString();
+			String documentId = ulidService.next();
 			document.setId(documentId);
 			document.setTypeId(documentTypeId);
 			document.setTimestamp(now);

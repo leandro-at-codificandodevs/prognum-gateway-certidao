@@ -27,12 +27,12 @@ const main = async () => {
 
   const cpf = "79427201010";
   const estado = "RJ";
-  const cidade = "Niterói";
+  const cidade = "Rio de Janeiro";
   const nomeCompleto = "José da Silva";
 
   const payload = {
     "document-type-ids": [
-      "cert-executivos-fiscais-justica-estadual-1a-instancia-pf",
+      "cert-acoes-civeis-justica-federal-1a-instancia-pf",
     ],
     fields: {
       cpf,
@@ -52,7 +52,7 @@ const main = async () => {
 
   const id = createDocumentGroupResponse.payload.id;
 
-  // const id = "b04822ce-ab72-45f9-891b-c871d9129de8";
+ // const id = "b6e13b8d-c128-4252-9f5a-9d5af63f2b57";
 
   const getDocumentGroupByIdUrl = getGetDocumentGroupByIdUrl(environment, id);
   const getDocumentGroupByIdRequest = {
@@ -64,3 +64,8 @@ const main = async () => {
 };
 
 main().then(() => console.log("OK")).catch((e) => console.error(e));
+
+/*
+pedido: 6d5edd1a-b8b4-4b3b-b10d-0c2179f142f1
+documento: 70872d28-b5df-4239-87d4-ec47e79b9ae2
+*/

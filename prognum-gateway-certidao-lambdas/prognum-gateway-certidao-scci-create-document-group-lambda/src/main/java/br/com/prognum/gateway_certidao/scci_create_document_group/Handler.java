@@ -46,12 +46,13 @@ import br.com.prognum.gateway_certidao.core.services.QueueService;
 import br.com.prognum.gateway_certidao.core.services.QueueServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.StateService;
 import br.com.prognum.gateway_certidao.core.services.StateServiceImpl;
+import br.com.prognum.gateway_certidao.core.services.ULIDService;
+import br.com.prognum.gateway_certidao.core.services.ULIDServiceImpl;
 import br.com.prognum.gateway_certidao.core.utils.DateUtils;
 import software.amazon.awssdk.http.HttpStatusCode;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.sqs.SqsClient;
-import software.amazon.awssdk.utils.StringUtils;
 
 public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
@@ -74,7 +75,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
 		BucketService bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
-		this.documentGroupService = new DocumentGroupServiceImpl(bucketService);
+		ULIDService ulidService = new ULIDServiceImpl();
+		this.documentGroupService = new DocumentGroupServiceImpl(bucketService, ulidService);
 
 		SqsClient sqsClient = SqsClient.builder().build();
 		this.queueService = new QueueServiceImpl(sqsClient, jsonService);
@@ -198,8 +200,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	}
 
 	private void validateStateAndCity(CreateDocumentGroupInput input) {
-		String stateAcronymn = StringUtils.lowerCase(input.getFields().get("estado"));
-		String cityName = StringUtils.lowerCase(input.getFields().get("cidade"));
+		String stateAcronymn = input.getFields().get("estado");
+		String cityName = input.getFields().get("cidade");
 		states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
 	}
 }

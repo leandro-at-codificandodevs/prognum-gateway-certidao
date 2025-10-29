@@ -23,7 +23,8 @@ import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.QueueService;
 import br.com.prognum.gateway_certidao.core.services.QueueServiceImpl;
-
+import br.com.prognum.gateway_certidao.core.services.ULIDService;
+import br.com.prognum.gateway_certidao.core.services.ULIDServiceImpl;
 import software.amazon.awssdk.http.HttpStatusCode;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -46,7 +47,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();
 		BucketService bucketService = new BucketServiceImpl(s3Client, s3Presigner, jsonService);
-		this.documentGroupService = new DocumentGroupServiceImpl(bucketService);
+		ULIDService ulidService = new ULIDServiceImpl();
+		this.documentGroupService = new DocumentGroupServiceImpl(bucketService, ulidService);
 		this.apiGatewayService = new ApiGatewayServiceImpl(jsonService);
 		
 		SqsClient sqsClient = SqsClient.builder().build();

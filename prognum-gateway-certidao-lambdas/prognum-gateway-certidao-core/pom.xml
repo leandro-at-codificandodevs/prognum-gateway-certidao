@@ -55,6 +55,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>de.huxhorn.sulky</groupId>
+            <artifactId>de.huxhorn.sulky.ulid</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -12,7 +12,7 @@ public class State {
 	
 	public City getCityByName(String name) {
 		for (City city : this.cities) {
-			if (city.getName().equals(name)) {
+			if (city.getName().equalsIgnoreCase(name)) {
 				return city;
 			}
 		}

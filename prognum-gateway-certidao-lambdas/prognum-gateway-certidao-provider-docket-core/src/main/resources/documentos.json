@@ -7,7 +7,7 @@
          "kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
          "titularTipo":"PESSOA_FISICA",
          "documentoNome":"Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)",
-         "documentTypeId":"cert-acoes-civis-justica-federal-1a-instancia-pf"
+         "documentTypeId":"cert-acoes-civeis-justica-federal-1a-instancia-pf"
       },
       {
          "documentKitId":"e72ac096-6c91-45f1-990f-923b9fe32dcd",
@@ -16,7 +16,7 @@
          "kitNome":"DOCUMENTOS DA JUSTIÇA FEDERAL",
          "titularTipo":"PESSOA_JURIDICA",
          "documentoNome":"Certidão De Distribuição De Ações Cíveis - Justiça Federal (1° Instância)",
-         "documentTypeId":"cert-acoes-civis-justica-federal-1a-instancia-pj"
+         "documentTypeId":"cert-acoes-civeis-justica-federal-1a-instancia-pj"
       },
       {
          "documentKitId":"6f297889-c06c-4cd0-a498-dc48ecde9105",

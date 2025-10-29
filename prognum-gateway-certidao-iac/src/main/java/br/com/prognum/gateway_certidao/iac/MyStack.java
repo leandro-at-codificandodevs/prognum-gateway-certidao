@@ -59,6 +59,7 @@ public class MyStack extends Stack {
 				.contentBasedDeduplication(true).build();
 
 		String docketApiSecretId = String.format("%s-certidao-%s-provider-docket-api-secret", system, environment);
+		/* { "login": "jaime.vicente", "senha": "!ab@2NLhwUp#yM@sVDfE" } */
 		Secret docketApiSecret = Secret.Builder.create(this, docketApiSecretId).secretName(docketApiSecretId).build();
 
 		String tenantBucketId = String.format("%s-certidao-%s-tenant-%s-bucket", system, environment.toLowerCase(),

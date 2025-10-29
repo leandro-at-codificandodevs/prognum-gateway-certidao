@@ -45,7 +45,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.ESTADO_FIELD_TYPE_ID);
 		GetEstadosResponse response = docketApiService.getEstados();
 		for (GetEstadosResponse.Estado estado : response.getEstados()) {
-			if  (estado.getUf().equals(value)) {
+			if  (estado.getUf().equalsIgnoreCase(value)) {
 				return estado.getId();
 			}
 		}
@@ -57,7 +57,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		String estadoId = getEstadoId(createProviderDocumentGroupInput);
 		GetCidadesByEstadoResponse response = docketApiService.getCidadesByEstado(estadoId);
 		for (GetCidadesByEstadoResponse.Cidade cidade : response.getCidades()) {
-			if  (cidade.getNome().equals(value)) {
+			if  (cidade.getNome().equalsIgnoreCase(value)) {
 				return cidade.getId();
 			}
 		}
@@ -67,7 +67,6 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 	@Override
 	public CreatePedidoRequest getCreatePedidoRequest(
 			CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
-
 		Map<String, String> fieldsFromRequest = createProviderDocumentGroupInput.getFields();
 		Map<String, Object> fieldsToRequest = new LinkedHashMap<>();
 
