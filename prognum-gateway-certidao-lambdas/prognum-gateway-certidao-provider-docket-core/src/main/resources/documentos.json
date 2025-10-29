@@ -161,6 +161,24 @@
          "titularTipo":"PESSOA_JURIDICA",
          "documentoNome":"Certificado de Regularidade do FGTS - CRF",
          "documentTypeId":"cert-regularidade-fgts-crf-pj"
+      },
+      {
+         "documentKitId":"23a66e13-336d-4aff-aab0-8bc765424d16",
+         "produtoId":"c008556d-7391-d0e1-74ad-a7fc964b63db",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão de Executivos Fiscais - Justiça Estadual (1° instância)",
+         "documentTypeId":"cert-execucoes-fiscais-justica-estadual-1a-instancia-pf"
+      },
+      {
+         "documentKitId":"23a66e13-336d-4aff-aab0-8bc765424d16",
+         "produtoId":"c008556d-7391-d0e1-74ad-a7fc964b63db",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão de Executivos Fiscais - Justiça Estadual (1° instância)",
+         "documentTypeId":"cert-execucoes-fiscais-justica-estadual-1a-instancia-pj"
       }
    ]
 }
