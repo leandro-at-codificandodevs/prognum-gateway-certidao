@@ -109,22 +109,40 @@
          "documentTypeId":"cert-inscricao-estadual-produtor-rural-pf"
       },
       {
-          "documentKitId": "ef9d455e-f708-46d5-8db9-f94c0e9b5a26",
-          "produtoId": "d42e5ee2-1905-e144-be63-0b8498fb8d71",
-          "kitId": "f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
-          "kitNome": "PREFEITURAS",
-          "titularTipo": "PESSOA_FISICA",
-          "documentoNome": "Certidão de Regularidade Fiscal Municipal - CND Municipal",
-          "documentTypeId": "cert-regularidade-fiscal-municipal-pf"
+         "documentKitId":"ef9d455e-f708-46d5-8db9-f94c0e9b5a26",
+         "produtoId":"d42e5ee2-1905-e144-be63-0b8498fb8d71",
+         "kitId":"f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
+         "kitNome":"PREFEITURAS",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão de Regularidade Fiscal Municipal - CND Municipal",
+         "documentTypeId":"cert-regularidade-fiscal-municipal-pf"
       },
       {
-          "documentKitId": "ef9d455e-f708-46d5-8db9-f94c0e9b5a26",
-          "produtoId": "d42e5ee2-1905-e144-be63-0b8498fb8d71",
-          "kitId": "f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
-          "kitNome": "PREFEITURAS",
-          "titularTipo": "PESSOA_JURIDICA",
-          "documentoNome": "Certidão de Regularidade Fiscal Municipal - CND Municipal",
-          "documentTypeId": "cert-regularidade-fiscal-municipal-pj"
+         "documentKitId":"ef9d455e-f708-46d5-8db9-f94c0e9b5a26",
+         "produtoId":"d42e5ee2-1905-e144-be63-0b8498fb8d71",
+         "kitId":"f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
+         "kitNome":"PREFEITURAS",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão de Regularidade Fiscal Municipal - CND Municipal",
+         "documentTypeId":"cert-regularidade-fiscal-municipal-pj"
+      },
+      {
+         "documentKitId":"fa38abae-60cc-4eed-816c-1de3dfbc9e9a",
+         "produtoId":"cb060dcc-2500-241e-0ec8-0191fddcd8e5",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão de Execuções Criminais - Justiça Estadual (1° instância)",
+         "documentTypeId":"cert-execucoes-criminais-justica-estadual-1a-instancia-pf"
+      },
+      {
+         "documentKitId":"fa38abae-60cc-4eed-816c-1de3dfbc9e9a",
+         "produtoId":"cb060dcc-2500-241e-0ec8-0191fddcd8e5",
+         "kitId":"4ded5a61-abca-4cda-81c2-7347b70defb1",
+         "kitNome":"DOCUMENTOS DA JUSTIÇA ESTADUAL",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão de Execuções Criminais - Justiça Estadual (1° instância)",
+         "documentTypeId":"cert-execucoes-criminais-justica-estadual-1a-instancia-pj"
       }
    ]
 }
