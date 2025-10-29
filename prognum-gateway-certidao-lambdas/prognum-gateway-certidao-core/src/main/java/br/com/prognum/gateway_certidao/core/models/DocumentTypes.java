@@ -41,38 +41,6 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_23 = "cert-regularidade-fgts-crf-pf";
 	public static final String DOCUMENT_TYPE_ID_24 = "cert-regularidade-fgts-crf-pj";
 
-	/*
-    {
-        "documentKitId": "5208bf43-78aa-4e3e-89d6-9c8148f252a6",
-        "produtoId": "7ae078f6-7d7e-5c9e-4e9c-b59885330fe3",
-        "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
-        "kitNome": "DOCUMENTOS TRABALHISTAS",
-        "titularTipo": "PESSOA_FISICA",
-        "documentoNome": "Certificado de Regularidade do FGTS - CRF",
-        "campos": {
-            "cpf": "string",
-            "estado": "52f0da38-2fb5-4a87-22ef-32670b94d916",
-            "cidade": "41500f13-56d8-8690-35f2-7af0fa911611",
-            "cei": "string",
-            "nomeCompleto": "string"
-        }
-    },
-    
-    {
-        "documentKitId": "5208bf43-78aa-4e3e-89d6-9c8148f252a6",
-        "produtoId": "7ae078f6-7d7e-5c9e-4e9c-b59885330fe3",
-        "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
-        "kitNome": "DOCUMENTOS TRABALHISTAS",
-        "titularTipo": "PESSOA_JURIDICA",
-        "documentoNome": "Certificado de Regularidade do FGTS - CRF",
-        "campos": {
-            "estado": "52f0da38-2fb5-4a87-22ef-32670b94d916",
-            "cidade": "41500f13-56d8-8690-35f2-7af0fa911611",
-            "cnpj": "string",
-            "razaoSocial": "string"
-        }
-    },
-*/
 	private final FieldTypes fieldTypes;
 
 	private final Map<String, DocumentType> documentTypesById;
@@ -169,10 +137,40 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_21, "Certidão de Execuções Criminais - Justiça Estadual - 1a instância - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.NOME_MAE_FIELD_TYPE_ID, FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
-		
+	
 		newDocumentType(DOCUMENT_TYPE_ID_22, "Certidão de Execuções Criminais - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
+		
+		newDocumentType(DOCUMENT_TYPE_ID_23, "Certificado de Regularidade do FGTS - CRF -PF",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
+				FieldTypes.CEI_FIELD_TYPE_ID,
+				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
+	
+		newDocumentType(DOCUMENT_TYPE_ID_24, "Certificado de Regularidade do FGTS - CRF - PJ",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
+				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
+		/*
+	    {
+	        "documentKitId": "5208bf43-78aa-4e3e-89d6-9c8148f252a6",
+	        "produtoId": "7ae078f6-7d7e-5c9e-4e9c-b59885330fe3",
+	        "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+	        "kitNome": "DOCUMENTOS TRABALHISTAS",
+	        "titularTipo": "PESSOA_FISICA",
+	        "documentoNome": "Certificado de Regularidade do FGTS - CRF",
+	        "documentTypeId": "cert-regularidade-fgts-crf-pf"
+	    },
+	    
+	    {
+	        "documentKitId": "5208bf43-78aa-4e3e-89d6-9c8148f252a6",
+	        "produtoId": "7ae078f6-7d7e-5c9e-4e9c-b59885330fe3",
+	        "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+	        "kitNome": "DOCUMENTOS TRABALHISTAS",
+	        "titularTipo": "PESSOA_JURIDICA",
+	        "documentoNome": "Certificado de Regularidade do FGTS - CRF",
+	        "documentTypeId": "cert-regularidade-fgts-crf-pj"
+	    }
+	*/
 	}
 
 	private DocumentType newDocumentType(String id, String name, String... fieldTypeIds) {
