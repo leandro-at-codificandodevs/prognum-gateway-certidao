@@ -143,6 +143,24 @@
          "titularTipo":"PESSOA_JURIDICA",
          "documentoNome":"Certidão de Execuções Criminais - Justiça Estadual (1° instância)",
          "documentTypeId":"cert-execucoes-criminais-justica-estadual-1a-instancia-pj"
+      },
+      {
+         "documentKitId":"5208bf43-78aa-4e3e-89d6-9c8148f252a6",
+         "produtoId":"7ae078f6-7d7e-5c9e-4e9c-b59885330fe3",
+         "kitId":"50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+         "kitNome":"DOCUMENTOS TRABALHISTAS",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certificado de Regularidade do FGTS - CRF",
+         "documentTypeId":"cert-regularidade-fgts-crf-pf"
+      },
+      {
+         "documentKitId":"5208bf43-78aa-4e3e-89d6-9c8148f252a6",
+         "produtoId":"7ae078f6-7d7e-5c9e-4e9c-b59885330fe3",
+         "kitId":"50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+         "kitNome":"DOCUMENTOS TRABALHISTAS",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certificado de Regularidade do FGTS - CRF",
+         "documentTypeId":"cert-regularidade-fgts-crf-pj"
       }
    ]
 }
