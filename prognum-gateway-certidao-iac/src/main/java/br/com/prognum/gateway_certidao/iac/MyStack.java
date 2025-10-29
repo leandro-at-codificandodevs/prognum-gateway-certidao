@@ -54,7 +54,7 @@ public class MyStack extends Stack {
 		Tags.of(this).add("Environment", environment);
 		Tags.of(this).add("System", system);
 
-		String docketCreateDocumentDlqId = String.format("%s-certidao-%s-provider-docket-process-document-dlq.fifo",
+		String docketCreateDocumentDlqId = String.format("%s-certidao-%s-provider-docket-create-document-dlq.fifo",
 				system, environment);
 		Queue docketCreateDocumentDlq = Queue.Builder.create(this, docketCreateDocumentDlqId)
 				.queueName(docketCreateDocumentDlqId).encryption(QueueEncryption.KMS_MANAGED)
