@@ -112,7 +112,7 @@ public class DocumentTypes {
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
 		
-		newDocumentType(DOCUMENT_TYPE_ID_15, "CCertidão de Regularidade Fiscal Estadual - PF",
+		newDocumentType(DOCUMENT_TYPE_ID_15, "Certidão de Regularidade Fiscal Estadual - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
 
@@ -120,7 +120,7 @@ public class DocumentTypes {
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
 		
-		newDocumentType(DOCUMENT_TYPE_ID_17, "CCertidão Inscrição Estadual do Produtor Rural - PF",
+		newDocumentType(DOCUMENT_TYPE_ID_17, "Certidão Inscrição Estadual do Produtor Rural - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
 
