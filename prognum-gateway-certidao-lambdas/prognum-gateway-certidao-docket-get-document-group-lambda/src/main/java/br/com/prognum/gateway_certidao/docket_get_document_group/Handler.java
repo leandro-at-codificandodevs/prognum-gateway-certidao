@@ -106,7 +106,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 								.get(documento.getId());
 						String documentContentObjectKey = String.format("%s/%s", documentObjectKey,
 								DocumentGroupService.DOCUMENT_CONTENT_FILE_NAME);
-						bucketService.writeBytes(bucketName, documentContentObjectKey, "application/octet-stream",
+						bucketService.writeBytes(bucketName, documentContentObjectKey, "application/pdf",
 								content);
 					}
 				}

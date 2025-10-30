@@ -65,6 +65,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 			if (documentGroup.getStatus().equals(DocumentGroupStatus.PREPARING)) {
 				UpdateProviderDocumentGroupInput updateProviderDocumentGroupInput = new UpdateProviderDocumentGroupInput();
 				updateProviderDocumentGroupInput.setBucketName(TENANT_BUCKET_NAME);
+				updateProviderDocumentGroupInput.setDocumentGroupId(documentGroupId);
 				updateProviderDocumentGroupInput.setDocumentGroupObjectKey(
 					documentGroupService.getDocumentGroupObjectKey(documentGroupId));
 				queueService.sendMessage(DOCKET_GET_DOCUMENT_QUEUE_URL, updateProviderDocumentGroupInput, documentGroupId);

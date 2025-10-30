@@ -43,6 +43,9 @@ public class MyStack extends Stack {
 	private static final int DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE = 10;
 	private static final int DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
 	private static final int DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
+	
+	private static final int ERROR_CREATE_DOCUMENT_DLQ_BATCH_SIZE = 10;
+	private static final int ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE = 10;
 
 	public MyStack(Construct scope, Config config, StackProps props) {
 		super(scope, String.format("%s-certidao-%s-stack", config.getSystem(), config.getEnvironment()), props);
@@ -195,6 +198,40 @@ public class MyStack extends Stack {
 
 		docketGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupQueue)
 				.batchSize(DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
+		
+		String errorCreateDocumentGroupFunctionId = String.format("%s-certidao-%s-error-create-document-group-lambda",
+				system, environment);
+		Function errorCreateDocumentGroupFunction = Function.Builder.create(this, errorCreateDocumentGroupFunctionId)
+				.functionName(errorCreateDocumentGroupFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-error-create-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.error_create_document_group.Handler::handleRequest")
+				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
+						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
+						tenantId))
+				.build();
+		tenantBucket.grantWrite(errorCreateDocumentGroupFunction);
+		
+		errorCreateDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentGroupDlq)
+				.batchSize(ERROR_CREATE_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
+
+		String errorGetDocumentGroupFunctionId = String.format("%s-certidao-%s-error-get-document-group-lambda", system,
+				environment);
+		Function errorGetDocumentGroupFunction = Function.Builder.create(this, errorGetDocumentGroupFunctionId)
+				.functionName(errorGetDocumentGroupFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-error-get-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.api_get_document_group.Handler::handleRequest")
+				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
+						docketGetDocumentGroupQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
+						tenantId))
+				.build();
+		tenantBucket.grantRead(errorGetDocumentGroupFunction);
+
+		errorGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupDlq)
+				.batchSize(ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String apiId = String.format("%s-certidao-%s-api-gateway", system, environment);
 		RestApi api = RestApi.Builder.create(this, apiId).restApiName(apiId).build();

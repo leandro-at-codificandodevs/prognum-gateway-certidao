@@ -11,6 +11,7 @@ import br.com.prognum.gateway_certidao.core.exceptions.DocumentNotFoundException
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.models.Document;
 import br.com.prognum.gateway_certidao.core.models.DocumentGroup;
+import br.com.prognum.gateway_certidao.core.models.DocumentGroupFailure;
 import br.com.prognum.gateway_certidao.core.models.DocumentGroupMetadata;
 import br.com.prognum.gateway_certidao.core.models.DocumentGroupStatus;
 import br.com.prognum.gateway_certidao.core.models.DocumentMetadata;
@@ -79,6 +80,12 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 		documentGroup.setId(metadata.getDocumentGroupId());
 		documentGroup.setTimestamp(metadata.getTimestamp());
 		documentGroup.setDocuments(new ArrayList<>());
+		
+		DocumentGroupFailure failure = getDocumentGroupFailure(bucketName, documentGroupId);
+		if (failure != null) {
+			documentGroup.setStatus(DocumentGroupStatus.FAILED);
+			return documentGroup;
+		}
 
 		DocumentGroupStatus status = DocumentGroupStatus.READY;
 
@@ -140,16 +147,42 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 		return bucketService.readObject(DocumentMetadata.class, bucketName, metadataKey);
 	}
 
+	@Override
 	public String getDocumentGroupObjectKey(String documentGroupId) {
 		return String.format("groups/%s", documentGroupId);
 	}
 
+	@Override
 	public String getDocumentObjectKey(String documentGroupId, String documentId) {
 		return String.format("groups/%s/documents/%s", documentGroupId, documentId);
+	}
+	
+	@Override
+	public DocumentGroupFailure createDocumentGroupFailure(String bucketName, String documentGroupId) {
+		DocumentGroupFailure documentGroupFailure = new DocumentGroupFailure();
+		documentGroupFailure.setDocumentGroupId(documentGroupId);
+		documentGroupFailure.setTimestamp(Instant.now());
+		String documentGroupFailureObjectKey = getDocumentGroupFailureObjectKey(documentGroupId);
+		bucketService.writeObject(bucketName, documentGroupFailureObjectKey, documentGroupFailure);
+		return documentGroupFailure;
+	}
+
+	@Override
+	public DocumentGroupFailure getDocumentGroupFailure(String bucketName, String documentGroupId) {
+		DocumentGroupFailure documentGroupFailure = new DocumentGroupFailure();
+		documentGroupFailure.setDocumentGroupId(documentGroupId);
+		documentGroupFailure.setTimestamp(Instant.now());
+		String documentGroupFailureObjectKey = getDocumentGroupFailureObjectKey(documentGroupId);
+		bucketService.writeObject(bucketName, documentGroupFailureObjectKey, documentGroupFailure);
+		return documentGroupFailure;
 	}
 
 	private String getDocumentGroupMetadataObjectKey(String documentGroupId) {
 		return String.format("%s/%s", getDocumentGroupObjectKey(documentGroupId), DOCUMENT_METADATA_FILE_NAME);
+	}
+	
+	private String getDocumentGroupFailureObjectKey(String documentGroupId) {
+		return String.format("%s/%s", getDocumentGroupObjectKey(documentGroupId), DOCUMENT_FAILURE_FILE_NAME);
 	}
 
 	private String getDocumentMetadataObjectKey(String documentGroupId, String documentId) {

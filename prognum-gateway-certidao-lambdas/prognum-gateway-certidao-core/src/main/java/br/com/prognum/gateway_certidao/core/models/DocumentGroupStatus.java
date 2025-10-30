@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DocumentGroupStatus {
 
-	READY, PREPARING;
+	READY, PREPARING, FAILED;
 
 	@JsonValue
 	public String toJsonValue() {

@@ -16,6 +16,8 @@
         <module>prognum-gateway-certidao-docket-create-document-group-lambda</module>
         <module>prognum-gateway-certidao-docket-get-document-group-lambda</module>
         <module>prognum-gateway-certidao-docket-core</module>
+        <module>prognum-gateway-certidao-error-create-document-group-lambda</module>
+        <module>prognum-gateway-certidao-error-get-document-group-lambda</module>
     </modules>
 
     <properties>
