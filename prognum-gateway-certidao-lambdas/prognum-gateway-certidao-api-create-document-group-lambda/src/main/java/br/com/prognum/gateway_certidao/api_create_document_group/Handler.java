@@ -62,7 +62,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private DocumentTypes documentTypes;
 	private States states;
 
-	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
+	private static final String BUCKET_NAME = System.getenv("BUCKET_NAME");
 	private static final String DOCKET_CREATE_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_CREATE_DOCUMENT_QUEUE_URL");
 	
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
@@ -95,7 +95,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 			validateInput(input);
 
-			DocumentGroup documentGroup = documentGroupService.createDocumentGroup(TENANT_BUCKET_NAME,
+			DocumentGroup documentGroup = documentGroupService.createDocumentGroup(BUCKET_NAME,
 					input.getDocumentTypeIds());
 			String documentGroupId = documentGroup.getId();
 
@@ -114,7 +114,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 						documentId);
 				providerDocumentGroupInput.getBucketObjectKeyByTypeId().put(documentTypeId, bucketObjectKey);
 			}
-			providerDocumentGroupInput.setBucketName(TENANT_BUCKET_NAME);
+			providerDocumentGroupInput.setBucketName(BUCKET_NAME);
 			providerDocumentGroupInput.setBucketObjetKey("groups/" + documentGroupId);
 			providerDocumentGroupInput.setFields(input.getFields());
 

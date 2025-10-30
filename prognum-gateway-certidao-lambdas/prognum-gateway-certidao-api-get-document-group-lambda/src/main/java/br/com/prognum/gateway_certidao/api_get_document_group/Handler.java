@@ -36,7 +36,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private DocumentGroupService documentGroupService;
 	private QueueService queueService;
 
-	private static final String TENANT_BUCKET_NAME = System.getenv("TENANT_BUCKET_NAME");
+	private static final String BUCKET_NAME = System.getenv("BUCKET_NAME");
 	private static final String DOCKET_GET_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_GET_DOCUMENT_QUEUE_URL");
 	
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
@@ -60,11 +60,11 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		logger.info("Trantando evento {} {}", event, context);
 		try {
 			String documentGroupId = apiGatewayService.getPathParameter(event, "id");
-			DocumentGroup documentGroup = documentGroupService.getDocumentGroupById(TENANT_BUCKET_NAME,
+			DocumentGroup documentGroup = documentGroupService.getDocumentGroupById(BUCKET_NAME,
 					documentGroupId);
 			if (documentGroup.getStatus().equals(DocumentGroupStatus.PREPARING)) {
 				UpdateProviderDocumentGroupInput updateProviderDocumentGroupInput = new UpdateProviderDocumentGroupInput();
-				updateProviderDocumentGroupInput.setBucketName(TENANT_BUCKET_NAME);
+				updateProviderDocumentGroupInput.setBucketName(BUCKET_NAME);
 				updateProviderDocumentGroupInput.setDocumentGroupId(documentGroupId);
 				updateProviderDocumentGroupInput.setDocumentGroupObjectKey(
 					documentGroupService.getDocumentGroupObjectKey(documentGroupId));

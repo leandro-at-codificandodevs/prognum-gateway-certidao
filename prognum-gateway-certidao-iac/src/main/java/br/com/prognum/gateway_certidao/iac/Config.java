@@ -8,7 +8,6 @@ import software.constructs.Construct;
 public class Config {
 	private String environment;
 	private String system;
-	private String defaultTenantId;
 	private String logLevel;
 	private String docketApiAuthUrl;
 	private String docketApiCreatePedidoUrl;
@@ -34,7 +33,6 @@ public class Config {
 		}
 
 		String system = (String) envConfig.get("system");
-		String defaultTenantId = (String) envConfig.get("defaultTenantId");
 		String logLevel = (String) envConfig.get("logLevel");
 		String docketApiAuthUrl = (String) envConfig.get("docketApiAuthUrl");
 		String docketApiCreatePedidoUrl = (String) envConfig.get("docketApiCreatePedidoUrl");
@@ -47,7 +45,7 @@ public class Config {
 		String docketApiLead = (String) envConfig.get("docketApiLead");
 		String docketApiGrupoId = (String) envConfig.get("docketApiGrupoId");
 
-		Config config = new Config(environment, system, defaultTenantId, logLevel, docketApiAuthUrl, docketApiCreatePedidoUrl,
+		Config config = new Config(environment, system, logLevel, docketApiAuthUrl, docketApiCreatePedidoUrl,
 				docketApiGetPedidoUrl, docketApiDownloadArquivoUrl, docketApiGetEstadosUrl,
 				docketApiGetCidadesByEstadoUrl, docketApiCentroCustoId, docketApiTipoOperacaoId, docketApiLead,
 				docketApiGrupoId);
@@ -55,14 +53,13 @@ public class Config {
 		return config;
 	}
 
-	public Config(String environment, String system, String defaultTenantId, String logLevel, String docketApiAuthUrl,
+	public Config(String environment, String system, String logLevel, String docketApiAuthUrl,
 			String docketApiCreatePedidoUrl, String docketApiGetPedidoUrl, String docketApiDownloadArquivoUrl,
 			String docketApiGetEstadosUrl, String docketApiGetCidadesByEstadoUrl, String docketApiCentroCustoId,
 			String docketApiTipoOperacaoId, String docketApiLead, String docketApiGrupoId) {
 		super();
 		this.environment = environment;
 		this.system = system;
-		this.defaultTenantId = defaultTenantId;
 		this.logLevel = logLevel;
 		this.docketApiAuthUrl = docketApiAuthUrl;
 		this.docketApiCreatePedidoUrl = docketApiCreatePedidoUrl;
@@ -82,10 +79,6 @@ public class Config {
 
 	public String getSystem() {
 		return system;
-	}
-
-	public String getDefaultTenantId() {
-		return defaultTenantId;
 	}
 
 	public String getLogLevel() {
@@ -137,7 +130,7 @@ public class Config {
 		return Objects.hash(docketApiAuthUrl, docketApiCentroCustoId, docketApiCreatePedidoUrl,
 				docketApiDownloadArquivoUrl, docketApiGetCidadesByEstadoUrl, docketApiGetEstadosUrl,
 				docketApiGetPedidoUrl, docketApiGrupoId, docketApiLead, docketApiTipoOperacaoId, environment, logLevel,
-				system, defaultTenantId);
+				system);
 	}
 
 	@Override
@@ -160,12 +153,12 @@ public class Config {
 				&& Objects.equals(docketApiLead, other.docketApiLead)
 				&& Objects.equals(docketApiTipoOperacaoId, other.docketApiTipoOperacaoId)
 				&& Objects.equals(environment, other.environment) && Objects.equals(logLevel, other.logLevel)
-				&& Objects.equals(system, other.system) && Objects.equals(defaultTenantId, other.defaultTenantId);
+				&& Objects.equals(system, other.system);
 	}
 
 	@Override
 	public String toString() {
-		return "Config [environment=" + environment + ", system=" + system + ", defaultTenantId=" + defaultTenantId + ", logLevel="
+		return "Config [environment=" + environment + ", system=" + system + ", logLevel="
 				+ logLevel + ", docketApiAuthUrl=" + docketApiAuthUrl + ", docketApiCreatePedidoUrl="
 				+ docketApiCreatePedidoUrl + ", docketApiGetPedidoUrl=" + docketApiGetPedidoUrl
 				+ ", docketApiDownloadArquivoUrl=" + docketApiDownloadArquivoUrl + ", docketApiGetEstadosUrl="

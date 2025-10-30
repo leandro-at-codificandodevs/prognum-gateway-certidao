@@ -8,7 +8,6 @@
   "context": {
     "DEV": {
       "system": "prognum",
-      "defaultTenantId": "prognum",
       "logLevel": "INFO",
       "docketApiAuthUrl": "https://sandbox-saas.docket.com.br/api/v2/auth/login",
       "docketApiCreatePedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos",
