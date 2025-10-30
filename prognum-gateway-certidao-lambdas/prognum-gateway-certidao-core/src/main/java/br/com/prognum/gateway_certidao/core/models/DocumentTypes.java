@@ -42,6 +42,8 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_24 = "cert-regularidade-fgts-crf-pj";
 	public static final String DOCUMENT_TYPE_ID_25 = "cert-execucoes-fiscais-justica-estadual-1a-instancia-pf";
 	public static final String DOCUMENT_TYPE_ID_26 = "cert-execucoes-fiscais-justica-estadual-1a-instancia-pj";
+	public static final String DOCUMENT_TYPE_ID_27 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pf";
+	public static final String DOCUMENT_TYPE_ID_28 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj";
 
 	private final FieldTypes fieldTypes;
 
@@ -160,6 +162,14 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_26, "Certidão de Execuções Fiscais - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
+		
+		newDocumentType(DOCUMENT_TYPE_ID_27, "Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PF",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
+				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
+	
+		newDocumentType(DOCUMENT_TYPE_ID_28, "Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PJ",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
+				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
 	}
 
 	private DocumentType newDocumentType(String id, String name, String... fieldTypeIds) {
@@ -192,7 +202,6 @@ public class DocumentTypes {
 		JsonService jsonService = new JsonServiceImpl();
 		DocumentTypes documentTypes =  new DocumentTypes();
 		
-		System.out.println(StringUtils.repeat("=", 80));
 		for (String documentTypeId: documentTypes.getDocumentTypeIds()) {
 			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
 			Map<String, Object> map = new HashMap<>();
@@ -203,10 +212,11 @@ public class DocumentTypes {
 			}
 			map.put("fields", fields);
 			
+			System.out.println(StringUtils.repeat("-", 20));
 			System.out.println(documentType.getName());
-			System.out.println(StringUtils.repeat("-", 80));
+			System.out.println();
 			System.out.println(jsonService.toJson(map));
-			System.out.println(StringUtils.repeat("=", 80));
+			System.out.println(StringUtils.repeat("-", 20));
 		}
 	}
 }

@@ -179,6 +179,24 @@
          "titularTipo":"PESSOA_JURIDICA",
          "documentoNome":"Certidão de Executivos Fiscais - Justiça Estadual (1° instância)",
          "documentTypeId":"cert-execucoes-fiscais-justica-estadual-1a-instancia-pj"
+      },
+      {
+         "documentKitId":"7184c130-9d51-44dc-a244-30c3fb256dcc",
+         "produtoId":"f31a19f4-dab5-c50b-4027-2c6d5a361df1",
+         "kitId":"fcb6ce95-6f84-4c48-b5df-ef831b5e7d84",
+         "kitNome":"RECEITA FEDERAL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão Conjunta de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal",
+         "documentTypeId":"cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pf"
+      },
+      {
+         "documentKitId":"7184c130-9d51-44dc-a244-30c3fb256dcc",
+         "produtoId":"f31a19f4-dab5-c50b-4027-2c6d5a361df1",
+         "kitId":"fcb6ce95-6f84-4c48-b5df-ef831b5e7d84",
+         "kitNome":"RECEITA FEDERAL",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão Conjunta de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal",
+         "documentTypeId":"cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj"
       }
    ]
 }
