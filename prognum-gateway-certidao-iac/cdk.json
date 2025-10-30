@@ -19,13 +19,8 @@
       "docketApiCentroCustoId": "feec1170-1f20-49b8-bd39-91315961e4bb",
       "docketApiTipoOperacaoId": "95e04d49-1926-498b-a68d-18273fe1287c",
       "docketApiLead": "Operacao de credito - API - Docket - Prognum",
-      "docketApiGrupoId": "ed892d79-7f0e-4248-98ef-a32382b0ab13",
+      "docketApiGrupoId": "ed892d79-7f0e-4248-98ef-a32382b0ab13"
     },
-    
-    private static final String CENTRO_CUSTO_ID = "feec1170-1f20-49b8-bd39-91315961e4bb";
-    private static final String TIPO_OPERACAO_ID = "95e04d49-1926-498b-a68d-18273fe1287c";
-    private static final String LEAD = "Operacao de credito - API - Docket - Prognum";
-    private static final String GRUPO_ID = "ed892d79-7f0e-4248-98ef-a32382b0ab13";
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],
