@@ -15,7 +15,6 @@ import software.amazon.awscdk.services.apigateway.LambdaIntegration;
 import software.amazon.awscdk.services.apigateway.MethodOptions;
 import software.amazon.awscdk.services.apigateway.Resource;
 import software.amazon.awscdk.services.apigateway.RestApi;
-import software.amazon.awscdk.services.apigateway.Stage;
 import software.amazon.awscdk.services.apigateway.UsagePlan;
 import software.amazon.awscdk.services.apigateway.UsagePlanPerApiStage;
 import software.amazon.awscdk.services.lambda.Code;
