@@ -44,6 +44,7 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_26 = "cert-execucoes-fiscais-justica-estadual-1a-instancia-pj";
 	public static final String DOCUMENT_TYPE_ID_27 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pf";
 	public static final String DOCUMENT_TYPE_ID_28 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj";
+	public static final String DOCUMENT_TYPE_ID_29 = "cert-inventarios-arrolamentos-testamentos-extrajudicial-pf";
 
 	private final FieldTypes fieldTypes;
 
@@ -170,6 +171,10 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_28, "Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
+		
+		newDocumentType(DOCUMENT_TYPE_ID_29, "Certidões de Inventários, Arrolamentos e Testamentos - Extrajudicial - PF",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
+				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID);
 	}
 
 	private DocumentType newDocumentType(String id, String name, String... fieldTypeIds) {

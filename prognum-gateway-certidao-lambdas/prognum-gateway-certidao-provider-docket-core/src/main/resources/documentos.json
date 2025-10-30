@@ -197,6 +197,15 @@
          "titularTipo":"PESSOA_JURIDICA",
          "documentoNome":"Certidão Conjunta de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal",
          "documentTypeId":"cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj"
+      },
+      {
+          "documentKitId": "55498bcc-fc28-40db-8e0a-588dffdefee9",
+          "produtoId": "7469cb57-932e-4916-b030-525ed03344a2",
+          "kitId": "13bf9840-f32c-4425-84d2-96b986239cb8",
+          "kitNome": "CARTÓRIO DE NOTAS",
+          "titularTipo": "PESSOA_FISICA",
+          "documentoNome": "Certidões De Inventários, Arrolamentos E Testamentos - Extrajudicial",
+          "documentTypeId": "\"cert-inventarios-arrolamentos-testamentos-extrajudicial-pf"
       }
    ]
 }

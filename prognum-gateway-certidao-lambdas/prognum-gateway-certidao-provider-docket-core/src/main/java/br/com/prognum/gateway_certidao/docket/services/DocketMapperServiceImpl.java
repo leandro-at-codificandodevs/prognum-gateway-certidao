@@ -101,6 +101,9 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			case FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID:
 				fieldsToRequest.put("dataNascimento", toEpochSeconds(value));
 				break;
+			case FieldTypes.CARTORIO_FIELD_TYPE_ID:
+				fieldsToRequest.put("cartorio", value);
+				break;
 
 			case FieldTypes.CNPJ_FIELD_TYPE_ID:
 				fieldsToRequest.put("cnpj", value);

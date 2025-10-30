@@ -14,6 +14,7 @@ public class FieldTypes {
 	public static final String NOME_COMPLETO_FIELD_TYPE_ID = "nome-completo";
 	public static final String NOME_MAE_FIELD_TYPE_ID = "nome-mae";
 	public static final String DATA_NASCIMENTO_FIELD_TYPE_ID = "data-nascimento";
+	public static final String CARTORIO_FIELD_TYPE_ID = "cartorio";
 
 	public static final String CNPJ_FIELD_TYPE_ID = "cnpj";
 	public static final String RAZAO_SOCIAL_FIELD_TYPE_ID = "razao-social";
@@ -32,6 +33,7 @@ public class FieldTypes {
 		newFieldType(NOME_COMPLETO_FIELD_TYPE_ID, "Nome Completo", "Nome Completo");
 		newFieldType(NOME_MAE_FIELD_TYPE_ID, "Nome da Mãe", "Nome da Mãe");
 		newFieldType(DATA_NASCIMENTO_FIELD_TYPE_ID, "Data de Nascimento", "Data de Nascimento");
+		newFieldType(CARTORIO_FIELD_TYPE_ID, "Cartório", "Cartório");
 		
 		newFieldType(CNPJ_FIELD_TYPE_ID, "CNPJ", "Cadastro Nacional de Pessoa Jurídica");
 		newFieldType(RAZAO_SOCIAL_FIELD_TYPE_ID, "Razão Social", "Razão Social");
