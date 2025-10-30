@@ -15,6 +15,7 @@ import software.amazon.awscdk.services.apigateway.LambdaIntegration;
 import software.amazon.awscdk.services.apigateway.MethodOptions;
 import software.amazon.awscdk.services.apigateway.Resource;
 import software.amazon.awscdk.services.apigateway.RestApi;
+import software.amazon.awscdk.services.apigateway.Stage;
 import software.amazon.awscdk.services.apigateway.UsagePlan;
 import software.amazon.awscdk.services.apigateway.UsagePlanPerApiStage;
 import software.amazon.awscdk.services.lambda.Code;
@@ -70,7 +71,7 @@ public class MyStack extends Stack {
 
 		String system = config.getSystem();
 		String environment = config.getEnvironment();
-		String tenantId = config.getTenantId();
+		String defaultdefaultTenantId = config.getDefaultTenantId();
 		String logLevel = config.getLogLevel();
 
 		Tags.of(this).add("Environment", environment);
@@ -114,9 +115,9 @@ public class MyStack extends Stack {
 		/* { "login": "jaime.vicente", "senha": "!ab@2NLhwUp#yM@sVDfE" } */
 		Secret docketApiSecret = Secret.Builder.create(this, docketApiSecretId).secretName(docketApiSecretId).build();
 
-		String tenantBucketId = String.format("%s-certidao-%s-tenant-%s-bucket", system, environment.toLowerCase(),
-				tenantId);
-		Bucket tenantBucket = Bucket.Builder.create(this, tenantBucketId).bucketName(tenantBucketId)
+		String defaultTenantBucketId = String.format("%s-certidao-%s-tenant-%s-bucket", system, environment.toLowerCase(),
+				defaultdefaultTenantId);
+		Bucket defaultTenantBucket = Bucket.Builder.create(this, defaultTenantBucketId).bucketName(defaultTenantBucketId)
 				.removalPolicy(RemovalPolicy.DESTROY).encryption(BucketEncryption.S3_MANAGED).build();
 
 		String apiCreateDocumentGroupFunctionId = String.format("%s-certidao-%s-api-create-document-group-lambda",
@@ -128,11 +129,11 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(API_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(API_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
-						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
-						tenantId))
+						docketCreateDocumentQueue.getQueueUrl(), "defaultTenant_BUCKET_NAME", defaultTenantBucketId, "defaultTenant_ID",
+						defaultdefaultTenantId))
 				.build();
 		docketCreateDocumentQueue.grantSendMessages(apiCreateDocumentGroupFunction);
-		tenantBucket.grantWrite(apiCreateDocumentGroupFunction);
+		defaultTenantBucket.grantWrite(apiCreateDocumentGroupFunction);
 
 		String apiGetDocumentGroupFunctionId = String.format("%s-certidao-%s-api-get-document-group-lambda", system,
 				environment);
@@ -143,11 +144,11 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(API_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(API_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
-						docketGetDocumentGroupQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
-						tenantId))
+						docketGetDocumentGroupQueue.getQueueUrl(), "defaultTenant_BUCKET_NAME", defaultTenantBucketId, "defaultTenant_ID",
+						defaultdefaultTenantId))
 				.build();
 		docketGetDocumentGroupQueue.grantSendMessages(apiGetDocumentGroupFunction);
-		tenantBucket.grantRead(apiGetDocumentGroupFunction);
+		defaultTenantBucket.grantRead(apiGetDocumentGroupFunction);
 
 		String apiGetDocumentTypesFunctionId = String.format("%s-certidao-%s-api-get-document-types-lambda", system,
 				environment);
@@ -189,7 +190,7 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(docketCreateDocumentGroupEnv).build();
-		tenantBucket.grantWrite(docketCreateDocumentGroupFunction);
+		defaultTenantBucket.grantWrite(docketCreateDocumentGroupFunction);
 		docketApiSecret.grantRead(docketCreateDocumentGroupFunction);
 
 		docketCreateDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentQueue)
@@ -211,7 +212,7 @@ public class MyStack extends Stack {
 						config.getDocketApiGetEstadosUrl(), "DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
 						config.getDocketApiGetCidadesByEstadoUrl()))
 				.build();
-		tenantBucket.grantReadWrite(docketGetDocumentGroupFunction);
+		defaultTenantBucket.grantReadWrite(docketGetDocumentGroupFunction);
 		docketApiSecret.grantRead(docketGetDocumentGroupFunction);
 
 		docketGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupQueue)
@@ -226,10 +227,10 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
-						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
-						tenantId))
+						docketCreateDocumentQueue.getQueueUrl(), "defaultTenant_BUCKET_NAME", defaultTenantBucketId, "defaultTenant_ID",
+						defaultdefaultTenantId))
 				.build();
-		tenantBucket.grantWrite(errorCreateDocumentGroupFunction);
+		defaultTenantBucket.grantWrite(errorCreateDocumentGroupFunction);
 		
 		errorCreateDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentGroupDlq)
 				.batchSize(ERROR_CREATE_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
@@ -243,10 +244,10 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
-						docketGetDocumentGroupQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
-						tenantId))
+						docketGetDocumentGroupQueue.getQueueUrl(), "defaultTenant_BUCKET_NAME", defaultTenantBucketId, "defaultTenant_ID",
+						defaultdefaultTenantId))
 				.build();
-		tenantBucket.grantRead(errorGetDocumentGroupFunction);
+		defaultTenantBucket.grantRead(errorGetDocumentGroupFunction);
 
 		errorGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupDlq)
 				.batchSize(ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
@@ -271,13 +272,13 @@ public class MyStack extends Stack {
 		documentTypesResource.addMethod("GET", apiGetDocumentTypesFunctionIntegration,
 				MethodOptions.builder().apiKeyRequired(true).build());
 
-		String tenantApiKeyId = String.format("%s-certidao-%s-tenant-%s-api-key", system, environment, tenantId);
-		ApiKey tenantApiKey = ApiKey.Builder.create(this, tenantApiKeyId).apiKeyName(tenantApiKeyId).build();
-		String tenantUsagePlanId = String.format("%s-certidao-%s-tenant-%s-usage-plan", system, environment, tenantId);
-		UsagePlan tenantUsagePlan = UsagePlan.Builder.create(this, tenantUsagePlanId).name(tenantUsagePlanId)
+		String defaultTenantApiKeyId = String.format("%s-certidao-%s-tenant-%s-api-key", system, environment, defaultdefaultTenantId);
+		ApiKey defaultTenantApiKey = ApiKey.Builder.create(this, defaultTenantApiKeyId).apiKeyName(defaultTenantApiKeyId).build();
+		String defaultTenantUsagePlanId = String.format("%s-certidao-%s-tenant-%s-usage-plan", system, environment, defaultdefaultTenantId);
+		UsagePlan defaultTenantUsagePlan = UsagePlan.Builder.create(this, defaultTenantUsagePlanId).name(defaultTenantUsagePlanId)
 				.apiStages(List.of(UsagePlanPerApiStage.builder().api(api).stage(api.getDeploymentStage()).build()))
 				.build();
-		tenantUsagePlan.addApiKey(tenantApiKey);
+		defaultTenantUsagePlan.addApiKey(defaultTenantApiKey);
 	}
 
 	private static Code getLambdaCode(String lambdaName) {
