@@ -9,12 +9,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>prognum-gateway-certidao-scci-create-document-group-lambda</module>
-        <module>prognum-gateway-certidao-scci-get-document-group-lambda</module>
-        <module>prognum-gateway-certidao-scci-get-document-types-lambda</module>
-        <module>prognum-gateway-certidao-provider-docket-process-document-lambda</module>
-        <module>prognum-gateway-certidao-provider-docket-create-document-lambda</module>
+        <module>prognum-gateway-certidao-api-create-document-group-lambda</module>
+        <module>prognum-gateway-certidao-api-get-document-group-lambda</module>
+        <module>prognum-gateway-certidao-api-get-document-types-lambda</module>
         <module>prognum-gateway-certidao-core</module>
+        <module>prognum-gateway-certidao-provider-docket-create-document-group-lambda</module>
+        <module>prognum-gateway-certidao-provider-docket-get-document-group-lambda</module>
         <module>prognum-gateway-certidao-provider-docket-core</module>
     </modules>
 

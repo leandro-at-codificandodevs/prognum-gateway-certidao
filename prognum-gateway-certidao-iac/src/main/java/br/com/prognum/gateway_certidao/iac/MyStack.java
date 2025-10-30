@@ -39,10 +39,10 @@ public class MyStack extends Stack {
 	private static final int DOCKET_CREATE_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
 	private static final int DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
 
-	private static final int DOCKET_PROCESS_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = 300;
-	private static final int DOCKET_PROCESS_DOCUMENT_QUEUE_BATCH_SIZE = 10;
-	private static final int DOCKET_PROCESS_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
-	private static final int DOCKET_PROCESS_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
+	private static final int DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = 300;
+	private static final int DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE = 10;
+	private static final int DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
+	private static final int DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
 
 	public MyStack(Construct scope, Config config, StackProps props) {
 		super(scope, String.format("%s-certidao-%s-stack", config.getSystem(), config.getEnvironment()), props);
@@ -55,38 +55,38 @@ public class MyStack extends Stack {
 		Tags.of(this).add("Environment", environment);
 		Tags.of(this).add("System", system);
 
-		String docketCreateDocumentDlqId = String.format("%s-certidao-%s-provider-docket-create-document-dlq.fifo",
+		String docketCreateDocumentGroupDlqId = String.format("%s-certidao-%s-provider-docket-create-document-group-dlq.fifo",
 				system, environment);
-		Queue docketCreateDocumentDlq = Queue.Builder.create(this, docketCreateDocumentDlqId)
-				.queueName(docketCreateDocumentDlqId).encryption(QueueEncryption.KMS_MANAGED)
+		Queue docketCreateDocumentGroupDlq = Queue.Builder.create(this, docketCreateDocumentGroupDlqId)
+				.queueName(docketCreateDocumentGroupDlqId).encryption(QueueEncryption.KMS_MANAGED)
 				.retentionPeriod(Duration.days(DOCKET_CREATE_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
 				.contentBasedDeduplication(true).build();
 
-		String docketCreateDocumentQueueId = String.format("%s-certidao-%s-provider-docket-create-document-queue.fifo",
+		String docketCreateDocumentGroupQueueId = String.format("%s-certidao-%s-provider-docket-create-document-group-queue.fifo",
 				system, environment);
-		Queue docketCreateDocumentQueue = Queue.Builder.create(this, docketCreateDocumentQueueId)
-				.queueName(docketCreateDocumentQueueId).encryption(QueueEncryption.KMS_MANAGED)
+		Queue docketCreateDocumentQueue = Queue.Builder.create(this, docketCreateDocumentGroupQueueId)
+				.queueName(docketCreateDocumentGroupQueueId).encryption(QueueEncryption.KMS_MANAGED)
 				.visibilityTimeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
 				.contentBasedDeduplication(true)
-				.deadLetterQueue(DeadLetterQueue.builder().queue(docketCreateDocumentDlq)
+				.deadLetterQueue(DeadLetterQueue.builder().queue(docketCreateDocumentGroupDlq)
 						.maxReceiveCount(DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
 				.build();
 
-		String docketProcessDocumentDlqId = String.format("%s-certidao-%s-provider-docket-process-document-dlq.fifo",
+		String docketGetDocumentGroupDlqId = String.format("%s-certidao-%s-provider-docket-get-document-group-dlq.fifo",
 				system, environment);
-		Queue docketProcessDocumentDlq = Queue.Builder.create(this, docketProcessDocumentDlqId)
-				.queueName(docketProcessDocumentDlqId).encryption(QueueEncryption.KMS_MANAGED)
-				.retentionPeriod(Duration.days(DOCKET_PROCESS_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
+		Queue docketGetDocumentGroupDlq = Queue.Builder.create(this, docketGetDocumentGroupDlqId)
+				.queueName(docketGetDocumentGroupDlqId).encryption(QueueEncryption.KMS_MANAGED)
+				.retentionPeriod(Duration.days(DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
 				.contentBasedDeduplication(true).build();
 
-		String docketProcessDocumentQueueId = String
-				.format("%s-certidao-%s-provider-docket-process-document-queue.fifo", system, environment);
-		Queue docketProcessDocumentQueue = Queue.Builder.create(this, docketProcessDocumentQueueId)
-				.queueName(docketProcessDocumentQueueId).encryption(QueueEncryption.KMS_MANAGED)
-				.visibilityTimeout(Duration.seconds(DOCKET_PROCESS_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS))
+		String docketGetDocumentGroupQueueId = String
+				.format("%s-certidao-%s-provider-docket-get-document-group-queue.fifo", system, environment);
+		Queue docketGetDocumentGroupQueue = Queue.Builder.create(this, docketGetDocumentGroupQueueId)
+				.queueName(docketGetDocumentGroupQueueId).encryption(QueueEncryption.KMS_MANAGED)
+				.visibilityTimeout(Duration.seconds(DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS))
 				.fifo(true).contentBasedDeduplication(true)
-				.deadLetterQueue(DeadLetterQueue.builder().queue(docketProcessDocumentDlq)
-						.maxReceiveCount(DOCKET_PROCESS_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
+				.deadLetterQueue(DeadLetterQueue.builder().queue(docketGetDocumentGroupDlq)
+						.maxReceiveCount(DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
 				.build();
 
 		String docketApiSecretId = String.format("%s-certidao-%s-provider-docket-api-secret", system, environment);
@@ -98,88 +98,88 @@ public class MyStack extends Stack {
 		Bucket tenantBucket = Bucket.Builder.create(this, tenantBucketId).bucketName(tenantBucketId)
 				.removalPolicy(RemovalPolicy.DESTROY).encryption(BucketEncryption.S3_MANAGED).build();
 
-		String scciCreateDocumentGroupFunctionId = String.format("%s-certidao-%s-scci-create-document-group-lambda",
+		String apiCreateDocumentGroupFunctionId = String.format("%s-certidao-%s-api-create-document-group-lambda",
 				system, environment);
-		Function scciCreateDocumentGroupFunction = Function.Builder.create(this, scciCreateDocumentGroupFunctionId)
-				.functionName(scciCreateDocumentGroupFunctionId)
-				.code(getLambdaCode("prognum-gateway-certidao-scci-create-document-group-lambda"))
-				.handler("br.com.prognum.gateway_certidao.scci_create_document_group.Handler::handleRequest")
+		Function apiCreateDocumentGroupFunction = Function.Builder.create(this, apiCreateDocumentGroupFunctionId)
+				.functionName(apiCreateDocumentGroupFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-api-create-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.api_create_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
 						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
 				.build();
-		docketCreateDocumentQueue.grantSendMessages(scciCreateDocumentGroupFunction);
-		tenantBucket.grantWrite(scciCreateDocumentGroupFunction);
+		docketCreateDocumentQueue.grantSendMessages(apiCreateDocumentGroupFunction);
+		tenantBucket.grantWrite(apiCreateDocumentGroupFunction);
 
-		String scciGetDocumentGroupFunctionId = String.format("%s-certidao-%s-scci-get-document-group-lambda", system,
+		String apiGetDocumentGroupFunctionId = String.format("%s-certidao-%s-api-get-document-group-lambda", system,
 				environment);
-		Function scciGetDocumentGroupFunction = Function.Builder.create(this, scciGetDocumentGroupFunctionId)
-				.functionName(scciGetDocumentGroupFunctionId)
-				.code(getLambdaCode("prognum-gateway-certidao-scci-get-document-group-lambda"))
-				.handler("br.com.prognum.gateway_certidao.scci_get_document_group.Handler::handleRequest")
+		Function apiGetDocumentGroupFunction = Function.Builder.create(this, apiGetDocumentGroupFunctionId)
+				.functionName(apiGetDocumentGroupFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-api-get-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.api_get_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
-				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_PROCESS_DOCUMENT_QUEUE_URL",
-						docketProcessDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
+				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
+						docketGetDocumentGroupQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
 				.build();
-		docketProcessDocumentQueue.grantSendMessages(scciGetDocumentGroupFunction);
-		tenantBucket.grantRead(scciGetDocumentGroupFunction);
+		docketGetDocumentGroupQueue.grantSendMessages(apiGetDocumentGroupFunction);
+		tenantBucket.grantRead(apiGetDocumentGroupFunction);
 
-		String scciGetDocumentTypesFunctionId = String.format("%s-certidao-%s-scci-get-document-types-lambda", system,
+		String apiGetDocumentTypesFunctionId = String.format("%s-certidao-%s-api-get-document-types-lambda", system,
 				environment);
-		Function scciGetDocumentTypesFunction = Function.Builder.create(this, scciGetDocumentTypesFunctionId)
-				.functionName(scciGetDocumentTypesFunctionId)
-				.code(getLambdaCode("prognum-gateway-certidao-scci-get-document-types-lambda"))
-				.handler("br.com.prognum.gateway_certidao.scci_get_document_types.Handler::handleRequest")
+		Function apiGetDocumentTypesFunction = Function.Builder.create(this, apiGetDocumentTypesFunctionId)
+				.functionName(apiGetDocumentTypesFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-api-get-document-types-lambda"))
+				.handler("br.com.prognum.gateway_certidao.api_get_document_types.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS)).environment(Map.of("LOG_LEVEL", logLevel)).build();
 
-		String docketCreateDocumentFunctionId = String.format("%s-certidao-%s-provider-docket-create-document-lambda",
+		String docketCreateDocumentFunctionId = String.format("%s-certidao-%s-provider-docket-create-document-group-lambda",
 				system, environment);
-		Map<String, String> docketCreateDocumentEnv = new HashMap<>();
-		docketCreateDocumentEnv.put("LOG_LEVEL", logLevel);
-		docketCreateDocumentEnv.put("DOCKET_API_SECRET_NAME", docketApiSecretId);
-		docketCreateDocumentEnv.put("DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl());
-		docketCreateDocumentEnv.put("DOCKET_API_CREATE_PEDIDO_URL",
+		Map<String, String> docketCreateDocumentGroupEnv = new HashMap<>();
+		docketCreateDocumentGroupEnv.put("LOG_LEVEL", logLevel);
+		docketCreateDocumentGroupEnv.put("DOCKET_API_SECRET_NAME", docketApiSecretId);
+		docketCreateDocumentGroupEnv.put("DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl());
+		docketCreateDocumentGroupEnv.put("DOCKET_API_CREATE_PEDIDO_URL",
 				config.getDocketApiCreatePedidoUrl());
-		docketCreateDocumentEnv.put("DOCKET_API_GET_PEDIDO_URL",
+		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_PEDIDO_URL",
 				config.getDocketApiGetPedidoUrl());
-		docketCreateDocumentEnv.put("DOCKET_API_DOWNLOAD_ARQUIVO_URL",
+		docketCreateDocumentGroupEnv.put("DOCKET_API_DOWNLOAD_ARQUIVO_URL",
 				config.getDocketApiDownloadArquivoUrl());
-		docketCreateDocumentEnv.put("DOCKET_API_GET_ESTADOS_URL",
+		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_ESTADOS_URL",
 				config.getDocketApiGetEstadosUrl());
-		docketCreateDocumentEnv.put("DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
+		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
 				config.getDocketApiGetCidadesByEstadoUrl());
-		docketCreateDocumentEnv.put("DOCKET_API_CENTRO_CUSTO_ID",
+		docketCreateDocumentGroupEnv.put("DOCKET_API_CENTRO_CUSTO_ID",
 				config.getDocketApiCentroCustoId());
-		docketCreateDocumentEnv.put("DOCKET_API_TIPO_OPERACAO_ID",
+		docketCreateDocumentGroupEnv.put("DOCKET_API_TIPO_OPERACAO_ID",
 				config.getDocketApiTipoOperacaoId());
-		docketCreateDocumentEnv.put("DOCKET_API_LEAD", config.getDocketApiLead());
-		docketCreateDocumentEnv.put("LOG_LEVEL", logLevel);
-		docketCreateDocumentEnv.put("LOG_LEVEL", logLevel);
-		docketCreateDocumentEnv.put("DOCKET_API_GRUPO_ID", config.getDocketApiGrupoId());
-		Function docketCreateDocumentFunction = Function.Builder.create(this, docketCreateDocumentFunctionId)
+		docketCreateDocumentGroupEnv.put("DOCKET_API_LEAD", config.getDocketApiLead());
+		docketCreateDocumentGroupEnv.put("LOG_LEVEL", logLevel);
+		docketCreateDocumentGroupEnv.put("LOG_LEVEL", logLevel);
+		docketCreateDocumentGroupEnv.put("DOCKET_API_GRUPO_ID", config.getDocketApiGrupoId());
+		Function docketCreateDocumentGroupFunction = Function.Builder.create(this, docketCreateDocumentFunctionId)
 				.functionName(docketCreateDocumentFunctionId)
-				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-create-document-lambda"))
-				.handler("br.com.prognum.gateway_certidao.docket_create_document.Handler::handleRequest")
+				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-create-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.docket_create_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
-				.environment(docketCreateDocumentEnv).build();
-		tenantBucket.grantWrite(docketCreateDocumentFunction);
-		docketApiSecret.grantRead(docketCreateDocumentFunction);
+				.environment(docketCreateDocumentGroupEnv).build();
+		tenantBucket.grantWrite(docketCreateDocumentGroupFunction);
+		docketApiSecret.grantRead(docketCreateDocumentGroupFunction);
 
-		docketCreateDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentQueue)
+		docketCreateDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentQueue)
 				.batchSize(DOCKET_CREATE_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
-		String docketProcessDocumentFunctionId = String.format("%s-certidao-%s-provider-docket-process-document-lambda",
+		String docketGetDocumentGroupFunctionId = String.format("%s-certidao-%s-provider-docket-get-document-group-lambda",
 				system, environment);
-		Function docketProcessDocumentFunction = Function.Builder.create(this, docketProcessDocumentFunctionId)
-				.functionName(docketProcessDocumentFunctionId)
-				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-process-document-lambda"))
-				.handler("br.com.prognum.gateway_certidao.docket_process_document.Handler::handleRequest")
+		Function docketGetDocumentGroupFunction = Function.Builder.create(this, docketGetDocumentGroupFunctionId)
+				.functionName(docketGetDocumentGroupFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-get-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.docket_get_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
@@ -190,30 +190,30 @@ public class MyStack extends Stack {
 						config.getDocketApiGetEstadosUrl(), "DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
 						config.getDocketApiGetCidadesByEstadoUrl()))
 				.build();
-		tenantBucket.grantReadWrite(docketProcessDocumentFunction);
-		docketApiSecret.grantRead(docketProcessDocumentFunction);
+		tenantBucket.grantReadWrite(docketGetDocumentGroupFunction);
+		docketApiSecret.grantRead(docketGetDocumentGroupFunction);
 
-		docketProcessDocumentFunction.addEventSource(SqsEventSource.Builder.create(docketProcessDocumentQueue)
-				.batchSize(DOCKET_PROCESS_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
+		docketGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupQueue)
+				.batchSize(DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String apiId = String.format("%s-certidao-%s-api-gateway", system, environment);
 		RestApi api = RestApi.Builder.create(this, apiId).restApiName(apiId).build();
 
 		IResource apiRootResource = api.getRoot();
 		Resource documentGroupsResource = apiRootResource.addResource("document-groups");
-		LambdaIntegration scciCreateDocumentGroupFunctionIntegration = LambdaIntegration.Builder
-				.create(scciCreateDocumentGroupFunction).build();
-		documentGroupsResource.addMethod("POST", scciCreateDocumentGroupFunctionIntegration,
+		LambdaIntegration apiCreateDocumentGroupFunctionIntegration = LambdaIntegration.Builder
+				.create(apiCreateDocumentGroupFunction).build();
+		documentGroupsResource.addMethod("POST", apiCreateDocumentGroupFunctionIntegration,
 				MethodOptions.builder().apiKeyRequired(true).build());
-		LambdaIntegration scciGetDocumentGroupFunctionIntegration = LambdaIntegration.Builder
-				.create(scciGetDocumentGroupFunction).build();
-		documentGroupsResource.addResource("{id}").addMethod("GET", scciGetDocumentGroupFunctionIntegration,
+		LambdaIntegration apiGetDocumentGroupFunctionIntegration = LambdaIntegration.Builder
+				.create(apiGetDocumentGroupFunction).build();
+		documentGroupsResource.addResource("{id}").addMethod("GET", apiGetDocumentGroupFunctionIntegration,
 				MethodOptions.builder().apiKeyRequired(true).build());
 
-		LambdaIntegration scciGetDocumentTypesFunctionIntegration = LambdaIntegration.Builder
-				.create(scciGetDocumentTypesFunction).build();
+		LambdaIntegration apiGetDocumentTypesFunctionIntegration = LambdaIntegration.Builder
+				.create(apiGetDocumentTypesFunction).build();
 		Resource documentTypesResource = apiRootResource.addResource("document-types");
-		documentTypesResource.addMethod("GET", scciGetDocumentTypesFunctionIntegration,
+		documentTypesResource.addMethod("GET", apiGetDocumentTypesFunctionIntegration,
 				MethodOptions.builder().apiKeyRequired(true).build());
 
 		String tenantApiKeyId = String.format("%s-certidao-%s-tenant-%s-api-key", system, environment, tenantId);
