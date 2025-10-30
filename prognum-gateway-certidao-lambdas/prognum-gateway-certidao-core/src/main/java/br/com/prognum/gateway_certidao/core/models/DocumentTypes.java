@@ -46,6 +46,7 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_28 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj";
 	public static final String DOCUMENT_TYPE_ID_29 = "cert-inventarios-arrolamentos-testamentos-extrajudicial-pf";
 	public static final String DOCUMENT_TYPE_ID_30 = "cert-negativa-debitos-tributos-imobiliarios-imovel";
+	public static final String DOCUMENT_TYPE_ID_31 = "cert-atualizada-matricula-imovel-imovel";
 
 	private final FieldTypes fieldTypes;
 
@@ -190,6 +191,11 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_30, "Certidão Negativa de Débitos de Tributos Imobiliários - Imóvel",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
 				FieldTypes.NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID, FieldTypes.NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID,
+				FieldTypes.CEP_FIELD_TYPE_ID, FieldTypes.COMARCA_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID);
+		
+		newDocumentType(DOCUMENT_TYPE_ID_31, "Certidão Atualizada de Matrícula de Imóvel - Imóvel",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
+				FieldTypes.NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID,
 				FieldTypes.CEP_FIELD_TYPE_ID, FieldTypes.COMARCA_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID);
 	}
 

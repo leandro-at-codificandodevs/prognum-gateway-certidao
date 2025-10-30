@@ -199,22 +199,31 @@
          "documentTypeId":"cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj"
       },
       {
-          "documentKitId": "55498bcc-fc28-40db-8e0a-588dffdefee9",
-          "produtoId": "7469cb57-932e-4916-b030-525ed03344a2",
-          "kitId": "13bf9840-f32c-4425-84d2-96b986239cb8",
-          "kitNome": "CARTÓRIO DE NOTAS",
-          "titularTipo": "PESSOA_FISICA",
-          "documentoNome": "Certidões De Inventários, Arrolamentos E Testamentos - Extrajudicial",
-          "documentTypeId": "cert-inventarios-arrolamentos-testamentos-extrajudicial-pf"
+         "documentKitId":"55498bcc-fc28-40db-8e0a-588dffdefee9",
+         "produtoId":"7469cb57-932e-4916-b030-525ed03344a2",
+         "kitId":"13bf9840-f32c-4425-84d2-96b986239cb8",
+         "kitNome":"CARTÓRIO DE NOTAS",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidões De Inventários, Arrolamentos E Testamentos - Extrajudicial",
+         "documentTypeId":"cert-inventarios-arrolamentos-testamentos-extrajudicial-pf"
       },
-        {
-          "documentKitId": "626101bc-4841-4d7b-ac7e-361ab61b607a",
-          "produtoId": "ca002f87-098e-ea62-18ff-76d81c7480af",
-          "kitId": "f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
-          "kitNome": "PREFEITURAS",
-          "titularTipo": "IMOVEL",
-          "documentoNome": "Certidão Negativa de Débitos de Tributos Imobiliários",
-          "documentTypeId": "cert-negativa-debitos-tributos-imobiliarios-imovel"
+      {
+         "documentKitId":"626101bc-4841-4d7b-ac7e-361ab61b607a",
+         "produtoId":"ca002f87-098e-ea62-18ff-76d81c7480af",
+         "kitId":"f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
+         "kitNome":"PREFEITURAS",
+         "titularTipo":"IMOVEL",
+         "documentoNome":"Certidão Negativa de Débitos de Tributos Imobiliários",
+         "documentTypeId":"cert-negativa-debitos-tributos-imobiliarios-imovel"
       },
+      {
+         "documentKitId":"d1b06ab2-cd2d-4340-ac86-0e5185d9a925",
+         "produtoId":"09567047-2299-9005-1b3d-1a7424166406",
+         "kitId":"95a59757-dbb7-4cdb-a412-d013b9f5346d",
+         "kitNome":"REGISTRO DE IMÓVEL",
+         "titularTipo":"IMOVEL",
+         "documentoNome":"Certidão Atualizada de Matrícula de Imóvel",
+         "documentTypeId":"cert-atualizada-matricula-imovel-imovel"
+      }
    ]
 }
