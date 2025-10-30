@@ -31,8 +31,26 @@ import software.constructs.Construct;
 
 public class MyStack extends Stack {
 
-	private static final int LAMBDA_TIMEOUT_IN_SECS = 300;
-	private static final int LAMBDA_MEMORY_SIZE_IN_MB = 512;
+	private static final int API_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 60;
+	private static final int API_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+	
+	private static final int API_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 60;
+	private static final int API_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+
+	private static final int API_GET_DOCUMENT_TYPES_LAMBDA_TIMEOUT_IN_SECS = 30;
+	private static final int API_GET_DOCUMENT_TYPES_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 300;
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+	
+	private static final int DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 300;
+	private static final int DOCKET_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+
+	private static final int ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 30;
+	private static final int ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+	
+	private static final int ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 30;
+	private static final int ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 
 	private static final int DOCKET_CREATE_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = 300;
 	private static final int DOCKET_CREATE_DOCUMENT_QUEUE_BATCH_SIZE = 10;
@@ -107,8 +125,8 @@ public class MyStack extends Stack {
 				.functionName(apiCreateDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-api-create-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.api_create_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(API_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(API_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
 						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
@@ -122,8 +140,8 @@ public class MyStack extends Stack {
 				.functionName(apiGetDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-api-get-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.api_get_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(API_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(API_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
 						docketGetDocumentGroupQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
@@ -137,8 +155,8 @@ public class MyStack extends Stack {
 				.functionName(apiGetDocumentTypesFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-api-get-document-types-lambda"))
 				.handler("br.com.prognum.gateway_certidao.api_get_document_types.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS)).environment(Map.of("LOG_LEVEL", logLevel)).build();
+				.runtime(Runtime.JAVA_17).memorySize(API_GET_DOCUMENT_TYPES_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(API_GET_DOCUMENT_TYPES_LAMBDA_TIMEOUT_IN_SECS)).environment(Map.of("LOG_LEVEL", logLevel)).build();
 
 		String docketCreateDocumentFunctionId = String.format("%s-certidao-%s-docket-create-document-group-lambda",
 				system, environment);
@@ -168,8 +186,8 @@ public class MyStack extends Stack {
 				.functionName(docketCreateDocumentFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-docket-create-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_create_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(docketCreateDocumentGroupEnv).build();
 		tenantBucket.grantWrite(docketCreateDocumentGroupFunction);
 		docketApiSecret.grantRead(docketCreateDocumentGroupFunction);
@@ -183,8 +201,8 @@ public class MyStack extends Stack {
 				.functionName(docketGetDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-docket-get-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_get_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(DOCKET_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
 						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
 						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
@@ -205,8 +223,8 @@ public class MyStack extends Stack {
 				.functionName(errorCreateDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-error-create-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.error_create_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_CREATE_DOCUMENT_QUEUE_URL",
 						docketCreateDocumentQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
@@ -222,8 +240,8 @@ public class MyStack extends Stack {
 				.functionName(errorGetDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-error-get-document-group-lambda"))
 				.handler("br.com.prognum.gateway_certidao.api_get_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
+				.runtime(Runtime.JAVA_17).memorySize(ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
 						docketGetDocumentGroupQueue.getQueueUrl(), "TENANT_BUCKET_NAME", tenantBucketId, "TENANT_ID",
 						tenantId))
