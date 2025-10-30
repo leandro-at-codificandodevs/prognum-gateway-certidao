@@ -1,15 +1,16 @@
 package br.com.prognum.gateway_certidao.core.models;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
+import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
@@ -31,7 +32,7 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_13 = "cert-acoes-trabalhias-tribunal-regional-trabalho-1a-instancia-pf";
 	public static final String DOCUMENT_TYPE_ID_14 = "cert-acoes-trabalhias-tribunal-regional-trabalho-1a-instancia-pj";
 	public static final String DOCUMENT_TYPE_ID_15 = "cert-regularidade-fiscal-estadual-pf";
-	public static final String DOCUMENT_TYPE_ID_16 = "cert-regularidade-fiscal-estadual-pf";
+	public static final String DOCUMENT_TYPE_ID_16 = "cert-regularidade-fiscal-estadual-pj";
 	public static final String DOCUMENT_TYPE_ID_17 = "cert-inscricao-estadual-produtor-rural-pf";
 	public static final String DOCUMENT_TYPE_ID_18 = "cert-inscricao-estadual-produtor-rural-pj";
 	public static final String DOCUMENT_TYPE_ID_19 = "cert-regularidade-fiscal-municipal-pf";
@@ -55,7 +56,7 @@ public class DocumentTypes {
 	public DocumentTypes() {
 		fieldTypes = new FieldTypes();
 
-		documentTypesById = new HashMap<>();
+		documentTypesById = new LinkedHashMap<>();
 
 		newDocumentType(DOCUMENT_TYPE_ID_1,
 				"Certidão de Distribuição de Ações Cíveis - Justiça Federal - 1a instância - PF",
@@ -202,19 +203,22 @@ public class DocumentTypes {
 	private DocumentType newDocumentType(String id, String name, String... fieldTypeIds) {
 		List<FieldType> fieldTypes = Stream.of(fieldTypeIds)
 				.map(fieldTypeId -> this.fieldTypes.getFieldTypeById(fieldTypeId)).collect(Collectors.toList());
+		if (documentTypesById.containsKey(id)) {
+			throw new InternalServerException(String.format("Tipo de Documento duplicado: %s", id));
+		}
 		DocumentType documentType = new DocumentType(id, name, fieldTypes);
 		documentTypesById.put(documentType.getId(), documentType);
 		return documentType;
 	}
 
 	@JsonProperty
-	public Set<String> getDocumentTypeIds() {
-		return documentTypesById.keySet();
+	public List<String> getDocumentTypeIds() {
+		return documentTypesById.keySet().stream().collect(Collectors.toList());
 	}
 
 	@JsonProperty
-	public Set<DocumentType> getDocumentTypes() {
-		return this.documentTypesById.values().stream().collect(Collectors.toSet());
+	public List<DocumentType> getDocumentTypes() {
+		return documentTypesById.values().stream().collect(Collectors.toList());
 	}
 
 	public DocumentType getDocumentTypeById(String documentTypeId) throws DocumentTypeNotFoundException {
