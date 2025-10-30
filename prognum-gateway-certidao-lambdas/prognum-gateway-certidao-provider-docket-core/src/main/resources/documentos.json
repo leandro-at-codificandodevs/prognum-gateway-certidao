@@ -205,7 +205,16 @@
           "kitNome": "CARTÓRIO DE NOTAS",
           "titularTipo": "PESSOA_FISICA",
           "documentoNome": "Certidões De Inventários, Arrolamentos E Testamentos - Extrajudicial",
-          "documentTypeId": "\"cert-inventarios-arrolamentos-testamentos-extrajudicial-pf"
-      }
+          "documentTypeId": "cert-inventarios-arrolamentos-testamentos-extrajudicial-pf"
+      },
+        {
+          "documentKitId": "626101bc-4841-4d7b-ac7e-361ab61b607a",
+          "produtoId": "ca002f87-098e-ea62-18ff-76d81c7480af",
+          "kitId": "f26cc0c9-d1aa-4daa-9d0b-5f42ff9e7b6f",
+          "kitNome": "PREFEITURAS",
+          "titularTipo": "IMOVEL",
+          "documentoNome": "Certidão Negativa de Débitos de Tributos Imobiliários",
+          "documentTypeId": "cert-negativa-debitos-tributos-imobiliarios-imovel"
+      },
    ]
 }

@@ -14,10 +14,15 @@ public class FieldTypes {
 	public static final String NOME_COMPLETO_FIELD_TYPE_ID = "nome-completo";
 	public static final String NOME_MAE_FIELD_TYPE_ID = "nome-mae";
 	public static final String DATA_NASCIMENTO_FIELD_TYPE_ID = "data-nascimento";
-	public static final String CARTORIO_FIELD_TYPE_ID = "cartorio";
 
 	public static final String CNPJ_FIELD_TYPE_ID = "cnpj";
 	public static final String RAZAO_SOCIAL_FIELD_TYPE_ID = "razao-social";
+	
+	public static final String CEP_FIELD_TYPE_ID = "cep";
+	public static final String COMARCA_FIELD_TYPE_ID = "comarca";
+	public static final String CARTORIO_FIELD_TYPE_ID = "cartorio";
+	public static final String NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID = "numero-matricula-imovel";
+	public static final String NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID = "numero-inscricao-imobiliaria";
 
 	private final Map<String, FieldType> fieldTypes;
 
@@ -33,10 +38,15 @@ public class FieldTypes {
 		newFieldType(NOME_COMPLETO_FIELD_TYPE_ID, "Nome Completo", "Nome Completo");
 		newFieldType(NOME_MAE_FIELD_TYPE_ID, "Nome da Mãe", "Nome da Mãe");
 		newFieldType(DATA_NASCIMENTO_FIELD_TYPE_ID, "Data de Nascimento", "Data de Nascimento");
-		newFieldType(CARTORIO_FIELD_TYPE_ID, "Cartório", "Cartório");
 		
 		newFieldType(CNPJ_FIELD_TYPE_ID, "CNPJ", "Cadastro Nacional de Pessoa Jurídica");
 		newFieldType(RAZAO_SOCIAL_FIELD_TYPE_ID, "Razão Social", "Razão Social");
+		
+		newFieldType(CEP_FIELD_TYPE_ID, "CEP", "Código de Endereço Postal");
+		newFieldType(COMARCA_FIELD_TYPE_ID, "Comarca", "Comarca");
+		newFieldType(CARTORIO_FIELD_TYPE_ID, "Cartório", "Cartório");
+		newFieldType(NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID, "Número de Matrícula do Imóvel", "Número de Matrícula do Imóvel");
+		newFieldType(NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID, "Número Inscrição Imobiliária", "Número Inscrição Imobiliária");
 	}
 	
 	private FieldType newFieldType(String id, String name, String description) {

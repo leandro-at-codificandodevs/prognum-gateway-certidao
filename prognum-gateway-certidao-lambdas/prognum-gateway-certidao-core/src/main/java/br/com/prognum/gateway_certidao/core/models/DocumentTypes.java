@@ -45,6 +45,7 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_27 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pf";
 	public static final String DOCUMENT_TYPE_ID_28 = "cert-debitos-tributos-federais-divida-ativa-uniao-receita-federal-pj";
 	public static final String DOCUMENT_TYPE_ID_29 = "cert-inventarios-arrolamentos-testamentos-extrajudicial-pf";
+	public static final String DOCUMENT_TYPE_ID_30 = "cert-negativa-debitos-tributos-imobiliarios-imovel";
 
 	private final FieldTypes fieldTypes;
 
@@ -82,23 +83,28 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_6, "Certidão Negativa de Débitos Trabalhistas - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
-		newDocumentType(DOCUMENT_TYPE_ID_7, "Certidão de Distribuição de Ações Cíveis - Justiça Estadual - 1a instância - PF",
-				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
-				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.NOME_MAE_FIELD_TYPE_ID, FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
 
-		newDocumentType(DOCUMENT_TYPE_ID_8, "Certidão de Distribuição de Ações Cíveis - Justiça Estadual - 1a instância - PJ",
+		newDocumentType(DOCUMENT_TYPE_ID_7,
+				"Certidão de Distribuição de Ações Cíveis - Justiça Estadual - 1a instância - PF",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
+				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.NOME_MAE_FIELD_TYPE_ID,
+				FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
+
+		newDocumentType(DOCUMENT_TYPE_ID_8,
+				"Certidão de Distribuição de Ações Cíveis - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
-		newDocumentType(DOCUMENT_TYPE_ID_9, "Certidão de Distribuição de Ações Criminais - Justiça Estadual - 1a instância - PF",
+
+		newDocumentType(DOCUMENT_TYPE_ID_9,
+				"Certidão de Distribuição de Ações Criminais - Justiça Estadual - 1a instância - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
 
-		newDocumentType(DOCUMENT_TYPE_ID_10, "Certidão de Distribuição de Ações Criminais - Justiça Estadual - 1a instância - PJ",
+		newDocumentType(DOCUMENT_TYPE_ID_10,
+				"Certidão de Distribuição de Ações Criminais - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_11, "Certidões de Inventários, Arrolamentos e Testamentos - Judicial - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
@@ -106,15 +112,17 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_12, "Certidões de Inventários, Arrolamentos e Testamentos - Judicial - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
-		newDocumentType(DOCUMENT_TYPE_ID_13, "Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho - 1a instância - PF",
+
+		newDocumentType(DOCUMENT_TYPE_ID_13,
+				"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho - 1a instância - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
 
-		newDocumentType(DOCUMENT_TYPE_ID_14, "Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho - 1a instância - PJ",
+		newDocumentType(DOCUMENT_TYPE_ID_14,
+				"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_15, "Certidão de Regularidade Fiscal Estadual - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
@@ -122,7 +130,7 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_16, "Certidão de Regularidade Fiscal Estadual - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_17, "Certidão Inscrição Estadual do Produtor Rural - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
@@ -130,7 +138,7 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_18, "Certidão Inscrição Estadual do Produtor Rural - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_19, "Certidão de Regularidade Fiscal Municipal - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
@@ -138,43 +146,51 @@ public class DocumentTypes {
 		newDocumentType(DOCUMENT_TYPE_ID_20, "Certidão de Regularidade Fiscal Municipal - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_21, "Certidão de Execuções Criminais - Justiça Estadual - 1a instância - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
-				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.NOME_MAE_FIELD_TYPE_ID, FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
-	
+				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.NOME_MAE_FIELD_TYPE_ID,
+				FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
+
 		newDocumentType(DOCUMENT_TYPE_ID_22, "Certidão de Execuções Criminais - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_23, "Certificado de Regularidade do FGTS - CRF -PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
-				FieldTypes.CEI_FIELD_TYPE_ID,
-				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
-	
+				FieldTypes.CEI_FIELD_TYPE_ID, FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
+
 		newDocumentType(DOCUMENT_TYPE_ID_24, "Certificado de Regularidade do FGTS - CRF - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
+
 		newDocumentType(DOCUMENT_TYPE_ID_25, "Certidão de Execuções Fiscais - Justiça Estadual - 1a instância - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID);
-	
+
 		newDocumentType(DOCUMENT_TYPE_ID_26, "Certidão de Execuções Fiscais - Justiça Estadual - 1a instância - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
-		newDocumentType(DOCUMENT_TYPE_ID_27, "Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PF",
+
+		newDocumentType(DOCUMENT_TYPE_ID_27,
+				"Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
-	
-		newDocumentType(DOCUMENT_TYPE_ID_28, "Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PJ",
+
+		newDocumentType(DOCUMENT_TYPE_ID_28,
+				"Certidão de Débitos Relativos a Tributos Federais e a Dívida Ativa da União - Receita Federal - PJ",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CNPJ_FIELD_TYPE_ID,
 				FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID);
-		
-		newDocumentType(DOCUMENT_TYPE_ID_29, "Certidões de Inventários, Arrolamentos e Testamentos - Extrajudicial - PF",
+
+		newDocumentType(DOCUMENT_TYPE_ID_29,
+				"Certidões de Inventários, Arrolamentos e Testamentos - Extrajudicial - PF",
 				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID, FieldTypes.CPF_FIELD_TYPE_ID,
 				FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID);
+
+		newDocumentType(DOCUMENT_TYPE_ID_30, "Certidão Negativa de Débitos de Tributos Imobiliários - Imóvel",
+				FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
+				FieldTypes.NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID, FieldTypes.NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID,
+				FieldTypes.CEP_FIELD_TYPE_ID, FieldTypes.COMARCA_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID);
 	}
 
 	private DocumentType newDocumentType(String id, String name, String... fieldTypeIds) {
@@ -189,7 +205,7 @@ public class DocumentTypes {
 	public Set<String> getDocumentTypeIds() {
 		return documentTypesById.keySet();
 	}
-	
+
 	@JsonProperty
 	public Set<DocumentType> getDocumentTypes() {
 		return this.documentTypesById.values().stream().collect(Collectors.toSet());
@@ -202,12 +218,12 @@ public class DocumentTypes {
 		}
 		return documentType;
 	}
-	
-	public static final void main(String [] args) throws DocumentTypeNotFoundException, ToJsonException {
+
+	public static final void main(String[] args) throws DocumentTypeNotFoundException, ToJsonException {
 		JsonService jsonService = new JsonServiceImpl();
-		DocumentTypes documentTypes =  new DocumentTypes();
-		
-		for (String documentTypeId: documentTypes.getDocumentTypeIds()) {
+		DocumentTypes documentTypes = new DocumentTypes();
+
+		for (String documentTypeId : documentTypes.getDocumentTypeIds()) {
 			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
 			Map<String, Object> map = new HashMap<>();
 			map.put("document-type-ids:", List.of(documentType.getId()));
@@ -216,7 +232,7 @@ public class DocumentTypes {
 				fields.put(fieldTypeId, "?");
 			}
 			map.put("fields", fields);
-			
+
 			System.out.println(StringUtils.repeat("-", 20));
 			System.out.println(documentType.getName());
 			System.out.println();

@@ -101,15 +101,28 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			case FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID:
 				fieldsToRequest.put("dataNascimento", toEpochSeconds(value));
 				break;
-			case FieldTypes.CARTORIO_FIELD_TYPE_ID:
-				fieldsToRequest.put("cartorio", value);
-				break;
 
 			case FieldTypes.CNPJ_FIELD_TYPE_ID:
 				fieldsToRequest.put("cnpj", value);
 				break;
 			case FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID:
 				fieldsToRequest.put("razaoSocial", value);
+				break;
+
+			case FieldTypes.CEP_FIELD_TYPE_ID:
+				fieldsToRequest.put("cep", value);
+				break;
+			case FieldTypes.COMARCA_FIELD_TYPE_ID:
+				fieldsToRequest.put("comarca", value);
+				break;
+			case FieldTypes.CARTORIO_FIELD_TYPE_ID:
+				fieldsToRequest.put("cartorio", value);
+				break;
+			case FieldTypes.NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID:
+				fieldsToRequest.put("numeroMatriculaImovel", value);
+				break;
+			case FieldTypes.NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID:
+				fieldsToRequest.put("numeroInscricaoImobiliaria", value);
 				break;
 
 			default:
