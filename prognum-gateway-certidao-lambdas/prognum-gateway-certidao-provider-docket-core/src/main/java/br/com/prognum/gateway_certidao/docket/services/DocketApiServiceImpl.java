@@ -28,12 +28,15 @@ import br.com.prognum.gateway_certidao.docket.models.GetPedidoStatusResponse;
 public class DocketApiServiceImpl implements DocketApiService {
 
 	private DocketAuthService docketAuthService;
+
 	private String docketApiCreatePedidoUrl;
 	private String docketApiGetPedidoUrl;
 	private String docketApiDownloadArquivoUrl;
 	private String docketApiGetEstadosUrl;
 	private String docketApiGetCidadesByEstadoUrl;
+
 	private JsonService jsonService;
+
 	private HttpClient httpClient;
 	
 	private static final Logger logger = LoggerFactory.getLogger(DocketApiServiceImpl.class);

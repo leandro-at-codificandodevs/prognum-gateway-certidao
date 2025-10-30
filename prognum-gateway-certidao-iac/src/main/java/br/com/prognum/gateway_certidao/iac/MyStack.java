@@ -1,5 +1,6 @@
 package br.com.prognum.gateway_certidao.iac;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,20 +139,35 @@ public class MyStack extends Stack {
 
 		String docketCreateDocumentFunctionId = String.format("%s-certidao-%s-provider-docket-create-document-lambda",
 				system, environment);
+		Map<String, String> docketCreateDocumentEnv = new HashMap<>();
+		docketCreateDocumentEnv.put("LOG_LEVEL", logLevel);
+		docketCreateDocumentEnv.put("DOCKET_API_SECRET_NAME", docketApiSecretId);
+		docketCreateDocumentEnv.put("DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl());
+		docketCreateDocumentEnv.put("DOCKET_API_CREATE_PEDIDO_URL",
+				config.getDocketApiCreatePedidoUrl());
+		docketCreateDocumentEnv.put("DOCKET_API_GET_PEDIDO_URL",
+				config.getDocketApiGetPedidoUrl());
+		docketCreateDocumentEnv.put("DOCKET_API_DOWNLOAD_ARQUIVO_URL",
+				config.getDocketApiDownloadArquivoUrl());
+		docketCreateDocumentEnv.put("DOCKET_API_GET_ESTADOS_URL",
+				config.getDocketApiGetEstadosUrl());
+		docketCreateDocumentEnv.put("DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
+				config.getDocketApiGetCidadesByEstadoUrl());
+		docketCreateDocumentEnv.put("DOCKET_API_CENTRO_CUSTO_ID",
+				config.getDocketApiCentroCustoId());
+		docketCreateDocumentEnv.put("DOCKET_API_TIPO_OPERACAO_ID",
+				config.getDocketApiTipoOperacaoId());
+		docketCreateDocumentEnv.put("DOCKET_API_LEAD", config.getDocketApiLead());
+		docketCreateDocumentEnv.put("LOG_LEVEL", logLevel);
+		docketCreateDocumentEnv.put("LOG_LEVEL", logLevel);
+		docketCreateDocumentEnv.put("DOCKET_API_GRUPO_ID", config.getDocketApiGrupoId());
 		Function docketCreateDocumentFunction = Function.Builder.create(this, docketCreateDocumentFunctionId)
 				.functionName(docketCreateDocumentFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-provider-docket-create-document-lambda"))
 				.handler("br.com.prognum.gateway_certidao.docket_create_document.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(LAMBDA_TIMEOUT_IN_SECS))
-				.environment(Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME", docketApiSecretId,
-						"DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
-						config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL",
-						config.getDocketApiGetPedidoUrl(), "DOCKET_API_DOWNLOAD_ARQUIVO_URL",
-						config.getDocketApiDownloadArquivoUrl(), "DOCKET_API_GET_ESTADOS_URL",
-						config.getDocketApiGetEstadosUrl(), "DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
-						config.getDocketApiGetCidadesByEstadoUrl()))
-				.build();
+				.environment(docketCreateDocumentEnv).build();
 		tenantBucket.grantWrite(docketCreateDocumentFunction);
 		docketApiSecret.grantRead(docketCreateDocumentFunction);
 

@@ -58,6 +58,10 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 	private static final String DOCKET_API_GET_CIDADES_BY_ESTADO_URL = System
 			.getenv("DOCKET_API_GET_CIDADES_BY_ESTADO_URL");
 	private static final String DOCKET_API_SECRET_NAME = System.getenv("DOCKET_API_SECRET_NAME");
+	private static final String DOCKET_API_CENTRO_CUSTO_ID = System.getenv("DOCKET_API_CENTRO_CUSTO_ID");
+	private static final String DOCKET_API_TIPO_OPERACAO_ID = System.getenv("DOCKET_API_TIPO_OPERACAO_ID");
+	private static final String DOCKET_API_LEAD = System.getenv("DOCKET_API_LEAD");
+	private static final String DOCKET_API_GRUPO_ID = System.getenv("DOCKET_API_GRUPO_ID");
 
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
@@ -79,7 +83,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
 
 		DocumentoMetadataService documentoMetadataService = new DocumentoMetadataServiceImpl();
-		this.docketMapperService = new DocketMapperServiceImpl(docketApiService, documentoMetadataService);
+		this.docketMapperService = new DocketMapperServiceImpl(docketApiService, documentoMetadataService,
+				DOCKET_API_CENTRO_CUSTO_ID, DOCKET_API_TIPO_OPERACAO_ID, DOCKET_API_LEAD, DOCKET_API_GRUPO_ID);
 
 		S3Client s3Client = S3Client.builder().build();
 		S3Presigner s3Presigner = S3Presigner.builder().build();

@@ -16,6 +16,10 @@ public class Config {
 	private String docketApiDownloadArquivoUrl;
 	private String docketApiGetEstadosUrl;
 	private String docketApiGetCidadesByEstadoUrl;
+	private String docketApiCentroCustoId;
+	private String docketApiTipoOperacaoId;
+	private String docketApiLead;
+	private String docketApiGrupoId;
 
 	public static Config create(Construct scope) {
 		String environment = (String) scope.getNode().tryGetContext("environment");
@@ -36,18 +40,25 @@ public class Config {
 		String docketApiCreatePedidoUrl = (String) envConfig.get("docketApiCreatePedidoUrl");
 		String docketApiGetPedidoUrl = (String) envConfig.get("docketApiGetPedidoUrl");
 		String docketApiDownloadArquivoUrl = (String) envConfig.get("docketApiDownloadArquivoUrl");
-		String docketApiGetEstadosUrl  = (String) envConfig.get("docketApiGetEstadosUrl");
-		String docketApiGetCidadesByEstadoUrl  = (String) envConfig.get("docketApiGetCidadesByEstadoUrl");
+		String docketApiGetEstadosUrl = (String) envConfig.get("docketApiGetEstadosUrl");
+		String docketApiGetCidadesByEstadoUrl = (String) envConfig.get("docketApiGetCidadesByEstadoUrl");
+		String docketApiCentroCustoId = (String) envConfig.get("docketApiCentroCustoId");
+		String docketApiTipoOperacaoId = (String) envConfig.get("docketApiTipoOperacaoId");
+		String docketApiLead = (String) envConfig.get("docketApiLead");
+		String docketApiGrupoId = (String) envConfig.get("docketApiGrupoId");
 
 		Config config = new Config(environment, system, tenantId, logLevel, docketApiAuthUrl, docketApiCreatePedidoUrl,
-				docketApiGetPedidoUrl, docketApiDownloadArquivoUrl, docketApiGetEstadosUrl, docketApiGetCidadesByEstadoUrl);
+				docketApiGetPedidoUrl, docketApiDownloadArquivoUrl, docketApiGetEstadosUrl,
+				docketApiGetCidadesByEstadoUrl, docketApiCentroCustoId, docketApiTipoOperacaoId, docketApiLead,
+				docketApiGrupoId);
 
 		return config;
 	}
 
 	public Config(String environment, String system, String tenantId, String logLevel, String docketApiAuthUrl,
 			String docketApiCreatePedidoUrl, String docketApiGetPedidoUrl, String docketApiDownloadArquivoUrl,
-			String docketApiGetEstadosUrl, String docketApiGetCidadesByEstadoUrl) {
+			String docketApiGetEstadosUrl, String docketApiGetCidadesByEstadoUrl, String docketApiCentroCustoId,
+			String docketApiTipoOperacaoId, String docketApiLead, String docketApiGrupoId) {
 		super();
 		this.environment = environment;
 		this.system = system;
@@ -59,6 +70,10 @@ public class Config {
 		this.docketApiDownloadArquivoUrl = docketApiDownloadArquivoUrl;
 		this.docketApiGetEstadosUrl = docketApiGetEstadosUrl;
 		this.docketApiGetCidadesByEstadoUrl = docketApiGetCidadesByEstadoUrl;
+		this.docketApiCentroCustoId = docketApiCentroCustoId;
+		this.docketApiTipoOperacaoId = docketApiTipoOperacaoId;
+		this.docketApiLead = docketApiLead;
+		this.docketApiGrupoId = docketApiGrupoId;
 	}
 
 	public String getEnvironment() {
@@ -101,10 +116,27 @@ public class Config {
 		return docketApiGetCidadesByEstadoUrl;
 	}
 
+	public String getDocketApiCentroCustoId() {
+		return docketApiCentroCustoId;
+	}
+
+	public String getDocketApiTipoOperacaoId() {
+		return docketApiTipoOperacaoId;
+	}
+
+	public String getDocketApiLead() {
+		return docketApiLead;
+	}
+
+	public String getDocketApiGrupoId() {
+		return docketApiGrupoId;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(docketApiAuthUrl, docketApiCreatePedidoUrl, docketApiDownloadArquivoUrl,
-				docketApiGetCidadesByEstadoUrl, docketApiGetEstadosUrl, docketApiGetPedidoUrl, environment, logLevel,
+		return Objects.hash(docketApiAuthUrl, docketApiCentroCustoId, docketApiCreatePedidoUrl,
+				docketApiDownloadArquivoUrl, docketApiGetCidadesByEstadoUrl, docketApiGetEstadosUrl,
+				docketApiGetPedidoUrl, docketApiGrupoId, docketApiLead, docketApiTipoOperacaoId, environment, logLevel,
 				system, tenantId);
 	}
 
@@ -118,11 +150,15 @@ public class Config {
 			return false;
 		Config other = (Config) obj;
 		return Objects.equals(docketApiAuthUrl, other.docketApiAuthUrl)
+				&& Objects.equals(docketApiCentroCustoId, other.docketApiCentroCustoId)
 				&& Objects.equals(docketApiCreatePedidoUrl, other.docketApiCreatePedidoUrl)
 				&& Objects.equals(docketApiDownloadArquivoUrl, other.docketApiDownloadArquivoUrl)
 				&& Objects.equals(docketApiGetCidadesByEstadoUrl, other.docketApiGetCidadesByEstadoUrl)
 				&& Objects.equals(docketApiGetEstadosUrl, other.docketApiGetEstadosUrl)
 				&& Objects.equals(docketApiGetPedidoUrl, other.docketApiGetPedidoUrl)
+				&& Objects.equals(docketApiGrupoId, other.docketApiGrupoId)
+				&& Objects.equals(docketApiLead, other.docketApiLead)
+				&& Objects.equals(docketApiTipoOperacaoId, other.docketApiTipoOperacaoId)
 				&& Objects.equals(environment, other.environment) && Objects.equals(logLevel, other.logLevel)
 				&& Objects.equals(system, other.system) && Objects.equals(tenantId, other.tenantId);
 	}
@@ -133,6 +169,9 @@ public class Config {
 				+ logLevel + ", docketApiAuthUrl=" + docketApiAuthUrl + ", docketApiCreatePedidoUrl="
 				+ docketApiCreatePedidoUrl + ", docketApiGetPedidoUrl=" + docketApiGetPedidoUrl
 				+ ", docketApiDownloadArquivoUrl=" + docketApiDownloadArquivoUrl + ", docketApiGetEstadosUrl="
-				+ docketApiGetEstadosUrl + ", docketApiGetCidadesByEstadoUrl=" + docketApiGetCidadesByEstadoUrl + "]";
+				+ docketApiGetEstadosUrl + ", docketApiGetCidadesByEstadoUrl=" + docketApiGetCidadesByEstadoUrl
+				+ ", docketApiCentroCustoId=" + docketApiCentroCustoId + ", docketApiTipoOperacaoId="
+				+ docketApiTipoOperacaoId + ", docketApiLead=" + docketApiLead + ", docketApiGrupoId="
+				+ docketApiGrupoId + "]";
 	}
 }

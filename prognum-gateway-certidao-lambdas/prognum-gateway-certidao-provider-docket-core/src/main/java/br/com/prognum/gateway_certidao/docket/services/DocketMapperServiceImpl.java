@@ -20,24 +20,30 @@ import br.com.prognum.gateway_certidao.docket.models.GetCidadesByEstadoResponse;
 import br.com.prognum.gateway_certidao.docket.models.GetEstadosResponse;
 
 public class DocketMapperServiceImpl implements DocketMapperService {
-
-	private static final String CENTRO_CUSTO_ID = "feec1170-1f20-49b8-bd39-91315961e4bb";
-	private static final String TIPO_OPERACAO_ID = "95e04d49-1926-498b-a68d-18273fe1287c";
-	private static final String LEAD = "Operacao de credito - API - Docket - Prognum";
-	private static final String GRUPO_ID = "ed892d79-7f0e-4248-98ef-a32382b0ab13";
-	
+    private String docketApiCentroCustoId;
+    private String docketApiTipoOperacaoId;
+    private String docketApiLead;
+    private String docketApiGrupoId;
+    
 	private DocumentoMetadata documentoMetadata;
 
 	private DocketApiService docketApiService;
 
 	private FieldTypes fieldTypes;
 
-
-	public DocketMapperServiceImpl(DocketApiService docketApiService, DocumentoMetadataService documentoMetadataService) {
+	public DocketMapperServiceImpl(DocketApiService docketApiService, DocumentoMetadataService documentoMetadataService,
+			String docketApiCentroCustoId, String docketApiTipoOperacaoId, String docketApiLead,
+			String docketApiGrupoId) {
 		this.docketApiService = docketApiService;
-		
+
+		this.docketApiCentroCustoId = docketApiCentroCustoId;
+		this.docketApiTipoOperacaoId = docketApiTipoOperacaoId;
+		this.docketApiLead = docketApiLead;
+		this.docketApiGrupoId = docketApiGrupoId;
+
 		this.documentoMetadata = documentoMetadataService.getDocumentoMetadata();
 
+		
 		fieldTypes = new FieldTypes();
 	}
 
@@ -45,19 +51,19 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.ESTADO_FIELD_TYPE_ID);
 		GetEstadosResponse response = docketApiService.getEstados();
 		for (GetEstadosResponse.Estado estado : response.getEstados()) {
-			if  (estado.getUf().equalsIgnoreCase(value)) {
+			if (estado.getUf().equalsIgnoreCase(value)) {
 				return estado.getId();
 			}
 		}
 		throw new StateNotFoundException(value);
 	}
-	
+
 	private String getCidadeId(CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
 		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.CIDADE_FIELD_TYPE_ID);
 		String estadoId = getEstadoId(createProviderDocumentGroupInput);
 		GetCidadesByEstadoResponse response = docketApiService.getCidadesByEstado(estadoId);
 		for (GetCidadesByEstadoResponse.Cidade cidade : response.getCidades()) {
-			if  (cidade.getNome().equalsIgnoreCase(value)) {
+			if (cidade.getNome().equalsIgnoreCase(value)) {
 				return cidade.getId();
 			}
 		}
@@ -82,7 +88,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			case FieldTypes.CIDADE_FIELD_TYPE_ID:
 				fieldsToRequest.put("cidade", getCidadeId(createProviderDocumentGroupInput));
 				break;
-				
+
 			case FieldTypes.RG_FIELD_TYPE_ID:
 				fieldsToRequest.put("rg", value);
 				break;
@@ -131,10 +137,10 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		}
 
 		CreatePedidoRequest.Pedido pedido = new Pedido();
-		pedido.setCentroCustoId(CENTRO_CUSTO_ID);
-		pedido.setGrupoId(GRUPO_ID);
-		pedido.setLead(LEAD);
-		pedido.setTipoOperacaoId(TIPO_OPERACAO_ID);
+		pedido.setCentroCustoId(this.docketApiCentroCustoId);
+		pedido.setGrupoId(this.docketApiGrupoId);
+		pedido.setLead(this.docketApiLead);
+		pedido.setTipoOperacaoId(this.docketApiTipoOperacaoId);
 
 		for (String documentTypeId : createProviderDocumentGroupInput.getDocumentTypeIds()) {
 			DocumentoMetadatum documentoMetadatum = documentoMetadata.getDocumentoByDocumentTypeId(documentTypeId);
