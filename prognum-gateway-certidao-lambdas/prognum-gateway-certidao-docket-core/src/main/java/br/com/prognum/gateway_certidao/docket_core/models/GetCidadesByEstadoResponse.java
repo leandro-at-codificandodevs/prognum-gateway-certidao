@@ -10,13 +10,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GetCidadesByEstadoResponse {
 
-	private List<Cidade> cidades;
+	private Meta meta;
 
-	@Data
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static final class Cidade {
-		private String id;
-		private String nome;
-		private String url;
-	}
+	private List<Cidade> cidades;
 }

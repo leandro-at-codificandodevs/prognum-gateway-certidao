@@ -23,9 +23,11 @@ import br.com.prognum.gateway_certidao.core.services.QueueService;
 import br.com.prognum.gateway_certidao.core.services.QueueServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.SecretService;
 import br.com.prognum.gateway_certidao.core.services.SecretServiceImpl;
+import br.com.prognum.gateway_certidao.docket_core.models.ArquivoResponse;
 import br.com.prognum.gateway_certidao.docket_core.models.DocketMetadata;
-import br.com.prognum.gateway_certidao.docket_core.models.GetPedidoStatusResponse;
-import br.com.prognum.gateway_certidao.docket_core.models.GetPedidoStatusResponse.Documento;
+import br.com.prognum.gateway_certidao.docket_core.models.DocumentoResponse;
+import br.com.prognum.gateway_certidao.docket_core.models.DocumentoStatus;
+import br.com.prognum.gateway_certidao.docket_core.models.GetPedidoDetalhadoByIdResponse;
 import br.com.prognum.gateway_certidao.docket_core.services.DockerUserServiceImpl;
 import br.com.prognum.gateway_certidao.docket_core.services.DocketApiService;
 import br.com.prognum.gateway_certidao.docket_core.services.DocketApiServiceImpl;
@@ -40,8 +42,6 @@ import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.sqs.SqsClient;
 
 public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
-	private static final String DOCUMENTO_STATUS_ENTREGUE = "ENTREGUE";
-
 	private QueueService queueService;
 	private DocketApiService docketApiService;
 	private DocketMetadataService docketMetadataService;
@@ -49,7 +49,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
 	private static final String DOCKET_API_AUTH_URL = System.getenv("DOCKET_API_AUTH_URL");
 	private static final String DOCKET_API_CREATE_PEDIDO_URL = System.getenv("DOCKET_API_CREATE_PEDIDO_URL");
-	private static final String DOCKET_API_GET_PEDIDO_URL = System.getenv("DOCKET_API_GET_PEDIDO_URL");
+	private static final String DOCKET_API_GET_PEDIDO_BY_ID_URL = System.getenv("DOCKET_API_GET_PEDIDO_BY_ID_URL");
+	private static final String DOCKET_API_GET_PEDIDOS_URL = System.getenv("DOCKET_API_GET_PEDIDOS_URL");
 	private static final String DOCKET_API_DOWNLOAD_ARQUIVO_URL = System.getenv("DOCKET_API_DOWNLOAD_ARQUIVO_URL");
 	private static final String DOCKET_API_GET_ESTADOS_URL = System.getenv("DOCKET_API_GET_ESTADOS_URL");
 	private static final String DOCKET_API_GET_CIDADES_BY_ESTADO_URL = System
@@ -72,7 +73,7 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				docketUserService);
 
 		this.docketApiService = new DocketApiServiceImpl(httpClient, docketAuthService, DOCKET_API_CREATE_PEDIDO_URL,
-				DOCKET_API_GET_PEDIDO_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL, DOCKET_API_GET_ESTADOS_URL,
+				DOCKET_API_GET_PEDIDO_BY_ID_URL, DOCKET_API_GET_PEDIDOS_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL, DOCKET_API_GET_ESTADOS_URL,
 				DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
 
 		S3Client s3Client = S3Client.builder().build();
@@ -97,16 +98,17 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				DocketMetadata docketMetadata = docketMetadataService.read(bucketName, documentGroupObjectKey);
 				String pedidoId = docketMetadata.getPedidoId();
 
-				GetPedidoStatusResponse getPedidoStatusResponse = docketApiService.getPedidoStatus(pedidoId);
-				List<Documento> documentos = getPedidoStatusResponse.getPedido().getDocumentos();
-				for (GetPedidoStatusResponse.Documento documento : documentos) {
-					if (documento.getStatus().equals(DOCUMENTO_STATUS_ENTREGUE)) {
-						byte[] content = docketApiService.downloadArquivo(documento.getArquivos().get(0).getId());
+				GetPedidoDetalhadoByIdResponse getPedidoDetalhadoByIdResponse = docketApiService.getPedidoDetalhadoById(pedidoId);
+				List<DocumentoResponse> documentos = getPedidoDetalhadoByIdResponse.getPedido().getDocumentos();
+				for (DocumentoResponse documento : documentos) {
+					if (documento.getStatus().equals(DocumentoStatus.ENTREGUE)) {
+						ArquivoResponse arquivo = documento.getArquivos().get(0);
+						byte[] content = docketApiService.downloadArquivo(arquivo.getId());
 						String documentObjectKey = docketMetadata.getDocumentoObjectKeysByDocumentoId()
 								.get(documento.getId());
 						String documentContentObjectKey = String.format("%s/%s", documentObjectKey,
 								DocumentGroupService.DOCUMENT_CONTENT_FILE_NAME);
-						bucketService.writeBytes(bucketName, documentContentObjectKey, "application/pdf",
+						bucketService.writeBytes(bucketName, documentContentObjectKey, arquivo.getTipo(),
 								content);
 					}
 				}

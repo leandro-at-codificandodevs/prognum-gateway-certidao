@@ -1,16 +1,13 @@
 package br.com.prognum.gateway_certidao.docket_core.models;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetEstadosResponse {
-
-	private Meta meta;
-	
-	private List<Estado> estados;
+public final class Cidade {
+	private String id;
+	private String nome;
+	private String url;
 }

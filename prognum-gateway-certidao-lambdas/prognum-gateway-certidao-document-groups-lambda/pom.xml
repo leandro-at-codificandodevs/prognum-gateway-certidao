@@ -7,7 +7,7 @@
         <artifactId>prognum-gateway-certidao-lambdas</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>prognum-gateway-certidao-docket-get-document-group-lambda</artifactId>
+    <artifactId>prognum-gateway-certidao-api-get-document-groups-lambda</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -18,15 +18,10 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>prognum-gateway-certidao-docket-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-events</artifactId>
@@ -40,11 +35,6 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>sqs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>secretsmanager</artifactId>
         </dependency>
 
         <dependency>

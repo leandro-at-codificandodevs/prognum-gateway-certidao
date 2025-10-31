@@ -1,16 +1,14 @@
 package br.com.prognum.gateway_certidao.docket_core.models;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetEstadosResponse {
+public class GetPedidoDetalhadoByIdResponse {
 
-	private Meta meta;
-	
-	private List<Estado> estados;
+    private Meta meta;
+
+    private PedidoDetalhadoResponse pedido;
 }

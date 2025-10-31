@@ -16,6 +16,7 @@ public class DockerUserServiceImpl implements DocketUserService {
 		this.secretService = secretService;
 	}
 
+	@Override
 	public DocketUser getDocketUser() {
 		if (docketUser == null) {
 			docketUser = secretService.read(docketUserSecretName, DocketUser.class);

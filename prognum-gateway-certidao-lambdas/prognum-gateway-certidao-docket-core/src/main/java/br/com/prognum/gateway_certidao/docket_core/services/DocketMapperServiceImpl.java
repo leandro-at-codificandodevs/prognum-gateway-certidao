@@ -11,13 +11,15 @@ import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupIn
 import br.com.prognum.gateway_certidao.core.models.FieldType;
 import br.com.prognum.gateway_certidao.core.models.FieldTypes;
 import br.com.prognum.gateway_certidao.core.utils.DateUtils;
+import br.com.prognum.gateway_certidao.docket_core.models.Cidade;
 import br.com.prognum.gateway_certidao.docket_core.models.CreatePedidoRequest;
 import br.com.prognum.gateway_certidao.docket_core.models.DocumentoMetadata;
 import br.com.prognum.gateway_certidao.docket_core.models.DocumentoMetadatum;
+import br.com.prognum.gateway_certidao.docket_core.models.DocumentoRequest;
+import br.com.prognum.gateway_certidao.docket_core.models.Estado;
 import br.com.prognum.gateway_certidao.docket_core.models.GetCidadesByEstadoResponse;
 import br.com.prognum.gateway_certidao.docket_core.models.GetEstadosResponse;
-import br.com.prognum.gateway_certidao.docket_core.models.CreatePedidoRequest.Documento;
-import br.com.prognum.gateway_certidao.docket_core.models.CreatePedidoRequest.Pedido;
+import br.com.prognum.gateway_certidao.docket_core.models.PedidoRequest;
 
 public class DocketMapperServiceImpl implements DocketMapperService {
     private String docketApiCentroCustoId;
@@ -50,7 +52,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 	private String getEstadoId(CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
 		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.ESTADO_FIELD_TYPE_ID);
 		GetEstadosResponse response = docketApiService.getEstados();
-		for (GetEstadosResponse.Estado estado : response.getEstados()) {
+		for (Estado estado : response.getEstados()) {
 			if (estado.getUf().equalsIgnoreCase(value)) {
 				return estado.getId();
 			}
@@ -62,7 +64,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		String value = createProviderDocumentGroupInput.getFields().get(FieldTypes.CIDADE_FIELD_TYPE_ID);
 		String estadoId = getEstadoId(createProviderDocumentGroupInput);
 		GetCidadesByEstadoResponse response = docketApiService.getCidadesByEstado(estadoId);
-		for (GetCidadesByEstadoResponse.Cidade cidade : response.getCidades()) {
+		for (Cidade cidade : response.getCidades()) {
 			if (cidade.getNome().equalsIgnoreCase(value)) {
 				return cidade.getId();
 			}
@@ -136,7 +138,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			}
 		}
 
-		CreatePedidoRequest.Pedido pedido = new Pedido();
+		PedidoRequest pedido = new PedidoRequest();
 		pedido.setCentroCustoId(this.docketApiCentroCustoId);
 		pedido.setGrupoId(this.docketApiGrupoId);
 		pedido.setLead(this.docketApiLead);
@@ -145,7 +147,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 		for (String documentTypeId : createProviderDocumentGroupInput.getDocumentTypeIds()) {
 			DocumentoMetadatum documentoMetadatum = documentoMetadata.getDocumentoByDocumentTypeId(documentTypeId);
 
-			Documento documento = new Documento();
+			DocumentoRequest documento = new DocumentoRequest();
 			documento.setDocumentKitId(documentoMetadatum.getDocumentKitId());
 			documento.setProdutoId(documentoMetadatum.getProdutoId());
 			documento.setKitId(documentoMetadatum.getKitId());

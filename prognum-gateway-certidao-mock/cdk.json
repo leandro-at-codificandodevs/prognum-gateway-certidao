@@ -1,28 +1,30 @@
 {
-  "app": "mvn -e -q compile exec:java",
+  "app": "npx ts-node --prefer-ts-exts bin/prognum-gateway-certidao-mock.ts",
   "watch": {
-    "include": ["**"],
-    "exclude": ["README.md", "cdk*.json", "target", "pom.xml", "src/test"]
+    "include": [
+      "**"
+    ],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "**/*.d.ts",
+      "**/*.js",
+      "tsconfig.json",
+      "package*.json",
+      "yarn.lock",
+      "node_modules",
+      "test"
+    ]
   },
- 
   "context": {
-    "DEV": {
-      "system": "prognum",
-      "logLevel": "INFO",
-      "docketApiAuthUrl": "https://sandbox-saas.docket.com.br/api/v2/auth/login",
-      "docketApiCreatePedidoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos?pagina={pagina}",
-      "docketApiGetPedidoByUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos/{pedidoId}",
-      "docketApiDownloadArquivoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/downloads/{arquivoId}",
-      "docketApiGetEstadosUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/estados",
-      "docketApiGetCidadesByEstadoUrl": "https://sandbox-saas.docket.com.br/api/v2/prognum/cidades?estadoId={estadoId}",
-      "docketApiCentroCustoId": "feec1170-1f20-49b8-bd39-91315961e4bb",
-      "docketApiTipoOperacaoId": "95e04d49-1926-498b-a68d-18273fe1287c",
-      "docketApiLead": "Operacao de credito - API - Docket - Prognum",
-      "docketApiGrupoId": "ed892d79-7f0e-4248-98ef-a32382b0ab13"
-    },
+    "@aws-cdk/aws-signer:signingProfileNamePassedToCfn": true,
+    "@aws-cdk/aws-ecs-patterns:secGroupsDisablesImplicitOpenListener": true,
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
-    "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],
+    "@aws-cdk/core:target-partitions": [
+      "aws",
+      "aws-cn"
+    ],
     "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": true,
     "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": true,
     "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": true,
@@ -49,6 +51,7 @@
     "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": true,
     "@aws-cdk/aws-apigateway:requestValidatorUniqueId": true,
     "@aws-cdk/aws-kms:aliasNameRef": true,
+    "@aws-cdk/aws-kms:applyImportedAliasPermissionsToPrincipal": true,
     "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": true,
     "@aws-cdk/core:includePrefixInUniqueNameGeneration": true,
     "@aws-cdk/aws-efs:denyAnonymousAccess": true,
@@ -68,6 +71,7 @@
     "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": true,
     "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": false,
     "@aws-cdk/aws-s3:keepNotificationInImportedBucket": false,
+    "@aws-cdk/core:explicitStackTags": true,
     "@aws-cdk/aws-ecs:enableImdsBlockingDeprecatedFeature": false,
     "@aws-cdk/aws-ecs:disableEcsImdsBlocking": true,
     "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": true,

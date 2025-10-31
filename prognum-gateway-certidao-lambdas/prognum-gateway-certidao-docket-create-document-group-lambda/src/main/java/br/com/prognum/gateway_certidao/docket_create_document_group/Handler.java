@@ -52,7 +52,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 
 	private static final String DOCKET_API_AUTH_URL = System.getenv("DOCKET_API_AUTH_URL");
 	private static final String DOCKET_API_CREATE_PEDIDO_URL = System.getenv("DOCKET_API_CREATE_PEDIDO_URL");
-	private static final String DOCKET_API_GET_PEDIDO_URL = System.getenv("DOCKET_API_GET_PEDIDO_URL");
+	private static final String DOCKET_API_GET_PEDIDO_BY_ID_URL = System.getenv("DOCKET_API_GET_PEDIDO_BY_ID_URL");
+	private static final String DOCKET_API_GET_PEDIDOS_URL = System.getenv("DOCKET_API_GET_PEDIDOS_URL");
 	private static final String DOCKET_API_DOWNLOAD_ARQUIVO_URL = System.getenv("DOCKET_API_DOWNLOAD_ARQUIVO_URL");
 	private static final String DOCKET_API_GET_ESTADOS_URL = System.getenv("DOCKET_API_GET_ESTADOS_URL");
 	private static final String DOCKET_API_GET_CIDADES_BY_ESTADO_URL = System
@@ -79,8 +80,8 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				docketUserService);
 
 		this.docketApiService = new DocketApiServiceImpl(httpClient, docketAuthService, DOCKET_API_CREATE_PEDIDO_URL,
-				DOCKET_API_GET_PEDIDO_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL, DOCKET_API_GET_ESTADOS_URL,
-				DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
+				DOCKET_API_GET_PEDIDO_BY_ID_URL, DOCKET_API_GET_PEDIDOS_URL, DOCKET_API_DOWNLOAD_ARQUIVO_URL,
+				DOCKET_API_GET_ESTADOS_URL, DOCKET_API_GET_CIDADES_BY_ESTADO_URL, jsonService);
 
 		DocumentoMetadataService documentoMetadataService = new DocumentoMetadataServiceImpl();
 		this.docketMapperService = new DocketMapperServiceImpl(docketApiService, documentoMetadataService,

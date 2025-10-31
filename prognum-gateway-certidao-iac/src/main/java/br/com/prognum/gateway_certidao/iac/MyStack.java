@@ -165,7 +165,8 @@ public class MyStack extends Stack {
 		docketCreateDocumentGroupEnv.put("DOCKET_API_SECRET_NAME", docketApiSecretId);
 		docketCreateDocumentGroupEnv.put("DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl());
 		docketCreateDocumentGroupEnv.put("DOCKET_API_CREATE_PEDIDO_URL", config.getDocketApiCreatePedidoUrl());
-		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_PEDIDO_URL", config.getDocketApiGetPedidoUrl());
+		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_PEDIDO_BY_ID_URL", config.getDocketApiGetPedidoByIdUrl());
+		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_PEDIDOS_URL", config.getDocketApiGetPedidosUrl());
 		docketCreateDocumentGroupEnv.put("DOCKET_API_DOWNLOAD_ARQUIVO_URL", config.getDocketApiDownloadArquivoUrl());
 		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_ESTADOS_URL", config.getDocketApiGetEstadosUrl());
 		docketCreateDocumentGroupEnv.put("DOCKET_API_GET_CIDADES_BY_ESTADO_URL",
@@ -193,7 +194,8 @@ public class MyStack extends Stack {
 				system, environment);
 		Map<String, String> docketGetDocumentGroupEnv = Map.of("LOG_LEVEL", logLevel, "DOCKET_API_SECRET_NAME",
 				docketApiSecretId, "DOCKET_API_AUTH_URL", config.getDocketApiAuthUrl(), "DOCKET_API_CREATE_PEDIDO_URL",
-				config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_URL", config.getDocketApiGetPedidoUrl(),
+				config.getDocketApiCreatePedidoUrl(), "DOCKET_API_GET_PEDIDO_BY_ID_URL", config.getDocketApiGetPedidoByIdUrl(),
+				"DOCKET_API_GET_PEDIDOS_URL", config.getDocketApiGetPedidosUrl(),
 				"DOCKET_API_DOWNLOAD_ARQUIVO_URL", config.getDocketApiDownloadArquivoUrl(),
 				"DOCKET_API_GET_ESTADOS_URL", config.getDocketApiGetEstadosUrl(),
 				"DOCKET_API_GET_CIDADES_BY_ESTADO_URL", config.getDocketApiGetCidadesByEstadoUrl());

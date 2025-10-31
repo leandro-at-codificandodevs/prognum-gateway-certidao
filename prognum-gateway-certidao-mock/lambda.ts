@@ -1,15 +1,24 @@
-package br.com.prognum.gateway_certidao.docket_core.models;
 
-import java.util.List;
-import java.util.Map;
+import { LambdaFunctionURLHandler } from 'aws-lambda';
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Data;
+export interface APIGatewayProxyStructuredResultV2 {
+    statusCode?: number | undefined;
+    headers?:
+        | {
+            [header: string]: boolean | number | string;
+        }
+        | undefined;
+    body?: string | undefined;
+    isBase64Encoded?: boolean | undefined;
+    cookies?: string[] | undefined;
+}
 
-@Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class GetPedidoStatusResponse {
+const url = "https://sandbox-saas.docket.com.br/api/v2/prognum/shopping-documentos/alpha/pedidos";
+
+/*
+
+    public class GetPedidoStatusResponse {
 
 	private Pedido pedido;
 
@@ -69,3 +78,17 @@ public class GetPedidoStatusResponse {
 		private String nome;
 	}
 }
+    */
+export const handler: LambdaFunctionURLHandler = (event, context) => {
+    console.log(event);
+    console.log(context);
+
+    return {
+        statusCode: 200;
+        headers: [],
+        body: {
+
+        }
+    }
+};
+

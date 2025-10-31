@@ -1,6 +1,5 @@
 package br.com.prognum.gateway_certidao.core.models;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
-import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
-import br.com.prognum.gateway_certidao.core.services.JsonService;
-import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
-import software.amazon.awssdk.utils.StringUtils;
 
 public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_1 = "cert-acoes-civeis-justica-federal-1a-instancia-pf";
@@ -227,27 +222,5 @@ public class DocumentTypes {
 			throw new DocumentTypeNotFoundException(documentTypeId);
 		}
 		return documentType;
-	}
-
-	public static final void main(String[] args) throws DocumentTypeNotFoundException, ToJsonException {
-		JsonService jsonService = new JsonServiceImpl();
-		DocumentTypes documentTypes = new DocumentTypes();
-
-		for (String documentTypeId : documentTypes.getDocumentTypeIds()) {
-			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
-			Map<String, Object> map = new HashMap<>();
-			map.put("document-type-ids:", List.of(documentType.getId()));
-			Map<String, String> fields = new HashMap<>();
-			for (String fieldTypeId : documentType.getFieldTypeIds()) {
-				fields.put(fieldTypeId, "?");
-			}
-			map.put("fields", fields);
-
-			System.out.println(StringUtils.repeat("-", 20));
-			System.out.println(documentType.getName());
-			System.out.println();
-			System.out.println(jsonService.toJson(map));
-			System.out.println(StringUtils.repeat("-", 20));
-		}
 	}
 }

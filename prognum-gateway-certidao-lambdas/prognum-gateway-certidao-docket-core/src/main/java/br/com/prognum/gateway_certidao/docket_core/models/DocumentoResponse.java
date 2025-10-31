@@ -8,9 +8,9 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetEstadosResponse {
-
-	private Meta meta;
-	
-	private List<Estado> estados;
+public class DocumentoResponse {
+    private String id;
+    private String pedidoId;
+    private DocumentoStatus status;
+    private List<ArquivoResponse> arquivos;
 }
