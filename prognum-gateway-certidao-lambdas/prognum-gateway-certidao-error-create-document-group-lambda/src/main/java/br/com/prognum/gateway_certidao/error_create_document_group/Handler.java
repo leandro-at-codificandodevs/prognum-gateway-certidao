@@ -1,6 +1,5 @@
 package br.com.prognum.gateway_certidao.error_create_document_group;
 
-import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +12,8 @@ import com.amazonaws.services.lambda.runtime.events.SQSBatchResponse;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent.SQSMessage;
 
-import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.models.CreateDocumentGroupFailureInput;
+import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.QueueService;
@@ -48,7 +47,6 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				CreateDocumentGroupFailureInput createDocumentGroupFailureInput = new CreateDocumentGroupFailureInput();
 				createDocumentGroupFailureInput.setBucketName(bucketName);
 				createDocumentGroupFailureInput.setDocumentGroupId(documentGroupId);
-				createDocumentGroupFailureInput.setTimestamp(Instant.now());
 				queueService.sendMessage(ERROR_QUEUE_URL, createDocumentGroupFailureInput, documentGroupId);
 			} catch (Exception e) {
 				logger.error("Erro ao tentar processar mensagem", e);

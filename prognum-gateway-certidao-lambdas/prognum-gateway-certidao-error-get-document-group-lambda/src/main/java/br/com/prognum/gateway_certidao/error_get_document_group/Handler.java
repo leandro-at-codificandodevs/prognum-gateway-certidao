@@ -1,6 +1,5 @@
 package br.com.prognum.gateway_certidao.error_get_document_group;
 
-import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -48,7 +47,6 @@ public class Handler implements RequestHandler<SQSEvent, SQSBatchResponse> {
 				CreateDocumentGroupFailureInput createDocumentGroupFailureInput = new CreateDocumentGroupFailureInput();
 				createDocumentGroupFailureInput.setBucketName(bucketName);
 				createDocumentGroupFailureInput.setDocumentGroupId(documentGroupId);
-				createDocumentGroupFailureInput.setTimestamp(Instant.now());
 				queueService.sendMessage(ERROR_QUEUE_URL, createDocumentGroupFailureInput, documentGroupId);
 			} catch (Exception e) {
 				logger.error("Erro ao tentar processar mensagem", e);
