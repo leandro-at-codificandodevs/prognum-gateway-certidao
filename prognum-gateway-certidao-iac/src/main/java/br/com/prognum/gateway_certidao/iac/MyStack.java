@@ -51,21 +51,31 @@ public class MyStack extends Stack {
 
 	private static final int ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 30;
 	private static final int ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+	
+	private static final int ERROR_HANDLER_LAMBDA_TIMEOUT_IN_SECS = 30;
+	private static final int ERROR_HANDLER_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 
-	private static final int DOCKET_CREATE_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS;
-	private static final int DOCKET_CREATE_DOCUMENT_QUEUE_BATCH_SIZE = 10;
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS;
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_QUEUE_BATCH_SIZE = 10;
 
-	private static final int DOCKET_CREATE_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
-	private static final int DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 50;
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_DLQ_MAX_RECEIVE_COUNT = 50;
 
-	private static final int DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS;
-	private static final int DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE = 10;
+	private static final int DOCKET_GET_DOCUMENT_GROUP_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS;
+	private static final int DOCKET_GET_DOCUMENT_GROUP_QUEUE_BATCH_SIZE = 10;
 
-	private static final int DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
-	private static final int DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 50;
+	private static final int DOCKET_GET_DOCUMENT_GROUP_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
+	private static final int DOCKET_GET_DOCUMENT_GROUP_DLQ_MAX_RECEIVE_COUNT = 50;
 
-	private static final int ERROR_CREATE_DOCUMENT_DLQ_BATCH_SIZE = 10;
-	private static final int ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE = 10;
+	private static final int ERROR_CREATE_DOCUMENT_GROUP_DLQ_BATCH_SIZE = 10;
+	
+	private static final int ERROR_GET_DOCUMENT_GROUP_DLQ_BATCH_SIZE = 10;
+	
+	private static final int ERROR_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = ERROR_HANDLER_LAMBDA_TIMEOUT_IN_SECS;
+	private static final int ERROR_QUEUE_BATCH_SIZE = 10;
+
+	private static final int ERROR_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
+	private static final int ERROR_DLQ_MAX_RECEIVE_COUNT = 10;
 
 	public MyStack(Construct scope, Config config, StackProps props) {
 		super(scope, String.format("%s-certidao-%s-stack", config.getSystem(), config.getEnvironment()), props);
@@ -81,34 +91,51 @@ public class MyStack extends Stack {
 				system, environment);
 		Queue docketCreateDocumentGroupDlq = Queue.Builder.create(this, docketCreateDocumentGroupDlqId)
 				.queueName(docketCreateDocumentGroupDlqId).encryption(QueueEncryption.KMS_MANAGED)
-				.retentionPeriod(Duration.days(DOCKET_CREATE_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
+				.retentionPeriod(Duration.days(DOCKET_CREATE_DOCUMENT_GROUP_DLQ_RETENTION_PERIOD_IN_DAYS))
 				.contentBasedDeduplication(true).build();
 
 		String docketCreateDocumentGroupQueueId = String
 				.format("%s-certidao-%s-docket-create-document-group-queue.fifo", system, environment);
 		Queue docketCreateDocumentQueue = Queue.Builder.create(this, docketCreateDocumentGroupQueueId)
 				.queueName(docketCreateDocumentGroupQueueId).encryption(QueueEncryption.KMS_MANAGED)
-				.visibilityTimeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
+				.visibilityTimeout(Duration.seconds(DOCKET_CREATE_DOCUMENT_GROUP_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
 				.contentBasedDeduplication(true)
 				.deadLetterQueue(DeadLetterQueue.builder().queue(docketCreateDocumentGroupDlq)
-						.maxReceiveCount(DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
+						.maxReceiveCount(DOCKET_CREATE_DOCUMENT_GROUP_DLQ_MAX_RECEIVE_COUNT).build())
 				.build();
 
 		String docketGetDocumentGroupDlqId = String.format("%s-certidao-%s-docket-get-document-group-dlq.fifo", system,
 				environment);
 		Queue docketGetDocumentGroupDlq = Queue.Builder.create(this, docketGetDocumentGroupDlqId)
 				.queueName(docketGetDocumentGroupDlqId).encryption(QueueEncryption.KMS_MANAGED)
-				.retentionPeriod(Duration.days(DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS))
+				.retentionPeriod(Duration.days(DOCKET_GET_DOCUMENT_GROUP_DLQ_RETENTION_PERIOD_IN_DAYS))
 				.contentBasedDeduplication(true).build();
 
 		String docketGetDocumentGroupQueueId = String.format("%s-certidao-%s-docket-get-document-group-queue.fifo",
 				system, environment);
 		Queue docketGetDocumentGroupQueue = Queue.Builder.create(this, docketGetDocumentGroupQueueId)
 				.queueName(docketGetDocumentGroupQueueId).encryption(QueueEncryption.KMS_MANAGED)
-				.visibilityTimeout(Duration.seconds(DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
+				.visibilityTimeout(Duration.seconds(DOCKET_GET_DOCUMENT_GROUP_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
 				.contentBasedDeduplication(true)
 				.deadLetterQueue(DeadLetterQueue.builder().queue(docketGetDocumentGroupDlq)
-						.maxReceiveCount(DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT).build())
+						.maxReceiveCount(DOCKET_GET_DOCUMENT_GROUP_DLQ_MAX_RECEIVE_COUNT).build())
+				.build();
+		
+		String errorDlqId = String.format("%s-certidao-%s-error-dlq.fifo",
+				system, environment);
+		Queue errorDlq = Queue.Builder.create(this, errorDlqId)
+				.queueName(errorDlqId).encryption(QueueEncryption.KMS_MANAGED)
+				.retentionPeriod(Duration.days(ERROR_DLQ_RETENTION_PERIOD_IN_DAYS))
+				.contentBasedDeduplication(true).build();
+
+		String errorQueueId = String
+				.format("%s-certidao-%s-error-queue.fifo", system, environment);
+		Queue errorQueue = Queue.Builder.create(this, errorQueueId)
+				.queueName(errorQueueId).encryption(QueueEncryption.KMS_MANAGED)
+				.visibilityTimeout(Duration.seconds(ERROR_QUEUE_VISIBILITY_TIMEOUT_IN_SECS)).fifo(true)
+				.contentBasedDeduplication(true)
+				.deadLetterQueue(DeadLetterQueue.builder().queue(errorDlq)
+						.maxReceiveCount(ERROR_DLQ_MAX_RECEIVE_COUNT).build())
 				.build();
 
 		String docketApiSecretId = String.format("%s-certidao-%s-docket-api-secret", system, environment);
@@ -187,7 +214,7 @@ public class MyStack extends Stack {
 		docketApiSecret.grantRead(docketCreateDocumentGroupFunction);
 
 		docketCreateDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentQueue)
-				.batchSize(DOCKET_CREATE_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
+				.batchSize(DOCKET_CREATE_DOCUMENT_GROUP_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String docketGetDocumentGroupFunctionId = String.format("%s-certidao-%s-docket-get-document-group-lambda",
 				system, environment);
@@ -209,12 +236,11 @@ public class MyStack extends Stack {
 		docketApiSecret.grantRead(docketGetDocumentGroupFunction);
 
 		docketGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupQueue)
-				.batchSize(DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
+				.batchSize(DOCKET_GET_DOCUMENT_GROUP_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String errorCreateDocumentGroupFunctionId = String.format("%s-certidao-%s-error-create-document-group-lambda",
 				system, environment);
-		Map<String, String> errorCreateDocumentGroupEnv = Map.of("LOG_LEVEL", logLevel,
-				"DOCKET_CREATE_DOCUMENT_QUEUE_URL", docketCreateDocumentQueue.getQueueUrl(), "BUCKET_NAME", bucketId);
+		Map<String, String> errorCreateDocumentGroupEnv = Map.of("LOG_LEVEL", logLevel, "ERROR_QUEUE_URL", errorQueue.getQueueUrl());
 		Function errorCreateDocumentGroupFunction = Function.Builder.create(this, errorCreateDocumentGroupFunctionId)
 				.functionName(errorCreateDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-error-create-document-group-lambda"))
@@ -222,15 +248,14 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(errorCreateDocumentGroupEnv).build();
-		bucket.grantWrite(errorCreateDocumentGroupFunction);
+		errorQueue.grantSendMessages(errorCreateDocumentGroupFunction);
 
 		errorCreateDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketCreateDocumentGroupDlq)
-				.batchSize(ERROR_CREATE_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
+				.batchSize(ERROR_CREATE_DOCUMENT_GROUP_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String errorGetDocumentGroupFunctionId = String.format("%s-certidao-%s-error-get-document-group-lambda", system,
 				environment);
-		Map<String, String> errorGetDocumentGroupEnv = Map.of("LOG_LEVEL", logLevel, "DOCKET_GET_DOCUMENT_QUEUE_URL",
-				docketGetDocumentGroupQueue.getQueueUrl(), "BUCKET_NAME", bucketId);
+		Map<String, String> errorGetDocumentGroupEnv = Map.of("LOG_LEVEL", logLevel, "ERROR_QUEUE_URL", errorQueue.getQueueUrl());
 		Function errorGetDocumentGroupFunction = Function.Builder.create(this, errorGetDocumentGroupFunctionId)
 				.functionName(errorGetDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-error-get-document-group-lambda"))
@@ -238,10 +263,25 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(errorGetDocumentGroupEnv).build();
-		bucket.grantWrite(errorGetDocumentGroupFunction);
+		errorQueue.grantSendMessages(errorGetDocumentGroupFunction);
 
 		errorGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupDlq)
-				.batchSize(ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
+				.batchSize(ERROR_GET_DOCUMENT_GROUP_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
+
+		String errorHandlerFunctionId = String.format("%s-certidao-%s-error-lambda", system,
+				environment);
+		Map<String, String> errorHandlerEnv = Map.of("LOG_LEVEL", logLevel);
+		Function errorHandlerFunction = Function.Builder.create(this, errorHandlerFunctionId)
+				.functionName(errorHandlerFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-error-get-document-group-lambda"))
+				.handler("br.com.prognum.gateway_certidao.error_get_document_group.Handler::handleRequest")
+				.runtime(Runtime.JAVA_17).memorySize(ERROR_HANDLER_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(ERROR_HANDLER_LAMBDA_TIMEOUT_IN_SECS))
+				.environment(errorHandlerEnv).build();
+		bucket.grantWrite(errorHandlerFunction);
+
+		errorHandlerFunction.addEventSource(SqsEventSource.Builder.create(errorQueue)
+				.batchSize(ERROR_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String defaultApiId = String.format("%s-certidao-%s-api-gateway", system, environment);
 		RestApi defaultApi = RestApi.Builder.create(this, defaultApiId).restApiName(defaultApiId).build();
