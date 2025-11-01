@@ -238,7 +238,7 @@ public class MyStack extends Stack {
 				.runtime(Runtime.JAVA_17).memorySize(ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(errorGetDocumentGroupEnv).build();
-		bucket.grantRead(errorGetDocumentGroupFunction);
+		bucket.grantWrite(errorGetDocumentGroupFunction);
 
 		errorGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupDlq)
 				.batchSize(ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
