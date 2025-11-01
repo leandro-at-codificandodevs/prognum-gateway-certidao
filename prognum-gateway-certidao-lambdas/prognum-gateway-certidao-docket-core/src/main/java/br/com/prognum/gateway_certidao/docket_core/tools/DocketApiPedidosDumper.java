@@ -5,7 +5,7 @@ import java.net.http.HttpClient;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.docket_core.models.DocketUser;
-import br.com.prognum.gateway_certidao.docket_core.models.DocumentoStatus;
+import br.com.prognum.gateway_certidao.docket_core.models.DocumentoResponse;
 import br.com.prognum.gateway_certidao.docket_core.models.GetPedidoDetalhadoByIdResponse;
 import br.com.prognum.gateway_certidao.docket_core.models.GetPedidosSimplificadosResponse;
 import br.com.prognum.gateway_certidao.docket_core.models.PedidoDetalhadoResponse;
@@ -50,9 +50,10 @@ public class DocketApiPedidosDumper {
 				GetPedidoDetalhadoByIdResponse getPedidoDetalhadoByIdResponse = apiService
 						.getPedidoDetalhadoById(pedidoSimplificado.getId());
 				PedidoDetalhadoResponse pedidoDetalhadoResponse = getPedidoDetalhadoByIdResponse.getPedido();
-				if (pedidoDetalhadoResponse.getDocumentos().stream()
-						.anyMatch((documento) -> documento.getStatus().equals(DocumentoStatus.ENTREGUE))) {
-					System.out.println(jsonService.toJson(pedidoDetalhadoResponse));
+				for (DocumentoResponse documento : pedidoDetalhadoResponse.getDocumentos()) {
+					if (!documento.getArquivos().isEmpty()) {
+						System.out.println(jsonService.toJson(documento));
+					}
 				}
 			}
 			pagina++;

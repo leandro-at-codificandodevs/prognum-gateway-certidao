@@ -49,6 +49,7 @@ public class Config {
 		String docketApiGrupoId = (String) envConfig.get("docketApiGrupoId");
 
 		Config config = new Config();
+		config.setEnvironment(environment);
 		config.setSystem(system);
 		config.setLogLevel(logLevel);
 		config.setDocketApiAuthUrl(docketApiAuthUrl);

@@ -2,10 +2,12 @@
     <import class="ch.qos.logback.core.ConsoleAppender" />
     <import class="ch.qos.logback.classic.encoder.JsonEncoder" />
 
+    <property name="LOG_LEVEL" value="${LOG_LEVEL:-INFO}" />
+
     <appender name="stdout" class="ConsoleAppender">
         <encoder class="JsonEncoder" />
     </appender>
-    <root level="debug">
+    <root level="${LOG_LEVEL}">
         <appender-ref ref="stdout" />
     </root>
 </configuration>

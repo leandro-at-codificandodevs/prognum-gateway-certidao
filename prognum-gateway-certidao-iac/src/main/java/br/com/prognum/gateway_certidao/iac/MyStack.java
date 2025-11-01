@@ -40,10 +40,10 @@ public class MyStack extends Stack {
 	private static final int API_GET_DOCUMENT_TYPES_LAMBDA_TIMEOUT_IN_SECS = 30;
 	private static final int API_GET_DOCUMENT_TYPES_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 
-	private static final int DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 300;
+	private static final int DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 60;
 	private static final int DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 
-	private static final int DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 300;
+	private static final int DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 60;
 	private static final int DOCKET_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 
 	private static final int ERROR_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 30;
@@ -56,13 +56,13 @@ public class MyStack extends Stack {
 	private static final int DOCKET_CREATE_DOCUMENT_QUEUE_BATCH_SIZE = 10;
 
 	private static final int DOCKET_CREATE_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
-	private static final int DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
+	private static final int DOCKET_CREATE_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 50;
 
 	private static final int DOCKET_GET_DOCUMENT_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = DOCKET_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS;
 	private static final int DOCKET_GET_DOCUMENT_QUEUE_BATCH_SIZE = 10;
 
 	private static final int DOCKET_GET_DOCUMENT_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
-	private static final int DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 10;
+	private static final int DOCKET_GET_DOCUMENT_DLQ_MAX_RECEIVE_COUNT = 50;
 
 	private static final int ERROR_CREATE_DOCUMENT_DLQ_BATCH_SIZE = 10;
 	private static final int ERROR_GET_DOCUMENT_DLQ_BATCH_SIZE = 10;
@@ -112,7 +112,6 @@ public class MyStack extends Stack {
 				.build();
 
 		String docketApiSecretId = String.format("%s-certidao-%s-docket-api-secret", system, environment);
-		/* { "login": "jaime.vicente", "senha": "!ab@2NLhwUp#yM@sVDfE" } */
 		Secret docketApiSecret = Secret.Builder.create(this, docketApiSecretId).secretName(docketApiSecretId).build();
 
 		String bucketId = String.format("%s-certidao-%s-bucket", system, environment.toLowerCase());
@@ -235,7 +234,7 @@ public class MyStack extends Stack {
 		Function errorGetDocumentGroupFunction = Function.Builder.create(this, errorGetDocumentGroupFunctionId)
 				.functionName(errorGetDocumentGroupFunctionId)
 				.code(getLambdaCode("prognum-gateway-certidao-error-get-document-group-lambda"))
-				.handler("br.com.prognum.gateway_certidao.api_get_document_group.Handler::handleRequest")
+				.handler("br.com.prognum.gateway_certidao.error_get_document_group.Handler::handleRequest")
 				.runtime(Runtime.JAVA_17).memorySize(ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB)
 				.timeout(Duration.seconds(ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(errorGetDocumentGroupEnv).build();

@@ -9,5 +9,5 @@ public interface BucketService {
 
 	String generatePresignedUrl(String bucketName, String objectKey);
 
-	boolean verifyIfObjectExists(String bucketName, String objectKey);
+	boolean hasObject(String bucketName, String objectKey);
 }

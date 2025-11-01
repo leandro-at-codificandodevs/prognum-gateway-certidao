@@ -31,7 +31,7 @@ const getGetDocumentTypesUrl = (environment, id) => {
 const getXApiKey = (environment) => {
     switch (environment) {
         case "dev":
-            return "d5zsKxyf6haBSths9ELed4oh97L4shLT4CDCMKhC";
+            return "ufH3fkY5ah9knfaqJgQao6sYALYGvVbq3nRtfVKx";
         default:
             throw new Error(`Ambiente ${environment} desconhecido`);
     }

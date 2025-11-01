@@ -75,7 +75,7 @@ public class BucketServiceImpl implements BucketService {
 	}
 
 	@Override
-	public boolean verifyIfObjectExists(String bucketName, String objectKey) {
+	public boolean hasObject(String bucketName, String objectKey) {
 		try {
 			HeadObjectRequest headRequest = HeadObjectRequest.builder().bucket(bucketName).key(objectKey).build();
 			s3Client.headObject(headRequest);

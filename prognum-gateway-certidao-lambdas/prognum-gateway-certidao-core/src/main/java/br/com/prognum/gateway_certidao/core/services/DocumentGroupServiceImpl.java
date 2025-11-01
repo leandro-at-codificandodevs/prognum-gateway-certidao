@@ -104,7 +104,7 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 
 			String contentKey = getDocumentContentObjectKey(documentGroupId, documentId);
 
-			boolean fileExists = bucketService.verifyIfObjectExists(bucketName, contentKey);
+			boolean fileExists = bucketService.hasObject(bucketName, contentKey);
 
 			if (fileExists) {
 				document.setStatus(DocumentStatus.READY);
@@ -128,7 +128,7 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 			throws DocumentGroupNotFoundException {
 		String metadataKey = getDocumentGroupMetadataObjectKey(documentGroupId);
 
-		if (!bucketService.verifyIfObjectExists(bucketName, metadataKey)) {
+		if (!bucketService.hasObject(bucketName, metadataKey)) {
 			throw new DocumentGroupNotFoundException(documentGroupId);
 		}
 
@@ -140,7 +140,7 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 			throws DocumentNotFoundException {
 		String metadataKey = getDocumentMetadataObjectKey(documentGroupId, documentId);
 
-		if (!bucketService.verifyIfObjectExists(bucketName, metadataKey)) {
+		if (!bucketService.hasObject(bucketName, metadataKey)) {
 			throw new DocumentNotFoundException(documentGroupId);
 		}
 
@@ -173,8 +173,10 @@ public class DocumentGroupServiceImpl implements DocumentGroupService {
 		documentGroupFailure.setDocumentGroupId(documentGroupId);
 		documentGroupFailure.setTimestamp(Instant.now());
 		String documentGroupFailureObjectKey = getDocumentGroupFailureObjectKey(documentGroupId);
-		bucketService.writeObject(bucketName, documentGroupFailureObjectKey, documentGroupFailure);
-		return documentGroupFailure;
+		if (!bucketService.hasObject(bucketName, documentGroupFailureObjectKey)) {
+			return null;
+		}
+		return bucketService.readObject(DocumentGroupFailure.class, bucketName, documentGroupFailureObjectKey);
 	}
 
 	private String getDocumentGroupMetadataObjectKey(String documentGroupId) {

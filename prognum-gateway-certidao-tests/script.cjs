@@ -2,6 +2,8 @@ const { colorize } = require("json-colorizer");
 const createDocumentGroup = require("./createDocumentGroup.cjs");
 const getDocumentGroupById = require("./getDocumentGroupById.cjs");
 const getDocumentTypes = require("./getDocumentTypes.cjs");
+const s3ListObjectKeys = require("./s3ListObjectKeys.cjs");
+const s3GetJson = require("./s3GetJson.cjs");
 
 const {
   getCreateDocumentGroupUrl,
@@ -50,9 +52,9 @@ const main = async () => {
   const createDocumentGroupResponse = await createDocumentGroup(createDocumentGroupRequest);
   console.log(colorize(JSON.stringify(createDocumentGroupResponse, null, 2)));
 
-  const id = createDocumentGroupResponse.payload.id;
+  //const id = createDocumentGroupResponse.payload.id;
 
- // const id = "b6e13b8d-c128-4252-9f5a-9d5af63f2b57";
+  const id = "01K8Z7QTMCTHKT3CE51G6MF7XQ";
 
   const getDocumentGroupByIdUrl = getGetDocumentGroupByIdUrl(environment, id);
   const getDocumentGroupByIdRequest = {
@@ -61,6 +63,16 @@ const main = async () => {
   };
   const getDocumentGroupByIdResponse = await getDocumentGroupById(getDocumentGroupByIdRequest);
   console.log(colorize(JSON.stringify(getDocumentGroupByIdResponse, null, 2)));
+
+  const bucketName = "prognum-certidao-dev-bucket";
+  const s3ListObjectKeysResponse = await s3ListObjectKeys(bucketName);
+  console.log(colorize(s3ListObjectKeysResponse));
+
+  const s3GetJsonResponse1 = await s3GetJson(bucketName, "groups/01K8YA05YZZ2D8W8CFAD8WS4VA/docket.json");
+  console.log(colorize(s3GetJsonResponse1));
+
+    const s3GetJsonResponse2 = await s3GetJson(bucketName, "groups/01K8Z8BFK7RJD78FR89N682GTY/failure.json");
+  console.log(colorize(s3GetJsonResponse2));
 };
 
 main().then(() => console.log("OK")).catch((e) => console.error(e));
