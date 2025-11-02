@@ -13,6 +13,8 @@ import br.com.prognum.gateway_certidao.core.services.ApiGatewayService;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.JsonService;
 import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
+import br.com.prognum.gateway_certidao.core.services.StateService;
+import br.com.prognum.gateway_certidao.core.services.StateServiceImpl;
 import software.amazon.awssdk.http.HttpStatusCode;
 
 public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
@@ -28,7 +30,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 		this.apiGatewayService = new ApiGatewayServiceImpl(jsonService);
 
-		this.documentTypes = new DocumentTypes();
+		StateService stateService = new StateServiceImpl();
+		this.documentTypes = new DocumentTypes(stateService);
 	}
 
 	@Override

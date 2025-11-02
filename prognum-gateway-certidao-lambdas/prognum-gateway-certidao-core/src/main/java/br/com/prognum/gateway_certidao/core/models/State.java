@@ -10,7 +10,7 @@ public class State {
 	private String acronymn;
 	private List<City> cities;
 	
-	public City getCityByName(String name) {
+	public City getCityByName(String name) throws CityNotFoundException {
 		for (City city : this.cities) {
 			if (city.getName().equalsIgnoreCase(name)) {
 				return city;

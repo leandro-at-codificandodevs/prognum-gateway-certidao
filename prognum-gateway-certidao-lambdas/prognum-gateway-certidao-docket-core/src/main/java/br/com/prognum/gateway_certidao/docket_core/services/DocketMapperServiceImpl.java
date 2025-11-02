@@ -3,10 +3,8 @@ package br.com.prognum.gateway_certidao.docket_core.services;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import br.com.prognum.gateway_certidao.core.exceptions.CityNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
-import br.com.prognum.gateway_certidao.core.exceptions.StateNotFoundException;
 import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
 import br.com.prognum.gateway_certidao.core.models.FieldTypes;
@@ -57,7 +55,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 				return estado.getId();
 			}
 		}
-		throw new StateNotFoundException(value);
+		throw new InternalServerException(String.format("Estado não encontrado: %s", value));
 	}
 
 	private String getCidadeId(CreateProviderDocumentGroupInput createProviderDocumentGroupInput) {
@@ -69,7 +67,7 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 				return cidade.getId();
 			}
 		}
-		throw new CityNotFoundException(value);
+		throw new InternalServerException(String.format("Cidade não encontrada: %s", value));
 	}
 
 	@Override

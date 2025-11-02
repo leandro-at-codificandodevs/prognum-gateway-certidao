@@ -60,7 +60,6 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private ApiGatewayService apiGatewayService;
 	private DocumentGroupService documentGroupService;
 	private DocumentTypes documentTypes;
-	private States states;
 
 	private static final String BUCKET_NAME = System.getenv("BUCKET_NAME");
 	private static final String DOCKET_CREATE_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_CREATE_DOCUMENT_QUEUE_URL");
@@ -68,7 +67,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
 	public Handler() {
-		this.documentTypes = new DocumentTypes();
+		StateService stateService = new StateServiceImpl();
+		this.documentTypes = new DocumentTypes(stateService);
 
 		JsonService jsonService = new JsonServiceImpl();
 
@@ -82,9 +82,6 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		this.queueService = new QueueServiceImpl(sqsClient, jsonService);
 
 		this.apiGatewayService = new ApiGatewayServiceImpl(jsonService);
-		
-		StateService stateService = new StateServiceImpl();
-		this.states = stateService.getStates();
 	}
 
 	@Override
@@ -199,9 +196,15 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		}
 	}
 
-	private void validateStateAndCity(CreateDocumentGroupInput input) {
+	private void validateStateAndCity(CreateDocumentGroupInput input) throws DocumentTypeNotFoundException, CityNotFoundException, StateNotFoundException {
 		String stateAcronymn = input.getFields().get("estado");
 		String cityName = input.getFields().get("cidade");
-		states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
+		
+		List<String> documentTypeIds = input.getDocumentTypeIds();
+		for (String documentTypeId : documentTypeIds) {
+			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
+			States states = documentType.getStates();
+			states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
+		}
 	}
 }

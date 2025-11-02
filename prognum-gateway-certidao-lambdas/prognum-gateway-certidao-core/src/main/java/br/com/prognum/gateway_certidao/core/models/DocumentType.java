@@ -12,6 +12,7 @@ public class DocumentType {
 	private final String id;
 	private final String name;
 	private final List<FieldType> fieldTypes;
+	private final States states;
 	
 	public Set<String> getFieldTypeIds() {
 		return fieldTypes.stream().map(fieldType -> fieldType.getId()).collect(Collectors.toSet());

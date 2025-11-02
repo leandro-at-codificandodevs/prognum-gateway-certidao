@@ -224,6 +224,42 @@
          "titularTipo":"IMOVEL",
          "documentoNome":"Certidão Atualizada de Matrícula de Imóvel",
          "documentTypeId":"cert-atualizada-matricula-imovel-imovel"
+      },
+      {
+         "documentKitId":"d87eeba4-48c8-4fff-8cc7-7e4338cb937b",
+         "produtoId":"ae7ec686-6678-d3a4-3612-a40bdb226512",
+         "kitId":"d2105d18-dcd0-4268-aa39-9ef47b5bc603",
+         "kitNome":"OUTROS ÓRGÃOS",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão Negativa De Débitos Tributários Inscritos Em Dívida Ativa - Procuradoria Geral Do Estado (pge)",
+         "documentTypeId":"cert-negativa-debitos-tributarios-divida-ativa-pge-pf"
+      },
+      {
+         "documentKitId":"d87eeba4-48c8-4fff-8cc7-7e4338cb937b",
+         "produtoId":"ae7ec686-6678-d3a4-3612-a40bdb226512",
+         "kitId":"d2105d18-dcd0-4268-aa39-9ef47b5bc603",
+         "kitNome":"OUTROS ÓRGÃOS",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão Negativa De Débitos Tributários Inscritos Em Dívida Ativa - Procuradoria Geral Do Estado (pge)",
+         "documentTypeId":"cert-negativa-debitos-tributarios-divida-ativa-pge-pj"
+      },
+      {
+          "documentKitId": "bdccf010-811b-44e3-899b-837a1b10769b",
+          "produtoId": "daf1a413-3678-56b5-7b46-376d3c4772b6",
+          "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+          "kitNome": "DOCUMENTOS TRABALHISTAS",
+          "titularTipo": "PESSOA_FISICA",
+          "documentoNome": "Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância) - Processos Judiciais Eletrônicos",
+          "documentTypeId": "cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pf",
+      },
+      {
+          "documentKitId": "bdccf010-811b-44e3-899b-837a1b10769b",
+          "produtoId": "daf1a413-3678-56b5-7b46-376d3c4772b6",
+          "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+          "kitNome": "DOCUMENTOS TRABALHISTAS",
+          "titularTipo": "PESSOA_JURIDICA",
+          "documentoNome": "Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância) - Processos Judiciais Eletrônicos",
+          "documentTypeId": "cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pj",
       }
    ]
 }
