@@ -14,6 +14,10 @@ public class FieldTypes {
 	public static final String NOME_COMPLETO_FIELD_TYPE_ID = "nome-completo";
 	public static final String NOME_MAE_FIELD_TYPE_ID = "nome-mae";
 	public static final String DATA_NASCIMENTO_FIELD_TYPE_ID = "data-nascimento";
+	public static final String DATA_CASAMENTO_FIELD_TYPE_ID = "data-casamento";
+	public static final String LIVRO_FIELD_TYPE_ID = "livro";
+	public static final String FOLHA_FIELD_TYPE_ID = "folha";
+	public static final String TERMO_FIELD_TYPE_ID = "termo";
 
 	public static final String CNPJ_FIELD_TYPE_ID = "cnpj";
 	public static final String RAZAO_SOCIAL_FIELD_TYPE_ID = "razao-social";

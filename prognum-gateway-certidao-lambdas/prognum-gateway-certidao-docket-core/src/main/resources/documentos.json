@@ -244,22 +244,40 @@
          "documentTypeId":"cert-negativa-debitos-tributarios-divida-ativa-pge-pj"
       },
       {
-          "documentKitId": "bdccf010-811b-44e3-899b-837a1b10769b",
-          "produtoId": "daf1a413-3678-56b5-7b46-376d3c4772b6",
-          "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
-          "kitNome": "DOCUMENTOS TRABALHISTAS",
-          "titularTipo": "PESSOA_FISICA",
-          "documentoNome": "Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância) - Processos Judiciais Eletrônicos",
-          "documentTypeId": "cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pf",
+         "documentKitId":"bdccf010-811b-44e3-899b-837a1b10769b",
+         "produtoId":"daf1a413-3678-56b5-7b46-376d3c4772b6",
+         "kitId":"50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+         "kitNome":"DOCUMENTOS TRABALHISTAS",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância) - Processos Judiciais Eletrônicos",
+         "documentTypeId":"cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pf"
       },
       {
-          "documentKitId": "bdccf010-811b-44e3-899b-837a1b10769b",
-          "produtoId": "daf1a413-3678-56b5-7b46-376d3c4772b6",
-          "kitId": "50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
-          "kitNome": "DOCUMENTOS TRABALHISTAS",
-          "titularTipo": "PESSOA_JURIDICA",
-          "documentoNome": "Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância) - Processos Judiciais Eletrônicos",
-          "documentTypeId": "cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pj",
+         "documentKitId":"bdccf010-811b-44e3-899b-837a1b10769b",
+         "produtoId":"daf1a413-3678-56b5-7b46-376d3c4772b6",
+         "kitId":"50d343c7-5a50-41a9-ac5b-dcd2911bdb6a",
+         "kitNome":"DOCUMENTOS TRABALHISTAS",
+         "titularTipo":"PESSOA_JURIDICA",
+         "documentoNome":"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho (1° instância) - Processos Judiciais Eletrônicos",
+         "documentTypeId":"cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pj"
+      },
+      {
+         "documentKitId":"2c2a4e46-6757-42cd-8070-475185333719",
+         "produtoId":"d1bb3235-6fbe-6672-b5d7-29ec7753b13f",
+         "kitId":"b16cabb1-5e8a-4751-a519-8af4eda272d9",
+         "kitNome":"REGISTRO CIVIL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"2ª Via Atualizada da Certidão de Nascimento",
+         "documentTypeId":"cert-2a-via-nascimento-pf"
+      },
+      {
+         "documentKitId":"f554716c-d4ba-4b20-a545-c28b40798eb5",
+         "produtoId":"8436d1c5-7947-f53d-a4b1-38845a1b7728",
+         "kitId":"b16cabb1-5e8a-4751-a519-8af4eda272d9",
+         "kitNome":"REGISTRO CIVIL",
+         "titularTipo":"PESSOA_FISICA",
+         "documentoNome":"2ª Via Atualizada da Certidão de Casamento",
+         "documentTypeId":"cert-2a-via-casamento-pf"
       }
    ]
 }
