@@ -28,7 +28,7 @@ class StatesTest {
 	}
 	
 	@Test()
-	void testGetStateByAcronymnWithUnknownState() throws StateNotFoundException {
+	void testGetStateByAcronymnWithUnknownState() {
 		States states123 = new States();
 		State state1 = new State();
 		String acronymn1 = "RJ";
@@ -67,7 +67,7 @@ class StatesTest {
 	}
 	
 	@Test()
-	void testGetStatesByAcronymnWithUnknownState() throws StateNotFoundException {
+	void testGetStatesByAcronymnWithUnknownState() {
 		States states123 = new States();
 		State state1 = new State();
 		String acronymn1 = "RJ";
