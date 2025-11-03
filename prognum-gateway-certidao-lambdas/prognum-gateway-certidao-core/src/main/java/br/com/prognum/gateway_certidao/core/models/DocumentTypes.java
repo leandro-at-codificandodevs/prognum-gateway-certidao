@@ -50,7 +50,7 @@ public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_35 = "cert-acoes-trabalhias-tribunal-regional-trabalho-processos-judiciais-eletronicos-1a-instancia-pj";
 	public static final String DOCUMENT_TYPE_ID_36 = "cert-2a-via-nascimento-pf";
 	public static final String DOCUMENT_TYPE_ID_37 = "cert-2a-via-casamento-pf";
-    
+
 	private States states;
 
 	private final FieldTypes fieldTypes;
@@ -254,7 +254,7 @@ public class DocumentTypes {
 					List.of(FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
 							FieldTypes.CNPJ_FIELD_TYPE_ID, FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID),
 					states.getStatesByAcronymn("AC", "GO", "MA", "PI", "RJ", "SP"));
-			
+
 			newDocumentType(DOCUMENT_TYPE_ID_34,
 					"Certidão de Distribuição de Ações Trabalhistas - Tribunal Regional do Trabalho - Processos Judiciais Eletrônicos - 1a instância - PF",
 					List.of(FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
@@ -266,26 +266,20 @@ public class DocumentTypes {
 					List.of(FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
 							FieldTypes.CNPJ_FIELD_TYPE_ID, FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID),
 					states.getStatesByAcronymn("AP", "CE", "PA", "RJ", "SP"));
-			
-			newDocumentType(DOCUMENT_TYPE_ID_36,
-					"2a via de Certidão de Nascimento - PF",
+
+			newDocumentType(DOCUMENT_TYPE_ID_36, "2a via de Certidão de Nascimento - PF",
 					List.of(FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
 							FieldTypes.CPF_FIELD_TYPE_ID, FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID,
-							FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID,
-							FieldTypes.CARTORIO_FIELD_TYPE_ID,
-							FieldTypes.LIVRO_FIELD_TYPE_ID,
-							FieldTypes.FOLHA_FIELD_TYPE_ID,
+							FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID,
+							FieldTypes.LIVRO_FIELD_TYPE_ID, FieldTypes.FOLHA_FIELD_TYPE_ID,
 							FieldTypes.TERMO_FIELD_TYPE_ID),
 					states);
-			
-			newDocumentType(DOCUMENT_TYPE_ID_37,
-					"2a via de Certidão de Casamento - PF",
+
+			newDocumentType(DOCUMENT_TYPE_ID_37, "2a via de Certidão de Casamento - PF",
 					List.of(FieldTypes.ESTADO_FIELD_TYPE_ID, FieldTypes.CIDADE_FIELD_TYPE_ID,
 							FieldTypes.CPF_FIELD_TYPE_ID, FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID,
-							FieldTypes.DATA_CASAMENTO_FIELD_TYPE_ID,
-							FieldTypes.CARTORIO_FIELD_TYPE_ID,
-							FieldTypes.LIVRO_FIELD_TYPE_ID,
-							FieldTypes.FOLHA_FIELD_TYPE_ID,
+							FieldTypes.DATA_CASAMENTO_FIELD_TYPE_ID, FieldTypes.CARTORIO_FIELD_TYPE_ID,
+							FieldTypes.LIVRO_FIELD_TYPE_ID, FieldTypes.FOLHA_FIELD_TYPE_ID,
 							FieldTypes.TERMO_FIELD_TYPE_ID),
 					states);
 

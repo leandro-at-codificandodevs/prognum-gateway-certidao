@@ -30,24 +30,25 @@ public class FieldTypes {
 	public FieldTypes() {
 		fieldTypes = new HashMap<>();
 
-		newFieldType(ESTADO_FIELD_TYPE_ID, "Estado", "Estado");
-		newFieldType(CIDADE_FIELD_TYPE_ID, "Cidade", "Cidade");
-		
-		newFieldType(RG_FIELD_TYPE_ID, "RG", "Registro Geral");
-		newFieldType(CPF_FIELD_TYPE_ID, "CPF", "Cadastro de Pessoa Física");
+		newFieldType(CARTORIO_FIELD_TYPE_ID, "Cartório", "Cartório");
 		newFieldType(CEI_FIELD_TYPE_ID, "CEI", "Cadastro Específico do INSS");
+		newFieldType(CEP_FIELD_TYPE_ID, "CEP", "Código de Endereço Postal");
+		newFieldType(CIDADE_FIELD_TYPE_ID, "Cidade", "Cidade");
+		newFieldType(CNPJ_FIELD_TYPE_ID, "CNPJ", "Cadastro Nacional de Pessoa Jurídica");
+		newFieldType(COMARCA_FIELD_TYPE_ID, "Comarca", "Comarca");
+		newFieldType(CPF_FIELD_TYPE_ID, "CPF", "Cadastro de Pessoa Física");
+		newFieldType(DATA_CASAMENTO_FIELD_TYPE_ID, "Data de Casamento", "Data de Casamento");
+		newFieldType(DATA_NASCIMENTO_FIELD_TYPE_ID, "Data de Nascimento", "Data de Nascimento");
+		newFieldType(ESTADO_FIELD_TYPE_ID, "Estado", "Estado");
+		newFieldType(FOLHA_FIELD_TYPE_ID, "Folha", "Folha");
+		newFieldType(LIVRO_FIELD_TYPE_ID, "Livro", "Livro");
 		newFieldType(NOME_COMPLETO_FIELD_TYPE_ID, "Nome Completo", "Nome Completo");
 		newFieldType(NOME_MAE_FIELD_TYPE_ID, "Nome da Mãe", "Nome da Mãe");
-		newFieldType(DATA_NASCIMENTO_FIELD_TYPE_ID, "Data de Nascimento", "Data de Nascimento");
-		
-		newFieldType(CNPJ_FIELD_TYPE_ID, "CNPJ", "Cadastro Nacional de Pessoa Jurídica");
-		newFieldType(RAZAO_SOCIAL_FIELD_TYPE_ID, "Razão Social", "Razão Social");
-		
-		newFieldType(CEP_FIELD_TYPE_ID, "CEP", "Código de Endereço Postal");
-		newFieldType(COMARCA_FIELD_TYPE_ID, "Comarca", "Comarca");
-		newFieldType(CARTORIO_FIELD_TYPE_ID, "Cartório", "Cartório");
-		newFieldType(NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID, "Número de Matrícula do Imóvel", "Número de Matrícula do Imóvel");
 		newFieldType(NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID, "Número Inscrição Imobiliária", "Número Inscrição Imobiliária");
+		newFieldType(NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID, "Número de Matrícula do Imóvel", "Número de Matrícula do Imóvel");
+		newFieldType(RAZAO_SOCIAL_FIELD_TYPE_ID, "Razão Social", "Razão Social");
+		newFieldType(RG_FIELD_TYPE_ID, "RG", "Registro Geral");
+		newFieldType(TERMO_FIELD_TYPE_ID, "Termo", "Termo");
 	}
 	
 	private FieldType newFieldType(String id, String name, String description) {
