@@ -1,7 +1,6 @@
 package br.com.prognum.gateway_certidao.api_create_document_group;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +19,9 @@ import br.com.prognum.gateway_certidao.core.exceptions.CityNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.FromJsonException;
 import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
-import br.com.prognum.gateway_certidao.core.exceptions.InvalidDocumentGroupRequestException;
-import br.com.prognum.gateway_certidao.core.exceptions.MissingFieldException;
+import br.com.prognum.gateway_certidao.core.exceptions.MissingFieldsException;
 import br.com.prognum.gateway_certidao.core.exceptions.StateNotFoundException;
-import br.com.prognum.gateway_certidao.core.exceptions.UnknownFieldException;
+import br.com.prognum.gateway_certidao.core.exceptions.UnknownFieldsException;
 import br.com.prognum.gateway_certidao.core.models.CreateDocumentGroupInput;
 import br.com.prognum.gateway_certidao.core.models.CreateDocumentGroupOutput;
 import br.com.prognum.gateway_certidao.core.models.CreateProviderDocumentGroupInput;
@@ -33,6 +31,8 @@ import br.com.prognum.gateway_certidao.core.models.DocumentStatus;
 import br.com.prognum.gateway_certidao.core.models.DocumentType;
 import br.com.prognum.gateway_certidao.core.models.DocumentTypes;
 import br.com.prognum.gateway_certidao.core.models.FieldType;
+import br.com.prognum.gateway_certidao.core.models.FieldTypes;
+import br.com.prognum.gateway_certidao.core.models.State;
 import br.com.prognum.gateway_certidao.core.models.States;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayService;
 import br.com.prognum.gateway_certidao.core.services.ApiGatewayServiceImpl;
@@ -63,7 +63,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 	private static final String BUCKET_NAME = System.getenv("BUCKET_NAME");
 	private static final String DOCKET_CREATE_DOCUMENT_QUEUE_URL = System.getenv("DOCKET_CREATE_DOCUMENT_QUEUE_URL");
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
 	public Handler() {
@@ -94,39 +94,21 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 			DocumentGroup documentGroup = documentGroupService.createDocumentGroup(BUCKET_NAME,
 					input.getDocumentTypeIds());
-			String documentGroupId = documentGroup.getId();
 
-			CreateProviderDocumentGroupInput providerDocumentGroupInput = new CreateProviderDocumentGroupInput();
-			providerDocumentGroupInput.setDocumentGroupId(documentGroup.getId());
-			providerDocumentGroupInput
-					.setBucketObjetKey(documentGroupService.getDocumentGroupObjectKey(documentGroupId));
-			providerDocumentGroupInput.setDocumentTypeIds(new LinkedList<>());
-			providerDocumentGroupInput.setBucketObjectKeyByTypeId(new HashMap<>());
-			for (Document document : documentGroup.getDocuments()) {
-				String documentTypeId = document.getTypeId();
-				providerDocumentGroupInput.getDocumentTypeIds().add(documentTypeId);
-				
-				String documentId = document.getId();
-				String bucketObjectKey = documentGroupService.getDocumentObjectKey(documentGroupId,
-						documentId);
-				providerDocumentGroupInput.getBucketObjectKeyByTypeId().put(documentTypeId, bucketObjectKey);
-			}
-			providerDocumentGroupInput.setBucketName(BUCKET_NAME);
-			providerDocumentGroupInput.setBucketObjetKey("groups/" + documentGroupId);
-			providerDocumentGroupInput.setFields(input.getFields());
+			CreateProviderDocumentGroupInput providerDocumentGroupInput = buildCreateDocumentGroupInput(input,
+					documentGroup);
+
+			String documentGroupId = documentGroup.getId();
 
 			queueService.sendMessage(DOCKET_CREATE_DOCUMENT_QUEUE_URL, providerDocumentGroupInput, documentGroupId);
 
-			CreateDocumentGroupOutput output = new CreateDocumentGroupOutput();
-			output.setId(documentGroupId);
-			output.setStatus(DocumentStatus.PREPARING);
+			CreateDocumentGroupOutput output = buildCreateDocumentGroupOutput(documentGroupId);
 
 			APIGatewayV2HTTPResponse response = apiGatewayService.build2XXResponse(HttpStatusCode.CREATED, output);
 			logger.info("Evento tratado {}", response);
 			return response;
-		} catch (InvalidDocumentGroupRequestException | DocumentTypeNotFoundException | UnknownFieldException
-				| MissingFieldException | FromJsonException | StateNotFoundException | CityNotFoundException
-				| InvalidDateException e) {
+		} catch (DocumentTypeNotFoundException | UnknownFieldsException | MissingFieldsException | FromJsonException
+				| StateNotFoundException | CityNotFoundException | InvalidDateException e) {
 			logger.error("Erro ao tentar criar grupo de documentos", e);
 			APIGatewayV2HTTPResponse response = apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
 			logger.info("Evento tratado {}", response);
@@ -134,77 +116,96 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		}
 	}
 
+	private CreateDocumentGroupOutput buildCreateDocumentGroupOutput(String documentGroupId) {
+		CreateDocumentGroupOutput output = new CreateDocumentGroupOutput();
+		output.setId(documentGroupId);
+		output.setStatus(DocumentStatus.PREPARING);
+		return output;
+	}
+
+	private CreateProviderDocumentGroupInput buildCreateDocumentGroupInput(CreateDocumentGroupInput input,
+			DocumentGroup documentGroup) {
+		String documentGroupId = documentGroup.getId();
+		CreateProviderDocumentGroupInput providerDocumentGroupInput = new CreateProviderDocumentGroupInput();
+		providerDocumentGroupInput.setDocumentGroupId(documentGroup.getId());
+		providerDocumentGroupInput
+				.setBucketObjetKey(documentGroupService.getDocumentGroupObjectKey(documentGroupId));
+		providerDocumentGroupInput.setDocumentTypeIds(new LinkedList<>());
+		providerDocumentGroupInput.setBucketObjectKeyByTypeId(new HashMap<>());
+		for (Document document : documentGroup.getDocuments()) {
+			String documentTypeId = document.getTypeId();
+			providerDocumentGroupInput.getDocumentTypeIds().add(documentTypeId);
+
+			String documentId = document.getId();
+			String bucketObjectKey = documentGroupService.getDocumentObjectKey(documentGroupId, documentId);
+			providerDocumentGroupInput.getBucketObjectKeyByTypeId().put(documentTypeId, bucketObjectKey);
+		}
+		providerDocumentGroupInput.setBucketName(BUCKET_NAME);
+		providerDocumentGroupInput.setBucketObjetKey("groups/" + documentGroupId);
+		providerDocumentGroupInput.setFields(input.getFields());
+		return providerDocumentGroupInput;
+	}
+
 	private void validateInput(CreateDocumentGroupInput input)
-			throws InvalidDocumentGroupRequestException, DocumentTypeNotFoundException, UnknownFieldException,
-			MissingFieldException, StateNotFoundException, CityNotFoundException, InvalidDateException {
-
-		if (input.getDocumentTypeIds().isEmpty()) {
-			throw new InvalidDocumentGroupRequestException(
-					"Lista de id de tipos de documentos (documentTypeIds) não pode ser nula ou vazia");
-		}
-
-		if (input.getFields().isEmpty()) {
-			throw new InvalidDocumentGroupRequestException("Mapa de campos (fields) não pode ser nulo");
-		}
-
+			throws DocumentTypeNotFoundException, UnknownFieldsException, MissingFieldsException,
+			StateNotFoundException, CityNotFoundException, InvalidDateException {
 		Map<String, String> inputFields = input.getFields();
-		
-		validateStateAndCity(input);
-		
-		Set<String> requestFieldIds = inputFields.keySet();
-		Set<String> allAcceptedFieldIds = new HashSet<>();
 
 		List<String> documentTypeIds = input.getDocumentTypeIds();
 
+		List<DocumentType> requiredDocumentTypes = new LinkedList<>();
 		for (String documentTypeId : documentTypeIds) {
 			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
-			Set<String> documentFieldIds = documentType.getFieldTypes().stream().map(FieldType::getId)
-					.collect(Collectors.toSet());
-
-			for (String key : documentFieldIds) {
-				if (key.startsWith("data-")) {
-					if (inputFields.get(key) == null) {
-						throw new MissingFieldException(key);
-					}
-					DateUtils.fromScci(inputFields.get(key));
-				}
-			}
-
-			allAcceptedFieldIds.addAll(documentFieldIds);
+			requiredDocumentTypes.add(documentType);
 		}
 
-		List<String> unknownFields = requestFieldIds.stream().filter(id -> !allAcceptedFieldIds.contains(id)).toList();
+		Set<String> requiredFieldIds = requiredDocumentTypes.stream().flatMap(documentType -> {
+			return documentType.getFieldTypes().stream().map(FieldType::getId);
+		}).collect(Collectors.toSet());
 
+		Set<String> requestedFieldIds = inputFields.keySet();
+
+		List<String> unknownFields = requestedFieldIds.stream().filter(id -> !requiredFieldIds.contains(id)).toList();
 		if (!unknownFields.isEmpty()) {
-			throw new UnknownFieldException(unknownFields.get(0));
+			throw new UnknownFieldsException(unknownFields);
 		}
 
-		for (String documentTypeId : documentTypeIds) {
-			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
+		List<String> missingFields = requiredFieldIds.stream().filter(fieldId -> !requestedFieldIds.contains(fieldId))
+				.toList();
+		if (!missingFields.isEmpty()) {
+			throw new MissingFieldsException(missingFields);
+		}
 
-			Set<String> requiredFieldIds = documentType.getFieldTypes().stream().map(FieldType::getId)
-					.collect(Collectors.toSet());
+		validateStateAndCity(input);
+		validateDateFields(input);
+	}
 
-			List<String> missingFields = requiredFieldIds.stream().filter(fieldId -> {
-				String value = inputFields.get(fieldId);
-				return value == null || value.trim().isEmpty();
-			}).toList();
-
-			if (!missingFields.isEmpty()) {
-				throw new MissingFieldException(missingFields.get(0));
+	private void validateDateFields(CreateDocumentGroupInput input) throws InvalidDateException {
+		Map<String, String> inputFields = input.getFields();
+		Set<String> dateFieldTypeIds = Set.of(FieldTypes.DATA_CASAMENTO_FIELD_TYPE_ID,
+				FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID);
+		for (String fieldId : dateFieldTypeIds) {
+			String fieldValue = input.getFields().get(fieldId);
+			if (fieldValue != null) {
+				DateUtils.fromScci(inputFields.get(fieldId));
 			}
 		}
 	}
 
-	private void validateStateAndCity(CreateDocumentGroupInput input) throws DocumentTypeNotFoundException, CityNotFoundException, StateNotFoundException {
+	private void validateStateAndCity(CreateDocumentGroupInput input)
+			throws DocumentTypeNotFoundException, CityNotFoundException, StateNotFoundException {
 		String stateAcronymn = input.getFields().get("estado");
-		String cityName = input.getFields().get("cidade");
-		
-		List<String> documentTypeIds = input.getDocumentTypeIds();
-		for (String documentTypeId : documentTypeIds) {
-			DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
-			States states = documentType.getStates();
-			states.getStateByAcronymn(stateAcronymn).getCityByName(cityName);
+		if (stateAcronymn != null) {
+			List<String> documentTypeIds = input.getDocumentTypeIds();
+			for (String documentTypeId : documentTypeIds) {
+				DocumentType documentType = documentTypes.getDocumentTypeById(documentTypeId);
+				States states = documentType.getStates();
+				State state = states.getStateByAcronymn(stateAcronymn);
+				String cityName = input.getFields().get("cidade");
+				if (cityName != null) {
+					state.getCityByName(cityName);
+				}
+			}
 		}
 	}
 }

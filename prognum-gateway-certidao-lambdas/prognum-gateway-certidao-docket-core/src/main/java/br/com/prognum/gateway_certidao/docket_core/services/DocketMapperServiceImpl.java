@@ -82,21 +82,41 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			FieldType fieldType = fieldTypes.getFieldTypeById(key);
 
 			switch (fieldType.getId()) {
-			case FieldTypes.ESTADO_FIELD_TYPE_ID:
-				fieldsToRequest.put("estado", getEstadoId(createProviderDocumentGroupInput));
+			case FieldTypes.CARTORIO_FIELD_TYPE_ID:
+				fieldsToRequest.put("cartorio", value);
+				break;
+			case FieldTypes.CEI_FIELD_TYPE_ID:
+				fieldsToRequest.put("cei", value);
+				break;
+			case FieldTypes.CEP_FIELD_TYPE_ID:
+				fieldsToRequest.put("cep", value);
 				break;
 			case FieldTypes.CIDADE_FIELD_TYPE_ID:
 				fieldsToRequest.put("cidade", getCidadeId(createProviderDocumentGroupInput));
 				break;
-
-			case FieldTypes.RG_FIELD_TYPE_ID:
-				fieldsToRequest.put("rg", value);
+			case FieldTypes.CNPJ_FIELD_TYPE_ID:
+				fieldsToRequest.put("cnpj", value);
+				break;
+			case FieldTypes.COMARCA_FIELD_TYPE_ID:
+				fieldsToRequest.put("comarca", value);
 				break;
 			case FieldTypes.CPF_FIELD_TYPE_ID:
 				fieldsToRequest.put("cpf", value);
 				break;
-			case FieldTypes.CEI_FIELD_TYPE_ID:
-				fieldsToRequest.put("cei", value);
+			case FieldTypes.DATA_CASAMENTO_FIELD_TYPE_ID:
+				fieldsToRequest.put("dataCasamento", toEpochSeconds(value));
+				break;
+			case FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID:
+				fieldsToRequest.put("dataNascimento", toEpochSeconds(value));
+				break;
+			case FieldTypes.ESTADO_FIELD_TYPE_ID:
+				fieldsToRequest.put("estado", getEstadoId(createProviderDocumentGroupInput));
+				break;
+			case FieldTypes.FOLHA_FIELD_TYPE_ID:
+				fieldsToRequest.put("folha", value);
+				break;
+			case FieldTypes.LIVRO_FIELD_TYPE_ID:
+				fieldsToRequest.put("livro", value);
 				break;
 			case FieldTypes.NOME_COMPLETO_FIELD_TYPE_ID:
 				fieldsToRequest.put("nomeCompleto", value);
@@ -104,31 +124,20 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 			case FieldTypes.NOME_MAE_FIELD_TYPE_ID:
 				fieldsToRequest.put("nomeMae", value);
 				break;
-			case FieldTypes.DATA_NASCIMENTO_FIELD_TYPE_ID:
-				fieldsToRequest.put("dataNascimento", toEpochSeconds(value));
-				break;
-
-			case FieldTypes.CNPJ_FIELD_TYPE_ID:
-				fieldsToRequest.put("cnpj", value);
-				break;
-			case FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID:
-				fieldsToRequest.put("razaoSocial", value);
-				break;
-
-			case FieldTypes.CEP_FIELD_TYPE_ID:
-				fieldsToRequest.put("cep", value);
-				break;
-			case FieldTypes.COMARCA_FIELD_TYPE_ID:
-				fieldsToRequest.put("comarca", value);
-				break;
-			case FieldTypes.CARTORIO_FIELD_TYPE_ID:
-				fieldsToRequest.put("cartorio", value);
+			case FieldTypes.NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID:
+				fieldsToRequest.put("numeroInscricaoImobiliaria", value);
 				break;
 			case FieldTypes.NUMERO_MATRICULA_IMOVEL_FIELD_TYPE_ID:
 				fieldsToRequest.put("numeroMatriculaImovel", value);
 				break;
-			case FieldTypes.NUMERO_INSCRICAO_IMOBILIARIA_FIELD_TYPE_ID:
-				fieldsToRequest.put("numeroInscricaoImobiliaria", value);
+			case FieldTypes.RAZAO_SOCIAL_FIELD_TYPE_ID:
+				fieldsToRequest.put("razaoSocial", value);
+				break;
+			case FieldTypes.RG_FIELD_TYPE_ID:
+				fieldsToRequest.put("rg", value);
+				break;
+			case FieldTypes.TERMO_FIELD_TYPE_ID:
+				fieldsToRequest.put("termo", value);
 				break;
 
 			default:
