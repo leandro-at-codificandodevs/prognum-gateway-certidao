@@ -52,8 +52,8 @@ public class MyStack extends Stack {
 	private static final int ERROR_GET_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS = 30;
 	private static final int ERROR_GET_DOCUMENT_GROUP_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 	
-	private static final int ERROR_HANDLER_LAMBDA_TIMEOUT_IN_SECS = 30;
-	private static final int ERROR_HANDLER_LAMBDA_MEMORY_SIZE_IN_MB = 128;
+	private static final int ERROR_LAMBDA_TIMEOUT_IN_SECS = 30;
+	private static final int ERROR_LAMBDA_MEMORY_SIZE_IN_MB = 128;
 
 	private static final int DOCKET_CREATE_DOCUMENT_GROUP_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = DOCKET_CREATE_DOCUMENT_GROUP_LAMBDA_TIMEOUT_IN_SECS;
 	private static final int DOCKET_CREATE_DOCUMENT_GROUP_QUEUE_BATCH_SIZE = 10;
@@ -71,7 +71,7 @@ public class MyStack extends Stack {
 	
 	private static final int ERROR_GET_DOCUMENT_GROUP_DLQ_BATCH_SIZE = 10;
 	
-	private static final int ERROR_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = ERROR_HANDLER_LAMBDA_TIMEOUT_IN_SECS;
+	private static final int ERROR_QUEUE_VISIBILITY_TIMEOUT_IN_SECS = ERROR_LAMBDA_TIMEOUT_IN_SECS;
 	private static final int ERROR_QUEUE_BATCH_SIZE = 10;
 
 	private static final int ERROR_DLQ_RETENTION_PERIOD_IN_DAYS = 14;
@@ -268,19 +268,19 @@ public class MyStack extends Stack {
 		errorGetDocumentGroupFunction.addEventSource(SqsEventSource.Builder.create(docketGetDocumentGroupDlq)
 				.batchSize(ERROR_GET_DOCUMENT_GROUP_DLQ_BATCH_SIZE).reportBatchItemFailures(true).build());
 
-		String errorHandlerFunctionId = String.format("%s-certidao-%s-error-lambda", system,
+		String errorFunctionId = String.format("%s-certidao-%s-error-lambda", system,
 				environment);
 		Map<String, String> errorHandlerEnv = Map.of("LOG_LEVEL", logLevel);
-		Function errorHandlerFunction = Function.Builder.create(this, errorHandlerFunctionId)
-				.functionName(errorHandlerFunctionId)
-				.code(getLambdaCode("prognum-gateway-certidao-error-get-document-group-lambda"))
-				.handler("br.com.prognum.gateway_certidao.error_get_document_group.Handler::handleRequest")
-				.runtime(Runtime.JAVA_17).memorySize(ERROR_HANDLER_LAMBDA_MEMORY_SIZE_IN_MB)
-				.timeout(Duration.seconds(ERROR_HANDLER_LAMBDA_TIMEOUT_IN_SECS))
+		Function errorFunction = Function.Builder.create(this, errorFunctionId)
+				.functionName(errorFunctionId)
+				.code(getLambdaCode("prognum-gateway-certidao-error-lambda"))
+				.handler("br.com.prognum.gateway_certidao.error.Handler::handleRequest")
+				.runtime(Runtime.JAVA_17).memorySize(ERROR_LAMBDA_MEMORY_SIZE_IN_MB)
+				.timeout(Duration.seconds(ERROR_LAMBDA_TIMEOUT_IN_SECS))
 				.environment(errorHandlerEnv).build();
-		bucket.grantWrite(errorHandlerFunction);
+		bucket.grantWrite(errorFunction);
 
-		errorHandlerFunction.addEventSource(SqsEventSource.Builder.create(errorQueue)
+		errorFunction.addEventSource(SqsEventSource.Builder.create(errorQueue)
 				.batchSize(ERROR_QUEUE_BATCH_SIZE).reportBatchItemFailures(true).build());
 
 		String defaultApiId = String.format("%s-certidao-%s-api-gateway", system, environment);

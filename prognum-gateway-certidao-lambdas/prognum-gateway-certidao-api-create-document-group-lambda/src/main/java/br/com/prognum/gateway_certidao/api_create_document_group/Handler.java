@@ -17,6 +17,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
 
 import br.com.prognum.gateway_certidao.core.exceptions.CityNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
+import br.com.prognum.gateway_certidao.core.exceptions.EmptyFieldsException;
 import br.com.prognum.gateway_certidao.core.exceptions.FromJsonException;
 import br.com.prognum.gateway_certidao.core.exceptions.InvalidDateException;
 import br.com.prognum.gateway_certidao.core.exceptions.MissingFieldsException;
@@ -107,8 +108,8 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 			APIGatewayV2HTTPResponse response = apiGatewayService.build2XXResponse(HttpStatusCode.CREATED, output);
 			logger.info("Evento tratado {}", response);
 			return response;
-		} catch (DocumentTypeNotFoundException | UnknownFieldsException | MissingFieldsException | FromJsonException
-				| StateNotFoundException | CityNotFoundException | InvalidDateException e) {
+		} catch (DocumentTypeNotFoundException | UnknownFieldsException | MissingFieldsException | EmptyFieldsException
+				| FromJsonException | StateNotFoundException | CityNotFoundException | InvalidDateException e) {
 			logger.error("Erro ao tentar criar grupo de documentos", e);
 			APIGatewayV2HTTPResponse response = apiGatewayService.build4XXResponse(HttpStatusCode.BAD_REQUEST, e);
 			logger.info("Evento tratado {}", response);
@@ -128,8 +129,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 		String documentGroupId = documentGroup.getId();
 		CreateProviderDocumentGroupInput providerDocumentGroupInput = new CreateProviderDocumentGroupInput();
 		providerDocumentGroupInput.setDocumentGroupId(documentGroup.getId());
-		providerDocumentGroupInput
-				.setBucketObjetKey(documentGroupService.getDocumentGroupObjectKey(documentGroupId));
+		providerDocumentGroupInput.setBucketObjetKey(documentGroupService.getDocumentGroupObjectKey(documentGroupId));
 		providerDocumentGroupInput.setDocumentTypeIds(new LinkedList<>());
 		providerDocumentGroupInput.setBucketObjectKeyByTypeId(new HashMap<>());
 		for (Document document : documentGroup.getDocuments()) {
@@ -148,7 +148,7 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 
 	private void validateInput(CreateDocumentGroupInput input)
 			throws DocumentTypeNotFoundException, UnknownFieldsException, MissingFieldsException,
-			StateNotFoundException, CityNotFoundException, InvalidDateException {
+			StateNotFoundException, CityNotFoundException, InvalidDateException, EmptyFieldsException {
 		Map<String, String> inputFields = input.getFields();
 
 		List<String> documentTypeIds = input.getDocumentTypeIds();
@@ -174,6 +174,20 @@ public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGateway
 				.toList();
 		if (!missingFields.isEmpty()) {
 			throw new MissingFieldsException(missingFields);
+		}
+
+		List<String> emptyFields = requiredFieldIds.stream().filter(fieldId -> {
+			String fieldValue = inputFields.get(fieldId);
+			if (fieldValue == null) {
+				return true;
+			}
+			if (fieldValue.isBlank()) {
+				return true;
+			}
+			return true;
+		}).collect(Collectors.toList());
+		if (!emptyFields.isEmpty()) {
+			throw new EmptyFieldsException(emptyFields);
 		}
 
 		validateStateAndCity(input);

@@ -10,7 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import br.com.prognum.gateway_certidao.core.exceptions.DocumentTypeNotFoundException;
 import br.com.prognum.gateway_certidao.core.exceptions.InternalServerException;
 import br.com.prognum.gateway_certidao.core.exceptions.StateNotFoundException;
+import br.com.prognum.gateway_certidao.core.exceptions.ToJsonException;
+import br.com.prognum.gateway_certidao.core.services.JsonService;
+import br.com.prognum.gateway_certidao.core.services.JsonServiceImpl;
 import br.com.prognum.gateway_certidao.core.services.StateService;
+import br.com.prognum.gateway_certidao.core.services.StateServiceImpl;
 
 public class DocumentTypes {
 	public static final String DOCUMENT_TYPE_ID_1 = "cert-acoes-civeis-justica-federal-1a-instancia-pf";
@@ -315,5 +319,11 @@ public class DocumentTypes {
 			throw new DocumentTypeNotFoundException(documentTypeId);
 		}
 		return documentType;
+	}
+	
+	public static final void main(String [] args) throws ToJsonException {
+		DocumentTypes types = new DocumentTypes(new StateServiceImpl());
+		JsonService jsonService = new JsonServiceImpl();
+		System.out.println(jsonService.toJson(types.getDocumentTypes()));
 	}
 }
