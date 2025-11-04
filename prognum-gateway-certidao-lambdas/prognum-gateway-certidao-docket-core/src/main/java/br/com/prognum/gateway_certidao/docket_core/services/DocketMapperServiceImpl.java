@@ -20,11 +20,11 @@ import br.com.prognum.gateway_certidao.docket_core.models.GetEstadosResponse;
 import br.com.prognum.gateway_certidao.docket_core.models.PedidoRequest;
 
 public class DocketMapperServiceImpl implements DocketMapperService {
-    private String docketApiCentroCustoId;
-    private String docketApiTipoOperacaoId;
-    private String docketApiLead;
-    private String docketApiGrupoId;
-    
+	private String docketApiCentroCustoId;
+	private String docketApiTipoOperacaoId;
+	private String docketApiLead;
+	private String docketApiGrupoId;
+
 	private DocumentoMetadata documentoMetadata;
 
 	private DocketApiService docketApiService;
@@ -43,7 +43,6 @@ public class DocketMapperServiceImpl implements DocketMapperService {
 
 		this.documentoMetadata = documentoMetadataService.getDocumentoMetadata();
 
-		
 		fieldTypes = new FieldTypes();
 	}
 
